@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Golf sim sanity check</title>
+<style>
+  body { font: 14px/1.4 system-ui, sans-serif; margin: 24px; color: #1d2a22; }
+  table { border-collapse: collapse; margin-top: 12px; }
+  th, td { padding: 4px 10px; border-bottom: 1px solid #ddd; text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  .ok { color: #006747; } .bad { color: #b00020; font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>Golf sim sanity check</h1>
+<p>Plays N autopilot rounds per golfer per course (<code>?n=10000</code>, default 10,000) and reports
+scoring and stat lines. Targets: an elite golfer averages roughly 2-4 under par per round, a tour-average
+golfer around even, and a weak one around even to +2. GIR about 60-75%, putts about 28-30 per round.</p>
+<div id="status">Running...</div>
+<table id="out"></table>
+<script type="module">
+import { makeRng, skillsFrom, autoHole } from "./sim.js";
+import { attachCourseGeo } from "./geo.js";
+
+const n = +(new URLSearchParams(location.search).get("n") || 10000);
+const load = (u) => fetch(new URL(u, import.meta.url)).then((r) => r.json());
+// ?real=1 tests the OpenStreetMap layouts in data/courses.json (+ data/courses/{id}.json geometry);
+// ?course=<id> limits it to one course
+const qs = new URLSearchParams(location.search);
+let courses;
+if (qs.get("real")) {
+  courses = (await load("../../data/courses.json")).filter((c) => c.geo_file && (!qs.get("course") || c.id === qs.get("course")));
+  for (const c of courses) {
+    attachCourseGeo(c, await load(`../../data/${c.geo_file}`));
+    c.par = c.holes.reduce((a, h) => a + h.par, 0);
+  }
+} else {
+  courses = await load("../../data/sample/game_courses.json");
+}
+const players = await load("../../data/sample/game_players.json");
+const ids = ["46046", "28237", "50525", "34046", "52372", "99001"];
+const avg = { name: "Tour average (no stats)", stats: {} };
+const rows = [];
+const t0 = performance.now();
+
+for (const course of courses) {
+  for (const p of [...ids.map((id) => players[id]), avg]) {
+    const sk = skillsFrom(p.stats), rng = makeRng(`test-${course.id}-${p.name}`);
+    let tot = 0, gir = 0, fw = 0, fwN = 0, putts = 0, birdies = 0, bogeys = 0, scores = [];
+    for (let i = 0; i < n; i++) {
+      let rd = 0;
+      for (const h of course.holes) {
+        const st = autoHole(h, sk, rng);
+        rd += st.strokes;
+        putts += st.putts;
+        // GIR: on the green (or holed) within par - 2 strokes
+        const k = st.shots.findIndex((s) => s.lie === "green");
+        if (k >= 0 && st.shots[k].strokes <= h.par - 2) gir++;
+        if (h.par > 3) { fwN++; if (st.shots[0].lie === "fairway" || st.shots[0].lie === "green") fw++; }
+        if (st.strokes < h.par) birdies++;
+        if (st.strokes > h.par) bogeys++;
+      }
+      tot += rd - course.par;
+      scores.push(rd - course.par);
+    }
+    const mean = tot / n;
+    const sd = Math.sqrt(scores.reduce((a, v) => a + (v - mean) ** 2, 0) / n);
+    rows.push([course.name, p.name, mean, sd, gir / (n * 18), fw / fwN, putts / n, birdies / n, bogeys / n]);
+  }
+}
+
+const fmt = (v, d = 2) => (v > 0 ? "+" : "") + v.toFixed(d);
+const pct = (v) => (v * 100).toFixed(1) + "%";
+document.getElementById("out").innerHTML =
+  "<tr><th>Course</th><th>Golfer</th><th>Avg to par</th><th>SD</th><th>GIR</th><th>Fairways</th><th>Putts</th><th>Birdies+</th><th>Bogeys+</th></tr>" +
+  rows.map((r) => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${fmt(r[2])}</td><td>${r[3].toFixed(2)}</td><td>${pct(r[4])}</td><td>${pct(r[5])}</td><td>${r[6].toFixed(1)}</td><td>${r[7].toFixed(2)}</td><td>${r[8].toFixed(2)}</td></tr>`).join("");
+document.getElementById("status").textContent = `Done: ${n.toLocaleString()} rounds each, ${((performance.now() - t0) / 1000).toFixed(1)}s.`;
+document.body.dataset.done = "1";
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Play the Course (standalone)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../css/game.css">
+<style>
+  body { margin: 0; background: #fbf8ef; }
+  main { max-width: 1160px; margin: 0 auto; padding: 24px; }
+</style>
+</head>
+<body>
+<!-- Standalone harness for the Play tab: ?autoplay=5 plays five shots, ?autoplay=final sims the tournament. -->
+<main id="game"></main>
+<script type="module">
+import { mountGame } from "./game.js";
+await mountGame(document.getElementById("game"), { supabase: null, user: null });
+document.body.dataset.ready = "1";
+</script>
+</body>
+</html>

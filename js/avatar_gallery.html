@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Golfer avatars</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; padding: 28px; background: #faf6ec; font-family: "Source Sans 3", sans-serif; color: #1c2a22; }
+  h1 { font-family: "Cormorant Garamond", serif; color: #0b3d2c; margin: 0 0 4px; }
+  p { margin: 0 0 20px; color: #5a5a50; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 18px; }
+  .card { background: #fff; border: 1px solid #e3dcc8; padding: 14px 10px; text-align: center; }
+  .sizes { display: flex; align-items: flex-end; justify-content: center; gap: 10px; }
+  .name { font-size: 13px; font-weight: 600; margin-top: 8px; }
+  .name small { display: block; color: #8a8576; font-weight: 400; }
+  .band { background: #0b3d2c; padding: 14px; display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px; }
+</style>
+</head>
+<body>
+<h1>Golfer avatars</h1>
+<p>Generated from each golfer's name; colors from his country's flag. 40px, 84px, 160px.</p>
+<div class="band" id="band"></div>
+<div class="grid" id="grid"></div>
+<script type="module">
+  import { golferAvatar, golferCountry } from "./avatar.js";
+  const sample = await fetch("../data/sample/game_players.json").then((r) => r.json()).catch(() => ({}));
+  const extra = [
+    ["Ludvig Aberg", "SWE"], ["Viktor Hovland", "NOR"], ["Jon Rahm", "ESP"], ["Hideki Matsuyama", "JPN"],
+    ["Sungjae Im", "KOR"], ["Min Woo Lee", "AUS"], ["Nicolai Hojgaard", "DEN"], ["Corey Conners", "CAN"],
+    ["Joaquin Niemann", "CHI"], ["Nico Echavarria", "COL"], ["Abraham Ancer", "MEX"], ["Victor Perez", "FRA"],
+    ["Stephan Jaeger", "GER"], ["Thomas Detry", "BEL"], ["Sepp Straka", "AUT"], ["Ryan Fox", "NZL"],
+    ["Haotong Li", "CHN"], ["Kevin Yu", "TPE"], ["Rico Hoey", "PHI"], ["Sami Valimaki", "FIN"],
+    ["Francesco Molinari", "ITA"], ["Jhonattan Vegas", "VEN"], ["Rafael Campos", "PUR"], ["Shane Lowry", "IRL"],
+    ["Robert MacIntyre", "SCO"], ["Aldrich Potgieter", "RSA"], ["Emiliano Grillo", "ARG"],
+  ];
+  const golfers = [...Object.entries(sample).map(([id, p]) => ({ id, name: p.name, country: p.country })),
+    ...extra.map(([name, country]) => ({ name, country }))].slice(0, 48);
+  document.getElementById("band").innerHTML = golfers.slice(0, 20).map((g) => golferAvatar(g, { size: 48 })).join("");
+  document.getElementById("grid").innerHTML = golfers.map((g) => `<div class="card"><div class="sizes">
+      ${golferAvatar(g, { size: 40 })}${golferAvatar(g, { size: 84 })}</div>
+      <div style="margin-top:10px">${golferAvatar(g, { size: 160 })}</div>
+      <div class="name">${g.name}<small>${golferCountry(g)}</small></div></div>`).join("");
+</script>
+</body>
+</html>

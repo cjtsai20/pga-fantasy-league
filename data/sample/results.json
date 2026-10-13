@@ -1,0 +1,6074 @@
+[
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30041",
+  "player_name": "Jacob Bridgeman",
+  "position": "1",
+  "points": 500,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30030",
+  "player_name": "J.J. Spaun",
+  "position": "2",
+  "points": 275.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30044",
+  "player_name": "Sahith Theegala",
+  "position": "3",
+  "points": 175.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30017",
+  "player_name": "Sam Burns",
+  "position": "4",
+  "points": 162.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30018",
+  "player_name": "Jordan Spieth",
+  "position": "5",
+  "points": 135.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30012",
+  "player_name": "Sepp Straka",
+  "position": "6",
+  "points": 125.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30004",
+  "player_name": "Ludvig Aberg",
+  "position": "7",
+  "points": 112.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30051",
+  "player_name": "Ryo Hisatsune",
+  "position": "8",
+  "points": 105.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30016",
+  "player_name": "Robert MacIntyre",
+  "position": "9",
+  "points": 97.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30034",
+  "player_name": "Brian Harman",
+  "position": "10",
+  "points": 90.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30021",
+  "player_name": "Tony Finau",
+  "position": "11",
+  "points": 82.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30049",
+  "player_name": "Matt McCarty",
+  "position": "12",
+  "points": 75.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30023",
+  "player_name": "Sungjae Im",
+  "position": "13",
+  "points": 70.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30025",
+  "player_name": "Akshay Bhatia",
+  "position": "14",
+  "points": 65.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30011",
+  "player_name": "Shane Lowry",
+  "position": "15",
+  "points": 60.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30015",
+  "player_name": "Matt Fitzpatrick",
+  "position": "16",
+  "points": 55.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30042",
+  "player_name": "Ryan Gerard",
+  "position": "17",
+  "points": 50.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30031",
+  "player_name": "Si Woo Kim",
+  "position": "18",
+  "points": 47.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30050",
+  "player_name": "Alex Smalley",
+  "position": "19",
+  "points": 45.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30036",
+  "player_name": "Jason Day",
+  "position": "20",
+  "points": 42.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30005",
+  "player_name": "Tommy Fleetwood",
+  "position": "21",
+  "points": 40.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30027",
+  "player_name": "Harris English",
+  "position": "22",
+  "points": 37.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30026",
+  "player_name": "Ben Griffin",
+  "position": "23",
+  "points": 35.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30003",
+  "player_name": "Collin Morikawa",
+  "position": "24",
+  "points": 32.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30028",
+  "player_name": "Chris Gotterup",
+  "position": "25",
+  "points": 30.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30022",
+  "player_name": "Corey Conners",
+  "position": "26",
+  "points": 27.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30000",
+  "player_name": "Scottie Scheffler",
+  "position": "27",
+  "points": 25.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30038",
+  "player_name": "Alex Noren",
+  "position": "28",
+  "points": 22.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30035",
+  "player_name": "Adam Scott",
+  "position": "29",
+  "points": 20.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30020",
+  "player_name": "Wyndham Clark",
+  "position": "30",
+  "points": 17.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30057",
+  "player_name": "Harry Hall",
+  "position": "31",
+  "points": 15.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30008",
+  "player_name": "Russell Henley",
+  "position": "32",
+  "points": 14.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30039",
+  "player_name": "Aaron Rai",
+  "position": "33",
+  "points": 13.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30019",
+  "player_name": "Maverick McNealy",
+  "position": "34",
+  "points": 12.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30010",
+  "player_name": "Viktor Hovland",
+  "position": "35",
+  "points": 11.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30024",
+  "player_name": "Min Woo Lee",
+  "position": "36",
+  "points": 10.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30033",
+  "player_name": "Rasmus Hojgaard",
+  "position": "37",
+  "points": 9.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30007",
+  "player_name": "Patrick Cantlay",
+  "position": "38",
+  "points": 8.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30046",
+  "player_name": "Nick Taylor",
+  "position": "39",
+  "points": 7.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30055",
+  "player_name": "Eric Cole",
+  "position": "40",
+  "points": 6.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30048",
+  "player_name": "Pierceson Coody",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30052",
+  "player_name": "Tom Kim",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30009",
+  "player_name": "Hideki Matsuyama",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30014",
+  "player_name": "Cameron Young",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30043",
+  "player_name": "Michael Thorbjornsen",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30032",
+  "player_name": "Nicolai Hojgaard",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30040",
+  "player_name": "Kurt Kitayama",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30045",
+  "player_name": "Taylor Pendrith",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30029",
+  "player_name": "Jake Knapp",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30001",
+  "player_name": "Rory McIlroy",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30002",
+  "player_name": "Xander Schauffele",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30054",
+  "player_name": "Denny McCarthy",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30037",
+  "player_name": "Max Homa",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30056",
+  "player_name": "Mac Meissner",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30047",
+  "player_name": "Davis Thompson",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30006",
+  "player_name": "Justin Thomas",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30013",
+  "player_name": "Keegan Bradley",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027006",
+  "player_id": "30053",
+  "player_name": "Lucas Glover",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30041",
+  "player_name": "Jacob Bridgeman",
+  "position": "1",
+  "points": 500,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30000",
+  "player_name": "Scottie Scheffler",
+  "position": "2",
+  "points": 275.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30028",
+  "player_name": "Chris Gotterup",
+  "position": "3",
+  "points": 175.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30049",
+  "player_name": "Matt McCarty",
+  "position": "4",
+  "points": 162.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30009",
+  "player_name": "Hideki Matsuyama",
+  "position": "5",
+  "points": 135.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30022",
+  "player_name": "Corey Conners",
+  "position": "6",
+  "points": 125.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30036",
+  "player_name": "Jason Day",
+  "position": "7",
+  "points": 112.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30051",
+  "player_name": "Ryo Hisatsune",
+  "position": "8",
+  "points": 105.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30026",
+  "player_name": "Ben Griffin",
+  "position": "9",
+  "points": 97.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30004",
+  "player_name": "Ludvig Aberg",
+  "position": "10",
+  "points": 90.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30019",
+  "player_name": "Maverick McNealy",
+  "position": "11",
+  "points": 82.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30055",
+  "player_name": "Eric Cole",
+  "position": "12",
+  "points": 75.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30029",
+  "player_name": "Jake Knapp",
+  "position": "13",
+  "points": 70.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30052",
+  "player_name": "Tom Kim",
+  "position": "14",
+  "points": 65.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30056",
+  "player_name": "Mac Meissner",
+  "position": "15",
+  "points": 60.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30023",
+  "player_name": "Sungjae Im",
+  "position": "16",
+  "points": 55.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30010",
+  "player_name": "Viktor Hovland",
+  "position": "17",
+  "points": 50.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30016",
+  "player_name": "Robert MacIntyre",
+  "position": "18",
+  "points": 47.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30011",
+  "player_name": "Shane Lowry",
+  "position": "19",
+  "points": 45.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30030",
+  "player_name": "J.J. Spaun",
+  "position": "20",
+  "points": 42.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30044",
+  "player_name": "Sahith Theegala",
+  "position": "21",
+  "points": 40.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30033",
+  "player_name": "Rasmus Hojgaard",
+  "position": "22",
+  "points": 37.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30003",
+  "player_name": "Collin Morikawa",
+  "position": "23",
+  "points": 35.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30050",
+  "player_name": "Alex Smalley",
+  "position": "24",
+  "points": 32.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30015",
+  "player_name": "Matt Fitzpatrick",
+  "position": "25",
+  "points": 30.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30057",
+  "player_name": "Harry Hall",
+  "position": "26",
+  "points": 27.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30013",
+  "player_name": "Keegan Bradley",
+  "position": "27",
+  "points": 25.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30024",
+  "player_name": "Min Woo Lee",
+  "position": "28",
+  "points": 22.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30042",
+  "player_name": "Ryan Gerard",
+  "position": "29",
+  "points": 20.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30034",
+  "player_name": "Brian Harman",
+  "position": "30",
+  "points": 17.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30017",
+  "player_name": "Sam Burns",
+  "position": "31",
+  "points": 15.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30002",
+  "player_name": "Xander Schauffele",
+  "position": "32",
+  "points": 14.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30032",
+  "player_name": "Nicolai Hojgaard",
+  "position": "33",
+  "points": 13.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30025",
+  "player_name": "Akshay Bhatia",
+  "position": "34",
+  "points": 12.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30001",
+  "player_name": "Rory McIlroy",
+  "position": "35",
+  "points": 11.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30012",
+  "player_name": "Sepp Straka",
+  "position": "36",
+  "points": 10.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30038",
+  "player_name": "Alex Noren",
+  "position": "37",
+  "points": 9.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30020",
+  "player_name": "Wyndham Clark",
+  "position": "38",
+  "points": 8.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30035",
+  "player_name": "Adam Scott",
+  "position": "39",
+  "points": 7.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30053",
+  "player_name": "Lucas Glover",
+  "position": "40",
+  "points": 6.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30008",
+  "player_name": "Russell Henley",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30054",
+  "player_name": "Denny McCarthy",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30018",
+  "player_name": "Jordan Spieth",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30007",
+  "player_name": "Patrick Cantlay",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30014",
+  "player_name": "Cameron Young",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30048",
+  "player_name": "Pierceson Coody",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30027",
+  "player_name": "Harris English",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30045",
+  "player_name": "Taylor Pendrith",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30046",
+  "player_name": "Nick Taylor",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30043",
+  "player_name": "Michael Thorbjornsen",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30037",
+  "player_name": "Max Homa",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30021",
+  "player_name": "Tony Finau",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30047",
+  "player_name": "Davis Thompson",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30031",
+  "player_name": "Si Woo Kim",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30039",
+  "player_name": "Aaron Rai",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30005",
+  "player_name": "Tommy Fleetwood",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30040",
+  "player_name": "Kurt Kitayama",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027002",
+  "player_id": "30006",
+  "player_name": "Justin Thomas",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30051",
+  "player_name": "Ryo Hisatsune",
+  "position": "1",
+  "points": 500,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30012",
+  "player_name": "Sepp Straka",
+  "position": "2",
+  "points": 275.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30018",
+  "player_name": "Jordan Spieth",
+  "position": "3",
+  "points": 175.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30044",
+  "player_name": "Sahith Theegala",
+  "position": "4",
+  "points": 162.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30039",
+  "player_name": "Aaron Rai",
+  "position": "5",
+  "points": 135.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30006",
+  "player_name": "Justin Thomas",
+  "position": "6",
+  "points": 125.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30002",
+  "player_name": "Xander Schauffele",
+  "position": "7",
+  "points": 112.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30035",
+  "player_name": "Adam Scott",
+  "position": "8",
+  "points": 105.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30027",
+  "player_name": "Harris English",
+  "position": "9",
+  "points": 97.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30026",
+  "player_name": "Ben Griffin",
+  "position": "10",
+  "points": 90.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30047",
+  "player_name": "Davis Thompson",
+  "position": "11",
+  "points": 82.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30029",
+  "player_name": "Jake Knapp",
+  "position": "12",
+  "points": 75.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30000",
+  "player_name": "Scottie Scheffler",
+  "position": "13",
+  "points": 70.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30011",
+  "player_name": "Shane Lowry",
+  "position": "14",
+  "points": 65.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30022",
+  "player_name": "Corey Conners",
+  "position": "15",
+  "points": 60.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30045",
+  "player_name": "Taylor Pendrith",
+  "position": "16",
+  "points": 55.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30053",
+  "player_name": "Lucas Glover",
+  "position": "17",
+  "points": 50.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30056",
+  "player_name": "Mac Meissner",
+  "position": "18",
+  "points": 47.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30014",
+  "player_name": "Cameron Young",
+  "position": "19",
+  "points": 45.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30024",
+  "player_name": "Min Woo Lee",
+  "position": "20",
+  "points": 42.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30040",
+  "player_name": "Kurt Kitayama",
+  "position": "21",
+  "points": 40.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30021",
+  "player_name": "Tony Finau",
+  "position": "22",
+  "points": 37.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30038",
+  "player_name": "Alex Noren",
+  "position": "23",
+  "points": 35.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30004",
+  "player_name": "Ludvig Aberg",
+  "position": "24",
+  "points": 32.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30043",
+  "player_name": "Michael Thorbjornsen",
+  "position": "25",
+  "points": 30.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30057",
+  "player_name": "Harry Hall",
+  "position": "26",
+  "points": 27.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30054",
+  "player_name": "Denny McCarthy",
+  "position": "27",
+  "points": 25.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30032",
+  "player_name": "Nicolai Hojgaard",
+  "position": "28",
+  "points": 22.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30049",
+  "player_name": "Matt McCarty",
+  "position": "29",
+  "points": 20.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30030",
+  "player_name": "J.J. Spaun",
+  "position": "30",
+  "points": 17.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30009",
+  "player_name": "Hideki Matsuyama",
+  "position": "31",
+  "points": 15.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30007",
+  "player_name": "Patrick Cantlay",
+  "position": "32",
+  "points": 14.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30034",
+  "player_name": "Brian Harman",
+  "position": "33",
+  "points": 13.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30041",
+  "player_name": "Jacob Bridgeman",
+  "position": "34",
+  "points": 12.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30019",
+  "player_name": "Maverick McNealy",
+  "position": "35",
+  "points": 11.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30015",
+  "player_name": "Matt Fitzpatrick",
+  "position": "36",
+  "points": 10.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30003",
+  "player_name": "Collin Morikawa",
+  "position": "37",
+  "points": 9.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30048",
+  "player_name": "Pierceson Coody",
+  "position": "38",
+  "points": 8.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30023",
+  "player_name": "Sungjae Im",
+  "position": "39",
+  "points": 7.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30031",
+  "player_name": "Si Woo Kim",
+  "position": "40",
+  "points": 6.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30008",
+  "player_name": "Russell Henley",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30042",
+  "player_name": "Ryan Gerard",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30033",
+  "player_name": "Rasmus Hojgaard",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30028",
+  "player_name": "Chris Gotterup",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30025",
+  "player_name": "Akshay Bhatia",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30017",
+  "player_name": "Sam Burns",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30020",
+  "player_name": "Wyndham Clark",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30036",
+  "player_name": "Jason Day",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30052",
+  "player_name": "Tom Kim",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30013",
+  "player_name": "Keegan Bradley",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30010",
+  "player_name": "Viktor Hovland",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30037",
+  "player_name": "Max Homa",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30001",
+  "player_name": "Rory McIlroy",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30050",
+  "player_name": "Alex Smalley",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30016",
+  "player_name": "Robert MacIntyre",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30055",
+  "player_name": "Eric Cole",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30046",
+  "player_name": "Nick Taylor",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027004",
+  "player_id": "30005",
+  "player_name": "Tommy Fleetwood",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30038",
+  "player_name": "Alex Noren",
+  "position": "1",
+  "points": 500,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30039",
+  "player_name": "Aaron Rai",
+  "position": "2",
+  "points": 275.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30057",
+  "player_name": "Harry Hall",
+  "position": "3",
+  "points": 175.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30044",
+  "player_name": "Sahith Theegala",
+  "position": "4",
+  "points": 162.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30005",
+  "player_name": "Tommy Fleetwood",
+  "position": "5",
+  "points": 135.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30015",
+  "player_name": "Matt Fitzpatrick",
+  "position": "6",
+  "points": 125.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30027",
+  "player_name": "Harris English",
+  "position": "7",
+  "points": 112.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30020",
+  "player_name": "Wyndham Clark",
+  "position": "8",
+  "points": 105.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30019",
+  "player_name": "Maverick McNealy",
+  "position": "9",
+  "points": 97.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30002",
+  "player_name": "Xander Schauffele",
+  "position": "10",
+  "points": 90.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30008",
+  "player_name": "Russell Henley",
+  "position": "11",
+  "points": 82.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30006",
+  "player_name": "Justin Thomas",
+  "position": "12",
+  "points": 75.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30025",
+  "player_name": "Akshay Bhatia",
+  "position": "13",
+  "points": 70.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30053",
+  "player_name": "Lucas Glover",
+  "position": "14",
+  "points": 65.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30023",
+  "player_name": "Sungjae Im",
+  "position": "15",
+  "points": 60.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30013",
+  "player_name": "Keegan Bradley",
+  "position": "16",
+  "points": 55.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30010",
+  "player_name": "Viktor Hovland",
+  "position": "17",
+  "points": 50.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30034",
+  "player_name": "Brian Harman",
+  "position": "18",
+  "points": 47.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30001",
+  "player_name": "Rory McIlroy",
+  "position": "19",
+  "points": 45.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30011",
+  "player_name": "Shane Lowry",
+  "position": "20",
+  "points": 42.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30028",
+  "player_name": "Chris Gotterup",
+  "position": "21",
+  "points": 40.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30003",
+  "player_name": "Collin Morikawa",
+  "position": "22",
+  "points": 37.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30033",
+  "player_name": "Rasmus Hojgaard",
+  "position": "23",
+  "points": 35.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30037",
+  "player_name": "Max Homa",
+  "position": "24",
+  "points": 32.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30036",
+  "player_name": "Jason Day",
+  "position": "25",
+  "points": 30.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30014",
+  "player_name": "Cameron Young",
+  "position": "26",
+  "points": 27.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30017",
+  "player_name": "Sam Burns",
+  "position": "27",
+  "points": 25.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30029",
+  "player_name": "Jake Knapp",
+  "position": "28",
+  "points": 22.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30031",
+  "player_name": "Si Woo Kim",
+  "position": "29",
+  "points": 20.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30046",
+  "player_name": "Nick Taylor",
+  "position": "30",
+  "points": 17.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30035",
+  "player_name": "Adam Scott",
+  "position": "31",
+  "points": 15.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30030",
+  "player_name": "J.J. Spaun",
+  "position": "32",
+  "points": 14.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30049",
+  "player_name": "Matt McCarty",
+  "position": "33",
+  "points": 13.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30026",
+  "player_name": "Ben Griffin",
+  "position": "34",
+  "points": 12.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30032",
+  "player_name": "Nicolai Hojgaard",
+  "position": "35",
+  "points": 11.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30055",
+  "player_name": "Eric Cole",
+  "position": "36",
+  "points": 10.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30041",
+  "player_name": "Jacob Bridgeman",
+  "position": "37",
+  "points": 9.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30050",
+  "player_name": "Alex Smalley",
+  "position": "38",
+  "points": 8.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30016",
+  "player_name": "Robert MacIntyre",
+  "position": "39",
+  "points": 7.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30040",
+  "player_name": "Kurt Kitayama",
+  "position": "40",
+  "points": 6.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30012",
+  "player_name": "Sepp Straka",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30018",
+  "player_name": "Jordan Spieth",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30054",
+  "player_name": "Denny McCarthy",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30000",
+  "player_name": "Scottie Scheffler",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30052",
+  "player_name": "Tom Kim",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30051",
+  "player_name": "Ryo Hisatsune",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30047",
+  "player_name": "Davis Thompson",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30024",
+  "player_name": "Min Woo Lee",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30042",
+  "player_name": "Ryan Gerard",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30045",
+  "player_name": "Taylor Pendrith",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30007",
+  "player_name": "Patrick Cantlay",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30048",
+  "player_name": "Pierceson Coody",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30043",
+  "player_name": "Michael Thorbjornsen",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30056",
+  "player_name": "Mac Meissner",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30009",
+  "player_name": "Hideki Matsuyama",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30022",
+  "player_name": "Corey Conners",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30021",
+  "player_name": "Tony Finau",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027003",
+  "player_id": "30004",
+  "player_name": "Ludvig Aberg",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30003",
+  "player_name": "Collin Morikawa",
+  "position": "1",
+  "points": 700,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30053",
+  "player_name": "Lucas Glover",
+  "position": "2",
+  "points": 385.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30038",
+  "player_name": "Alex Noren",
+  "position": "3",
+  "points": 245.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30031",
+  "player_name": "Si Woo Kim",
+  "position": "4",
+  "points": 227.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30034",
+  "player_name": "Brian Harman",
+  "position": "5",
+  "points": 189.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30005",
+  "player_name": "Tommy Fleetwood",
+  "position": "6",
+  "points": 175.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30028",
+  "player_name": "Chris Gotterup",
+  "position": "7",
+  "points": 157.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30006",
+  "player_name": "Justin Thomas",
+  "position": "8",
+  "points": 147.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30042",
+  "player_name": "Ryan Gerard",
+  "position": "9",
+  "points": 136.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30047",
+  "player_name": "Davis Thompson",
+  "position": "10",
+  "points": 126.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30008",
+  "player_name": "Russell Henley",
+  "position": "11",
+  "points": 115.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30019",
+  "player_name": "Maverick McNealy",
+  "position": "12",
+  "points": 105.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30049",
+  "player_name": "Matt McCarty",
+  "position": "13",
+  "points": 98.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30036",
+  "player_name": "Jason Day",
+  "position": "14",
+  "points": 91.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30054",
+  "player_name": "Denny McCarthy",
+  "position": "15",
+  "points": 84.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30021",
+  "player_name": "Tony Finau",
+  "position": "16",
+  "points": 77.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30033",
+  "player_name": "Rasmus Hojgaard",
+  "position": "17",
+  "points": 70.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30056",
+  "player_name": "Mac Meissner",
+  "position": "18",
+  "points": 66.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30024",
+  "player_name": "Min Woo Lee",
+  "position": "19",
+  "points": 63.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30045",
+  "player_name": "Taylor Pendrith",
+  "position": "20",
+  "points": 59.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30004",
+  "player_name": "Ludvig Aberg",
+  "position": "21",
+  "points": 56.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30043",
+  "player_name": "Michael Thorbjornsen",
+  "position": "22",
+  "points": 52.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30022",
+  "player_name": "Corey Conners",
+  "position": "23",
+  "points": 49.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30023",
+  "player_name": "Sungjae Im",
+  "position": "24",
+  "points": 45.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30030",
+  "player_name": "J.J. Spaun",
+  "position": "25",
+  "points": 42.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30046",
+  "player_name": "Nick Taylor",
+  "position": "26",
+  "points": 38.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30044",
+  "player_name": "Sahith Theegala",
+  "position": "27",
+  "points": 35.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30050",
+  "player_name": "Alex Smalley",
+  "position": "28",
+  "points": 31.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30032",
+  "player_name": "Nicolai Hojgaard",
+  "position": "29",
+  "points": 28.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30025",
+  "player_name": "Akshay Bhatia",
+  "position": "30",
+  "points": 24.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30020",
+  "player_name": "Wyndham Clark",
+  "position": "31",
+  "points": 21.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30007",
+  "player_name": "Patrick Cantlay",
+  "position": "32",
+  "points": 19.6,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30016",
+  "player_name": "Robert MacIntyre",
+  "position": "33",
+  "points": 18.2,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30040",
+  "player_name": "Kurt Kitayama",
+  "position": "34",
+  "points": 16.8,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30029",
+  "player_name": "Jake Knapp",
+  "position": "35",
+  "points": 15.4,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30017",
+  "player_name": "Sam Burns",
+  "position": "36",
+  "points": 14.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30026",
+  "player_name": "Ben Griffin",
+  "position": "37",
+  "points": 12.6,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30055",
+  "player_name": "Eric Cole",
+  "position": "38",
+  "points": 11.2,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30011",
+  "player_name": "Shane Lowry",
+  "position": "39",
+  "points": 9.8,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30057",
+  "player_name": "Harry Hall",
+  "position": "40",
+  "points": 8.4,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30009",
+  "player_name": "Hideki Matsuyama",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30035",
+  "player_name": "Adam Scott",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30052",
+  "player_name": "Tom Kim",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30012",
+  "player_name": "Sepp Straka",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30041",
+  "player_name": "Jacob Bridgeman",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30027",
+  "player_name": "Harris English",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30037",
+  "player_name": "Max Homa",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30013",
+  "player_name": "Keegan Bradley",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30039",
+  "player_name": "Aaron Rai",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30000",
+  "player_name": "Scottie Scheffler",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30002",
+  "player_name": "Xander Schauffele",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30048",
+  "player_name": "Pierceson Coody",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30051",
+  "player_name": "Ryo Hisatsune",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30018",
+  "player_name": "Jordan Spieth",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30010",
+  "player_name": "Viktor Hovland",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30015",
+  "player_name": "Matt Fitzpatrick",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30001",
+  "player_name": "Rory McIlroy",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027005",
+  "player_id": "30014",
+  "player_name": "Cameron Young",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30050",
+  "player_name": "Alex Smalley",
+  "position": "1",
+  "points": 700,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30016",
+  "player_name": "Robert MacIntyre",
+  "position": "2",
+  "points": 385.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30006",
+  "player_name": "Justin Thomas",
+  "position": "3",
+  "points": 245.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30007",
+  "player_name": "Patrick Cantlay",
+  "position": "4",
+  "points": 227.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30009",
+  "player_name": "Hideki Matsuyama",
+  "position": "5",
+  "points": 189.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30049",
+  "player_name": "Matt McCarty",
+  "position": "6",
+  "points": 175.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30015",
+  "player_name": "Matt Fitzpatrick",
+  "position": "7",
+  "points": 157.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30019",
+  "player_name": "Maverick McNealy",
+  "position": "8",
+  "points": 147.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30035",
+  "player_name": "Adam Scott",
+  "position": "9",
+  "points": 136.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30045",
+  "player_name": "Taylor Pendrith",
+  "position": "10",
+  "points": 126.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30036",
+  "player_name": "Jason Day",
+  "position": "11",
+  "points": 115.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30027",
+  "player_name": "Harris English",
+  "position": "12",
+  "points": 105.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30039",
+  "player_name": "Aaron Rai",
+  "position": "13",
+  "points": 98.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30056",
+  "player_name": "Mac Meissner",
+  "position": "14",
+  "points": 91.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30017",
+  "player_name": "Sam Burns",
+  "position": "15",
+  "points": 84.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30034",
+  "player_name": "Brian Harman",
+  "position": "16",
+  "points": 77.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30002",
+  "player_name": "Xander Schauffele",
+  "position": "17",
+  "points": 70.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30011",
+  "player_name": "Shane Lowry",
+  "position": "18",
+  "points": 66.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30003",
+  "player_name": "Collin Morikawa",
+  "position": "19",
+  "points": 63.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30029",
+  "player_name": "Jake Knapp",
+  "position": "20",
+  "points": 59.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30054",
+  "player_name": "Denny McCarthy",
+  "position": "21",
+  "points": 56.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30005",
+  "player_name": "Tommy Fleetwood",
+  "position": "22",
+  "points": 52.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30051",
+  "player_name": "Ryo Hisatsune",
+  "position": "23",
+  "points": 49.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30042",
+  "player_name": "Ryan Gerard",
+  "position": "24",
+  "points": 45.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30021",
+  "player_name": "Tony Finau",
+  "position": "25",
+  "points": 42.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30053",
+  "player_name": "Lucas Glover",
+  "position": "26",
+  "points": 38.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30037",
+  "player_name": "Max Homa",
+  "position": "27",
+  "points": 35.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30023",
+  "player_name": "Sungjae Im",
+  "position": "28",
+  "points": 31.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30024",
+  "player_name": "Min Woo Lee",
+  "position": "29",
+  "points": 28.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30000",
+  "player_name": "Scottie Scheffler",
+  "position": "30",
+  "points": 24.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30030",
+  "player_name": "J.J. Spaun",
+  "position": "31",
+  "points": 21.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30031",
+  "player_name": "Si Woo Kim",
+  "position": "32",
+  "points": 19.6,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30028",
+  "player_name": "Chris Gotterup",
+  "position": "33",
+  "points": 18.2,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30043",
+  "player_name": "Michael Thorbjornsen",
+  "position": "34",
+  "points": 16.8,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30008",
+  "player_name": "Russell Henley",
+  "position": "35",
+  "points": 15.4,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30052",
+  "player_name": "Tom Kim",
+  "position": "36",
+  "points": 14.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30010",
+  "player_name": "Viktor Hovland",
+  "position": "37",
+  "points": 12.6,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30025",
+  "player_name": "Akshay Bhatia",
+  "position": "38",
+  "points": 11.2,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30013",
+  "player_name": "Keegan Bradley",
+  "position": "39",
+  "points": 9.8,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30041",
+  "player_name": "Jacob Bridgeman",
+  "position": "40",
+  "points": 8.4,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30038",
+  "player_name": "Alex Noren",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30020",
+  "player_name": "Wyndham Clark",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30040",
+  "player_name": "Kurt Kitayama",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30004",
+  "player_name": "Ludvig Aberg",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30033",
+  "player_name": "Rasmus Hojgaard",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30001",
+  "player_name": "Rory McIlroy",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30012",
+  "player_name": "Sepp Straka",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30018",
+  "player_name": "Jordan Spieth",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30032",
+  "player_name": "Nicolai Hojgaard",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30057",
+  "player_name": "Harry Hall",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30046",
+  "player_name": "Nick Taylor",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30044",
+  "player_name": "Sahith Theegala",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30014",
+  "player_name": "Cameron Young",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30026",
+  "player_name": "Ben Griffin",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30048",
+  "player_name": "Pierceson Coody",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30047",
+  "player_name": "Davis Thompson",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30055",
+  "player_name": "Eric Cole",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027007",
+  "player_id": "30022",
+  "player_name": "Corey Conners",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30044",
+  "player_name": "Sahith Theegala",
+  "position": "1",
+  "points": 500,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30037",
+  "player_name": "Max Homa",
+  "position": "2",
+  "points": 275.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30007",
+  "player_name": "Patrick Cantlay",
+  "position": "3",
+  "points": 175.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30031",
+  "player_name": "Si Woo Kim",
+  "position": "4",
+  "points": 162.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30041",
+  "player_name": "Jacob Bridgeman",
+  "position": "5",
+  "points": 135.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30009",
+  "player_name": "Hideki Matsuyama",
+  "position": "6",
+  "points": 125.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30021",
+  "player_name": "Tony Finau",
+  "position": "7",
+  "points": 112.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30029",
+  "player_name": "Jake Knapp",
+  "position": "8",
+  "points": 105.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30051",
+  "player_name": "Ryo Hisatsune",
+  "position": "9",
+  "points": 97.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30017",
+  "player_name": "Sam Burns",
+  "position": "10",
+  "points": 90.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30047",
+  "player_name": "Davis Thompson",
+  "position": "11",
+  "points": 82.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30012",
+  "player_name": "Sepp Straka",
+  "position": "12",
+  "points": 75.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30056",
+  "player_name": "Mac Meissner",
+  "position": "13",
+  "points": 70.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30049",
+  "player_name": "Matt McCarty",
+  "position": "14",
+  "points": 65.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30016",
+  "player_name": "Robert MacIntyre",
+  "position": "15",
+  "points": 60.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30046",
+  "player_name": "Nick Taylor",
+  "position": "16",
+  "points": 55.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30026",
+  "player_name": "Ben Griffin",
+  "position": "17",
+  "points": 50.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30032",
+  "player_name": "Nicolai Hojgaard",
+  "position": "18",
+  "points": 47.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30050",
+  "player_name": "Alex Smalley",
+  "position": "19",
+  "points": 45.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30034",
+  "player_name": "Brian Harman",
+  "position": "20",
+  "points": 42.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30008",
+  "player_name": "Russell Henley",
+  "position": "21",
+  "points": 40.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30004",
+  "player_name": "Ludvig Aberg",
+  "position": "22",
+  "points": 37.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30027",
+  "player_name": "Harris English",
+  "position": "23",
+  "points": 35.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30035",
+  "player_name": "Adam Scott",
+  "position": "24",
+  "points": 32.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30025",
+  "player_name": "Akshay Bhatia",
+  "position": "25",
+  "points": 30.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30024",
+  "player_name": "Min Woo Lee",
+  "position": "26",
+  "points": 27.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30057",
+  "player_name": "Harry Hall",
+  "position": "27",
+  "points": 25.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30013",
+  "player_name": "Keegan Bradley",
+  "position": "28",
+  "points": 22.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30030",
+  "player_name": "J.J. Spaun",
+  "position": "29",
+  "points": 20.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30038",
+  "player_name": "Alex Noren",
+  "position": "30",
+  "points": 17.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30005",
+  "player_name": "Tommy Fleetwood",
+  "position": "31",
+  "points": 15.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30002",
+  "player_name": "Xander Schauffele",
+  "position": "32",
+  "points": 14.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30003",
+  "player_name": "Collin Morikawa",
+  "position": "33",
+  "points": 13.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30036",
+  "player_name": "Jason Day",
+  "position": "34",
+  "points": 12.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30054",
+  "player_name": "Denny McCarthy",
+  "position": "35",
+  "points": 11.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30039",
+  "player_name": "Aaron Rai",
+  "position": "36",
+  "points": 10.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30006",
+  "player_name": "Justin Thomas",
+  "position": "37",
+  "points": 9.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30040",
+  "player_name": "Kurt Kitayama",
+  "position": "38",
+  "points": 8.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30052",
+  "player_name": "Tom Kim",
+  "position": "39",
+  "points": 7.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30015",
+  "player_name": "Matt Fitzpatrick",
+  "position": "40",
+  "points": 6.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30043",
+  "player_name": "Michael Thorbjornsen",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30042",
+  "player_name": "Ryan Gerard",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30010",
+  "player_name": "Viktor Hovland",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30011",
+  "player_name": "Shane Lowry",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30053",
+  "player_name": "Lucas Glover",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30020",
+  "player_name": "Wyndham Clark",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30028",
+  "player_name": "Chris Gotterup",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30001",
+  "player_name": "Rory McIlroy",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30018",
+  "player_name": "Jordan Spieth",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30019",
+  "player_name": "Maverick McNealy",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30055",
+  "player_name": "Eric Cole",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30045",
+  "player_name": "Taylor Pendrith",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30033",
+  "player_name": "Rasmus Hojgaard",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30000",
+  "player_name": "Scottie Scheffler",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30048",
+  "player_name": "Pierceson Coody",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30014",
+  "player_name": "Cameron Young",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30022",
+  "player_name": "Corey Conners",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027010",
+  "player_id": "30023",
+  "player_name": "Sungjae Im",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30032",
+  "player_name": "Nicolai Hojgaard",
+  "position": "1",
+  "points": 700,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30045",
+  "player_name": "Taylor Pendrith",
+  "position": "2",
+  "points": 385.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30031",
+  "player_name": "Si Woo Kim",
+  "position": "3",
+  "points": 245.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30001",
+  "player_name": "Rory McIlroy",
+  "position": "4",
+  "points": 227.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30019",
+  "player_name": "Maverick McNealy",
+  "position": "5",
+  "points": 189.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30042",
+  "player_name": "Ryan Gerard",
+  "position": "6",
+  "points": 175.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30051",
+  "player_name": "Ryo Hisatsune",
+  "position": "7",
+  "points": 157.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30050",
+  "player_name": "Alex Smalley",
+  "position": "8",
+  "points": 147.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30030",
+  "player_name": "J.J. Spaun",
+  "position": "9",
+  "points": 136.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30007",
+  "player_name": "Patrick Cantlay",
+  "position": "10",
+  "points": 126.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30055",
+  "player_name": "Eric Cole",
+  "position": "11",
+  "points": 115.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30035",
+  "player_name": "Adam Scott",
+  "position": "12",
+  "points": 105.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30044",
+  "player_name": "Sahith Theegala",
+  "position": "13",
+  "points": 98.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30026",
+  "player_name": "Ben Griffin",
+  "position": "14",
+  "points": 91.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30034",
+  "player_name": "Brian Harman",
+  "position": "15",
+  "points": 84.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30025",
+  "player_name": "Akshay Bhatia",
+  "position": "16",
+  "points": 77.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30036",
+  "player_name": "Jason Day",
+  "position": "17",
+  "points": 70.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30024",
+  "player_name": "Min Woo Lee",
+  "position": "18",
+  "points": 66.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30020",
+  "player_name": "Wyndham Clark",
+  "position": "19",
+  "points": 63.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30039",
+  "player_name": "Aaron Rai",
+  "position": "20",
+  "points": 59.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30046",
+  "player_name": "Nick Taylor",
+  "position": "21",
+  "points": 56.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30015",
+  "player_name": "Matt Fitzpatrick",
+  "position": "22",
+  "points": 52.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30000",
+  "player_name": "Scottie Scheffler",
+  "position": "23",
+  "points": 49.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30016",
+  "player_name": "Robert MacIntyre",
+  "position": "24",
+  "points": 45.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30037",
+  "player_name": "Max Homa",
+  "position": "25",
+  "points": 42.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30028",
+  "player_name": "Chris Gotterup",
+  "position": "26",
+  "points": 38.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30054",
+  "player_name": "Denny McCarthy",
+  "position": "27",
+  "points": 35.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30013",
+  "player_name": "Keegan Bradley",
+  "position": "28",
+  "points": 31.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30005",
+  "player_name": "Tommy Fleetwood",
+  "position": "29",
+  "points": 28.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30040",
+  "player_name": "Kurt Kitayama",
+  "position": "30",
+  "points": 24.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30021",
+  "player_name": "Tony Finau",
+  "position": "31",
+  "points": 21.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30043",
+  "player_name": "Michael Thorbjornsen",
+  "position": "32",
+  "points": 19.6,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30012",
+  "player_name": "Sepp Straka",
+  "position": "33",
+  "points": 18.2,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30047",
+  "player_name": "Davis Thompson",
+  "position": "34",
+  "points": 16.8,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30048",
+  "player_name": "Pierceson Coody",
+  "position": "35",
+  "points": 15.4,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30027",
+  "player_name": "Harris English",
+  "position": "36",
+  "points": 14.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30017",
+  "player_name": "Sam Burns",
+  "position": "37",
+  "points": 12.6,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30049",
+  "player_name": "Matt McCarty",
+  "position": "38",
+  "points": 11.2,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30022",
+  "player_name": "Corey Conners",
+  "position": "39",
+  "points": 9.8,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30057",
+  "player_name": "Harry Hall",
+  "position": "40",
+  "points": 8.4,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30056",
+  "player_name": "Mac Meissner",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30008",
+  "player_name": "Russell Henley",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30006",
+  "player_name": "Justin Thomas",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30009",
+  "player_name": "Hideki Matsuyama",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30038",
+  "player_name": "Alex Noren",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30002",
+  "player_name": "Xander Schauffele",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30052",
+  "player_name": "Tom Kim",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30053",
+  "player_name": "Lucas Glover",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30023",
+  "player_name": "Sungjae Im",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30003",
+  "player_name": "Collin Morikawa",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30033",
+  "player_name": "Rasmus Hojgaard",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30041",
+  "player_name": "Jacob Bridgeman",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30010",
+  "player_name": "Viktor Hovland",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30004",
+  "player_name": "Ludvig Aberg",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30029",
+  "player_name": "Jake Knapp",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30018",
+  "player_name": "Jordan Spieth",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30014",
+  "player_name": "Cameron Young",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027009",
+  "player_id": "30011",
+  "player_name": "Shane Lowry",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30039",
+  "player_name": "Aaron Rai",
+  "position": "1",
+  "points": 750,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30024",
+  "player_name": "Min Woo Lee",
+  "position": "2",
+  "points": 412.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30010",
+  "player_name": "Viktor Hovland",
+  "position": "3",
+  "points": 262.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30013",
+  "player_name": "Keegan Bradley",
+  "position": "4",
+  "points": 243.75,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30047",
+  "player_name": "Davis Thompson",
+  "position": "5",
+  "points": 202.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30030",
+  "player_name": "J.J. Spaun",
+  "position": "6",
+  "points": 187.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30046",
+  "player_name": "Nick Taylor",
+  "position": "7",
+  "points": 168.75,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30017",
+  "player_name": "Sam Burns",
+  "position": "8",
+  "points": 157.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30015",
+  "player_name": "Matt Fitzpatrick",
+  "position": "9",
+  "points": 146.25,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30019",
+  "player_name": "Maverick McNealy",
+  "position": "10",
+  "points": 135.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30029",
+  "player_name": "Jake Knapp",
+  "position": "11",
+  "points": 123.75,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30057",
+  "player_name": "Harry Hall",
+  "position": "12",
+  "points": 112.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30033",
+  "player_name": "Rasmus Hojgaard",
+  "position": "13",
+  "points": 105.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30026",
+  "player_name": "Ben Griffin",
+  "position": "14",
+  "points": 97.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30003",
+  "player_name": "Collin Morikawa",
+  "position": "15",
+  "points": 90.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30031",
+  "player_name": "Si Woo Kim",
+  "position": "16",
+  "points": 82.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30056",
+  "player_name": "Mac Meissner",
+  "position": "17",
+  "points": 75.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30028",
+  "player_name": "Chris Gotterup",
+  "position": "18",
+  "points": 71.25,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30037",
+  "player_name": "Max Homa",
+  "position": "19",
+  "points": 67.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30054",
+  "player_name": "Denny McCarthy",
+  "position": "20",
+  "points": 63.75,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30006",
+  "player_name": "Justin Thomas",
+  "position": "21",
+  "points": 60.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30048",
+  "player_name": "Pierceson Coody",
+  "position": "22",
+  "points": 56.25,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30050",
+  "player_name": "Alex Smalley",
+  "position": "23",
+  "points": 52.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30045",
+  "player_name": "Taylor Pendrith",
+  "position": "24",
+  "points": 48.75,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30009",
+  "player_name": "Hideki Matsuyama",
+  "position": "25",
+  "points": 45.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30043",
+  "player_name": "Michael Thorbjornsen",
+  "position": "26",
+  "points": 41.25,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30007",
+  "player_name": "Patrick Cantlay",
+  "position": "27",
+  "points": 37.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30044",
+  "player_name": "Sahith Theegala",
+  "position": "28",
+  "points": 33.75,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30032",
+  "player_name": "Nicolai Hojgaard",
+  "position": "29",
+  "points": 30.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30011",
+  "player_name": "Shane Lowry",
+  "position": "30",
+  "points": 26.25,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30014",
+  "player_name": "Cameron Young",
+  "position": "31",
+  "points": 22.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30038",
+  "player_name": "Alex Noren",
+  "position": "32",
+  "points": 21.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30035",
+  "player_name": "Adam Scott",
+  "position": "33",
+  "points": 19.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30025",
+  "player_name": "Akshay Bhatia",
+  "position": "34",
+  "points": 18.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30049",
+  "player_name": "Matt McCarty",
+  "position": "35",
+  "points": 16.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30012",
+  "player_name": "Sepp Straka",
+  "position": "36",
+  "points": 15.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30042",
+  "player_name": "Ryan Gerard",
+  "position": "37",
+  "points": 13.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30052",
+  "player_name": "Tom Kim",
+  "position": "38",
+  "points": 12.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30004",
+  "player_name": "Ludvig Aberg",
+  "position": "39",
+  "points": 10.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30034",
+  "player_name": "Brian Harman",
+  "position": "40",
+  "points": 9.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30002",
+  "player_name": "Xander Schauffele",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30027",
+  "player_name": "Harris English",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30008",
+  "player_name": "Russell Henley",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30051",
+  "player_name": "Ryo Hisatsune",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30022",
+  "player_name": "Corey Conners",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30021",
+  "player_name": "Tony Finau",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30040",
+  "player_name": "Kurt Kitayama",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30055",
+  "player_name": "Eric Cole",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30000",
+  "player_name": "Scottie Scheffler",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30023",
+  "player_name": "Sungjae Im",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30018",
+  "player_name": "Jordan Spieth",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30036",
+  "player_name": "Jason Day",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30005",
+  "player_name": "Tommy Fleetwood",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30053",
+  "player_name": "Lucas Glover",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30020",
+  "player_name": "Wyndham Clark",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30001",
+  "player_name": "Rory McIlroy",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30016",
+  "player_name": "Robert MacIntyre",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027011",
+  "player_id": "30041",
+  "player_name": "Jacob Bridgeman",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30011",
+  "player_name": "Shane Lowry",
+  "position": "1",
+  "points": 500,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30010",
+  "player_name": "Viktor Hovland",
+  "position": "2",
+  "points": 275.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30017",
+  "player_name": "Sam Burns",
+  "position": "3",
+  "points": 175.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30037",
+  "player_name": "Max Homa",
+  "position": "4",
+  "points": 162.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30046",
+  "player_name": "Nick Taylor",
+  "position": "5",
+  "points": 135.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30031",
+  "player_name": "Si Woo Kim",
+  "position": "6",
+  "points": 125.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30034",
+  "player_name": "Brian Harman",
+  "position": "7",
+  "points": 112.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30038",
+  "player_name": "Alex Noren",
+  "position": "8",
+  "points": 105.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30051",
+  "player_name": "Ryo Hisatsune",
+  "position": "9",
+  "points": 97.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30028",
+  "player_name": "Chris Gotterup",
+  "position": "10",
+  "points": 90.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30043",
+  "player_name": "Michael Thorbjornsen",
+  "position": "11",
+  "points": 82.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30052",
+  "player_name": "Tom Kim",
+  "position": "12",
+  "points": 75.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30047",
+  "player_name": "Davis Thompson",
+  "position": "13",
+  "points": 70.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30024",
+  "player_name": "Min Woo Lee",
+  "position": "14",
+  "points": 65.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30027",
+  "player_name": "Harris English",
+  "position": "15",
+  "points": 60.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30050",
+  "player_name": "Alex Smalley",
+  "position": "16",
+  "points": 55.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30049",
+  "player_name": "Matt McCarty",
+  "position": "17",
+  "points": 50.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30006",
+  "player_name": "Justin Thomas",
+  "position": "18",
+  "points": 47.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30029",
+  "player_name": "Jake Knapp",
+  "position": "19",
+  "points": 45.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30015",
+  "player_name": "Matt Fitzpatrick",
+  "position": "20",
+  "points": 42.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30030",
+  "player_name": "J.J. Spaun",
+  "position": "21",
+  "points": 40.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30001",
+  "player_name": "Rory McIlroy",
+  "position": "22",
+  "points": 37.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30026",
+  "player_name": "Ben Griffin",
+  "position": "23",
+  "points": 35.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30013",
+  "player_name": "Keegan Bradley",
+  "position": "24",
+  "points": 32.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30002",
+  "player_name": "Xander Schauffele",
+  "position": "25",
+  "points": 30.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30044",
+  "player_name": "Sahith Theegala",
+  "position": "26",
+  "points": 27.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30020",
+  "player_name": "Wyndham Clark",
+  "position": "27",
+  "points": 25.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30022",
+  "player_name": "Corey Conners",
+  "position": "28",
+  "points": 22.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30033",
+  "player_name": "Rasmus Hojgaard",
+  "position": "29",
+  "points": 20.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30025",
+  "player_name": "Akshay Bhatia",
+  "position": "30",
+  "points": 17.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30016",
+  "player_name": "Robert MacIntyre",
+  "position": "31",
+  "points": 15.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30008",
+  "player_name": "Russell Henley",
+  "position": "32",
+  "points": 14.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30018",
+  "player_name": "Jordan Spieth",
+  "position": "33",
+  "points": 13.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30054",
+  "player_name": "Denny McCarthy",
+  "position": "34",
+  "points": 12.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30053",
+  "player_name": "Lucas Glover",
+  "position": "35",
+  "points": 11.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30009",
+  "player_name": "Hideki Matsuyama",
+  "position": "36",
+  "points": 10.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30019",
+  "player_name": "Maverick McNealy",
+  "position": "37",
+  "points": 9.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30042",
+  "player_name": "Ryan Gerard",
+  "position": "38",
+  "points": 8.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30057",
+  "player_name": "Harry Hall",
+  "position": "39",
+  "points": 7.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30007",
+  "player_name": "Patrick Cantlay",
+  "position": "40",
+  "points": 6.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30041",
+  "player_name": "Jacob Bridgeman",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30003",
+  "player_name": "Collin Morikawa",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30021",
+  "player_name": "Tony Finau",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30045",
+  "player_name": "Taylor Pendrith",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30014",
+  "player_name": "Cameron Young",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30040",
+  "player_name": "Kurt Kitayama",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30039",
+  "player_name": "Aaron Rai",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30036",
+  "player_name": "Jason Day",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30048",
+  "player_name": "Pierceson Coody",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30000",
+  "player_name": "Scottie Scheffler",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30055",
+  "player_name": "Eric Cole",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30012",
+  "player_name": "Sepp Straka",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30035",
+  "player_name": "Adam Scott",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30023",
+  "player_name": "Sungjae Im",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30032",
+  "player_name": "Nicolai Hojgaard",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30005",
+  "player_name": "Tommy Fleetwood",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30004",
+  "player_name": "Ludvig Aberg",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027475",
+  "player_id": "30056",
+  "player_name": "Mac Meissner",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30009",
+  "player_name": "Hideki Matsuyama",
+  "position": "1",
+  "points": 500,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30007",
+  "player_name": "Patrick Cantlay",
+  "position": "2",
+  "points": 275.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30031",
+  "player_name": "Si Woo Kim",
+  "position": "3",
+  "points": 175.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30027",
+  "player_name": "Harris English",
+  "position": "4",
+  "points": 162.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30002",
+  "player_name": "Xander Schauffele",
+  "position": "5",
+  "points": 135.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30049",
+  "player_name": "Matt McCarty",
+  "position": "6",
+  "points": 125.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30056",
+  "player_name": "Mac Meissner",
+  "position": "7",
+  "points": 112.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30015",
+  "player_name": "Matt Fitzpatrick",
+  "position": "8",
+  "points": 105.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30054",
+  "player_name": "Denny McCarthy",
+  "position": "9",
+  "points": 97.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30022",
+  "player_name": "Corey Conners",
+  "position": "10",
+  "points": 90.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30024",
+  "player_name": "Min Woo Lee",
+  "position": "11",
+  "points": 82.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30033",
+  "player_name": "Rasmus Hojgaard",
+  "position": "12",
+  "points": 75.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30030",
+  "player_name": "J.J. Spaun",
+  "position": "13",
+  "points": 70.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30028",
+  "player_name": "Chris Gotterup",
+  "position": "14",
+  "points": 65.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30042",
+  "player_name": "Ryan Gerard",
+  "position": "15",
+  "points": 60.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30041",
+  "player_name": "Jacob Bridgeman",
+  "position": "16",
+  "points": 55.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30035",
+  "player_name": "Adam Scott",
+  "position": "17",
+  "points": 50.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30000",
+  "player_name": "Scottie Scheffler",
+  "position": "18",
+  "points": 47.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30046",
+  "player_name": "Nick Taylor",
+  "position": "19",
+  "points": 45.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30025",
+  "player_name": "Akshay Bhatia",
+  "position": "20",
+  "points": 42.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30051",
+  "player_name": "Ryo Hisatsune",
+  "position": "21",
+  "points": 40.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30018",
+  "player_name": "Jordan Spieth",
+  "position": "22",
+  "points": 37.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30047",
+  "player_name": "Davis Thompson",
+  "position": "23",
+  "points": 35.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30040",
+  "player_name": "Kurt Kitayama",
+  "position": "24",
+  "points": 32.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30029",
+  "player_name": "Jake Knapp",
+  "position": "25",
+  "points": 30.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30036",
+  "player_name": "Jason Day",
+  "position": "26",
+  "points": 27.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30012",
+  "player_name": "Sepp Straka",
+  "position": "27",
+  "points": 25.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30038",
+  "player_name": "Alex Noren",
+  "position": "28",
+  "points": 22.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30021",
+  "player_name": "Tony Finau",
+  "position": "29",
+  "points": 20.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30037",
+  "player_name": "Max Homa",
+  "position": "30",
+  "points": 17.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30010",
+  "player_name": "Viktor Hovland",
+  "position": "31",
+  "points": 15.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30003",
+  "player_name": "Collin Morikawa",
+  "position": "32",
+  "points": 14.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30017",
+  "player_name": "Sam Burns",
+  "position": "33",
+  "points": 13.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30050",
+  "player_name": "Alex Smalley",
+  "position": "34",
+  "points": 12.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30023",
+  "player_name": "Sungjae Im",
+  "position": "35",
+  "points": 11.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30026",
+  "player_name": "Ben Griffin",
+  "position": "36",
+  "points": 10.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30052",
+  "player_name": "Tom Kim",
+  "position": "37",
+  "points": 9.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30053",
+  "player_name": "Lucas Glover",
+  "position": "38",
+  "points": 8.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30048",
+  "player_name": "Pierceson Coody",
+  "position": "39",
+  "points": 7.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30013",
+  "player_name": "Keegan Bradley",
+  "position": "40",
+  "points": 6.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30014",
+  "player_name": "Cameron Young",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30045",
+  "player_name": "Taylor Pendrith",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30006",
+  "player_name": "Justin Thomas",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30055",
+  "player_name": "Eric Cole",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30020",
+  "player_name": "Wyndham Clark",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30032",
+  "player_name": "Nicolai Hojgaard",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30001",
+  "player_name": "Rory McIlroy",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30039",
+  "player_name": "Aaron Rai",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30008",
+  "player_name": "Russell Henley",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30019",
+  "player_name": "Maverick McNealy",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30034",
+  "player_name": "Brian Harman",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30011",
+  "player_name": "Shane Lowry",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30004",
+  "player_name": "Ludvig Aberg",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30043",
+  "player_name": "Michael Thorbjornsen",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30016",
+  "player_name": "Robert MacIntyre",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30057",
+  "player_name": "Harry Hall",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30044",
+  "player_name": "Sahith Theegala",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027020",
+  "player_id": "30005",
+  "player_name": "Tommy Fleetwood",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30021",
+  "player_name": "Tony Finau",
+  "position": "1",
+  "points": 500,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30005",
+  "player_name": "Tommy Fleetwood",
+  "position": "2",
+  "points": 275.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30006",
+  "player_name": "Justin Thomas",
+  "position": "3",
+  "points": 175.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30004",
+  "player_name": "Ludvig Aberg",
+  "position": "4",
+  "points": 162.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30016",
+  "player_name": "Robert MacIntyre",
+  "position": "5",
+  "points": 135.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30009",
+  "player_name": "Hideki Matsuyama",
+  "position": "6",
+  "points": 125.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30054",
+  "player_name": "Denny McCarthy",
+  "position": "7",
+  "points": 112.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30055",
+  "player_name": "Eric Cole",
+  "position": "8",
+  "points": 105.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30011",
+  "player_name": "Shane Lowry",
+  "position": "9",
+  "points": 97.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30047",
+  "player_name": "Davis Thompson",
+  "position": "10",
+  "points": 90.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30042",
+  "player_name": "Ryan Gerard",
+  "position": "11",
+  "points": 82.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30049",
+  "player_name": "Matt McCarty",
+  "position": "12",
+  "points": 75.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30032",
+  "player_name": "Nicolai Hojgaard",
+  "position": "13",
+  "points": 70.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30013",
+  "player_name": "Keegan Bradley",
+  "position": "14",
+  "points": 65.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30019",
+  "player_name": "Maverick McNealy",
+  "position": "15",
+  "points": 60.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30036",
+  "player_name": "Jason Day",
+  "position": "16",
+  "points": 55.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30003",
+  "player_name": "Collin Morikawa",
+  "position": "17",
+  "points": 50.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30057",
+  "player_name": "Harry Hall",
+  "position": "18",
+  "points": 47.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30051",
+  "player_name": "Ryo Hisatsune",
+  "position": "19",
+  "points": 45.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30010",
+  "player_name": "Viktor Hovland",
+  "position": "20",
+  "points": 42.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30050",
+  "player_name": "Alex Smalley",
+  "position": "21",
+  "points": 40.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30001",
+  "player_name": "Rory McIlroy",
+  "position": "22",
+  "points": 37.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30034",
+  "player_name": "Brian Harman",
+  "position": "23",
+  "points": 35.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30046",
+  "player_name": "Nick Taylor",
+  "position": "24",
+  "points": 32.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30014",
+  "player_name": "Cameron Young",
+  "position": "25",
+  "points": 30.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30002",
+  "player_name": "Xander Schauffele",
+  "position": "26",
+  "points": 27.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30018",
+  "player_name": "Jordan Spieth",
+  "position": "27",
+  "points": 25.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30000",
+  "player_name": "Scottie Scheffler",
+  "position": "28",
+  "points": 22.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30041",
+  "player_name": "Jacob Bridgeman",
+  "position": "29",
+  "points": 20.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30024",
+  "player_name": "Min Woo Lee",
+  "position": "30",
+  "points": 17.5,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30048",
+  "player_name": "Pierceson Coody",
+  "position": "31",
+  "points": 15.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30038",
+  "player_name": "Alex Noren",
+  "position": "32",
+  "points": 14.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30020",
+  "player_name": "Wyndham Clark",
+  "position": "33",
+  "points": 13.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30052",
+  "player_name": "Tom Kim",
+  "position": "34",
+  "points": 12.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30012",
+  "player_name": "Sepp Straka",
+  "position": "35",
+  "points": 11.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30023",
+  "player_name": "Sungjae Im",
+  "position": "36",
+  "points": 10.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30039",
+  "player_name": "Aaron Rai",
+  "position": "37",
+  "points": 9.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30015",
+  "player_name": "Matt Fitzpatrick",
+  "position": "38",
+  "points": 8.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30035",
+  "player_name": "Adam Scott",
+  "position": "39",
+  "points": 7.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30044",
+  "player_name": "Sahith Theegala",
+  "position": "40",
+  "points": 6.0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30022",
+  "player_name": "Corey Conners",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30008",
+  "player_name": "Russell Henley",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30017",
+  "player_name": "Sam Burns",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30026",
+  "player_name": "Ben Griffin",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30037",
+  "player_name": "Max Homa",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30029",
+  "player_name": "Jake Knapp",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30031",
+  "player_name": "Si Woo Kim",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30028",
+  "player_name": "Chris Gotterup",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30030",
+  "player_name": "J.J. Spaun",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30033",
+  "player_name": "Rasmus Hojgaard",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30007",
+  "player_name": "Patrick Cantlay",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30045",
+  "player_name": "Taylor Pendrith",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30027",
+  "player_name": "Harris English",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30040",
+  "player_name": "Kurt Kitayama",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30056",
+  "player_name": "Mac Meissner",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30053",
+  "player_name": "Lucas Glover",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30043",
+  "player_name": "Michael Thorbjornsen",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027041",
+  "player_id": "30025",
+  "player_name": "Akshay Bhatia",
+  "position": "CUT",
+  "points": 0,
+  "is_projected": false
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30044",
+  "player_name": "Sahith Theegala",
+  "position": "1",
+  "points": 750,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30042",
+  "player_name": "Ryan Gerard",
+  "position": "2",
+  "points": 412.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30046",
+  "player_name": "Nick Taylor",
+  "position": "3",
+  "points": 262.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30011",
+  "player_name": "Shane Lowry",
+  "position": "4",
+  "points": 243.75,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30047",
+  "player_name": "Davis Thompson",
+  "position": "5",
+  "points": 202.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30058",
+  "player_name": "Jon Rahm",
+  "position": "6",
+  "points": 187.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30004",
+  "player_name": "Ludvig Aberg",
+  "position": "7",
+  "points": 168.75,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30022",
+  "player_name": "Corey Conners",
+  "position": "8",
+  "points": 157.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30048",
+  "player_name": "Pierceson Coody",
+  "position": "9",
+  "points": 146.25,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30043",
+  "player_name": "Michael Thorbjornsen",
+  "position": "10",
+  "points": 135.0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30021",
+  "player_name": "Tony Finau",
+  "position": "11",
+  "points": 123.75,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30000",
+  "player_name": "Scottie Scheffler",
+  "position": "12",
+  "points": 112.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30050",
+  "player_name": "Alex Smalley",
+  "position": "13",
+  "points": 105.0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30028",
+  "player_name": "Chris Gotterup",
+  "position": "14",
+  "points": 97.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30017",
+  "player_name": "Sam Burns",
+  "position": "15",
+  "points": 90.0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30056",
+  "player_name": "Mac Meissner",
+  "position": "16",
+  "points": 82.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30033",
+  "player_name": "Rasmus Hojgaard",
+  "position": "17",
+  "points": 75.0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30049",
+  "player_name": "Matt McCarty",
+  "position": "18",
+  "points": 71.25,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30013",
+  "player_name": "Keegan Bradley",
+  "position": "19",
+  "points": 67.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30032",
+  "player_name": "Nicolai Hojgaard",
+  "position": "20",
+  "points": 63.75,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30053",
+  "player_name": "Lucas Glover",
+  "position": "21",
+  "points": 60.0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30045",
+  "player_name": "Taylor Pendrith",
+  "position": "22",
+  "points": 56.25,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30015",
+  "player_name": "Matt Fitzpatrick",
+  "position": "23",
+  "points": 52.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30060",
+  "player_name": "Tyrrell Hatton",
+  "position": "24",
+  "points": 48.75,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30019",
+  "player_name": "Maverick McNealy",
+  "position": "25",
+  "points": 45.0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30040",
+  "player_name": "Kurt Kitayama",
+  "position": "26",
+  "points": 41.25,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30041",
+  "player_name": "Jacob Bridgeman",
+  "position": "27",
+  "points": 37.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30037",
+  "player_name": "Max Homa",
+  "position": "28",
+  "points": 33.75,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30035",
+  "player_name": "Adam Scott",
+  "position": "29",
+  "points": 30.0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30061",
+  "player_name": "Patrick Reed",
+  "position": "30",
+  "points": 26.25,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30039",
+  "player_name": "Aaron Rai",
+  "position": "31",
+  "points": 22.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30008",
+  "player_name": "Russell Henley",
+  "position": "32",
+  "points": 21.0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30023",
+  "player_name": "Sungjae Im",
+  "position": "33",
+  "points": 19.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30020",
+  "player_name": "Wyndham Clark",
+  "position": "34",
+  "points": 18.0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30007",
+  "player_name": "Patrick Cantlay",
+  "position": "35",
+  "points": 16.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30026",
+  "player_name": "Ben Griffin",
+  "position": "36",
+  "points": 15.0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30014",
+  "player_name": "Cameron Young",
+  "position": "37",
+  "points": 13.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30005",
+  "player_name": "Tommy Fleetwood",
+  "position": "38",
+  "points": 12.0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30016",
+  "player_name": "Robert MacIntyre",
+  "position": "39",
+  "points": 10.5,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30057",
+  "player_name": "Harry Hall",
+  "position": "40",
+  "points": 9.0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30018",
+  "player_name": "Jordan Spieth",
+  "position": "41",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30003",
+  "player_name": "Collin Morikawa",
+  "position": "42",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30062",
+  "player_name": "Joaquin Niemann",
+  "position": "43",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30038",
+  "player_name": "Alex Noren",
+  "position": "44",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30036",
+  "player_name": "Jason Day",
+  "position": "45",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30029",
+  "player_name": "Jake Knapp",
+  "position": "46",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30025",
+  "player_name": "Akshay Bhatia",
+  "position": "47",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30059",
+  "player_name": "Bryson DeChambeau",
+  "position": "48",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30055",
+  "player_name": "Eric Cole",
+  "position": "49",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30054",
+  "player_name": "Denny McCarthy",
+  "position": "50",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30031",
+  "player_name": "Si Woo Kim",
+  "position": "51",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30002",
+  "player_name": "Xander Schauffele",
+  "position": "52",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30051",
+  "player_name": "Ryo Hisatsune",
+  "position": "53",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30010",
+  "player_name": "Viktor Hovland",
+  "position": "54",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30009",
+  "player_name": "Hideki Matsuyama",
+  "position": "55",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30030",
+  "player_name": "J.J. Spaun",
+  "position": "56",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30012",
+  "player_name": "Sepp Straka",
+  "position": "57",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30001",
+  "player_name": "Rory McIlroy",
+  "position": "58",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30052",
+  "player_name": "Tom Kim",
+  "position": "59",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30027",
+  "player_name": "Harris English",
+  "position": "60",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30034",
+  "player_name": "Brian Harman",
+  "position": "61",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30006",
+  "player_name": "Justin Thomas",
+  "position": "62",
+  "points": 0,
+  "is_projected": true
+ },
+ {
+  "tournament_id": "R2027014",
+  "player_id": "30024",
+  "player_name": "Min Woo Lee",
+  "position": "63",
+  "points": 0,
+  "is_projected": true
+ }
+]

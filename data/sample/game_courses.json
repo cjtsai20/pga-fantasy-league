@@ -1,0 +1,649 @@
+[
+ {
+  "id": "pebble-beach",
+  "name": "Pebble Beach Golf Links",
+  "location": "Pebble Beach, CA",
+  "par": 72,
+  "yardage": 6947,
+  "tournament_ids": [
+   "R2027005"
+  ],
+  "description": "Clifftop holes along Carmel Bay. The stretch from 6 through 10 runs beside the Pacific, and the closing par 5 hugs the seawall.",
+  "images": [],
+  "holes": [
+   {
+    "n": 1,
+    "par": 4,
+    "yards": 380,
+    "shape": "dogleg_right",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.08
+   },
+   {
+    "n": 2,
+    "par": 5,
+    "yards": 511,
+    "shape": "straight",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker"
+    ],
+    "difficulty": -0.35
+   },
+   {
+    "n": 3,
+    "par": 4,
+    "yards": 404,
+    "shape": "dogleg_left",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.05
+   },
+   {
+    "n": 4,
+    "par": 4,
+    "yards": 333,
+    "shape": "straight",
+    "hazards": [
+     "water_right",
+     "greenside_bunker"
+    ],
+    "difficulty": -0.05
+   },
+   {
+    "n": 5,
+    "par": 3,
+    "yards": 195,
+    "shape": "straight",
+    "hazards": [
+     "water_right",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.12
+   },
+   {
+    "n": 6,
+    "par": 5,
+    "yards": 523,
+    "shape": "straight",
+    "hazards": [
+     "water_right",
+     "greenside_bunker"
+    ],
+    "difficulty": -0.25
+   },
+   {
+    "n": 7,
+    "par": 3,
+    "yards": 109,
+    "shape": "straight",
+    "hazards": [
+     "water_left",
+     "greenside_bunker"
+    ],
+    "difficulty": -0.05
+   },
+   {
+    "n": 8,
+    "par": 4,
+    "yards": 428,
+    "shape": "dogleg_right",
+    "hazards": [
+     "water_front",
+     "water_right",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.25
+   },
+   {
+    "n": 9,
+    "par": 4,
+    "yards": 504,
+    "shape": "straight",
+    "hazards": [
+     "water_right",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.3
+   },
+   {
+    "n": 10,
+    "par": 4,
+    "yards": 446,
+    "shape": "straight",
+    "hazards": [
+     "water_right",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.22
+   },
+   {
+    "n": 11,
+    "par": 4,
+    "yards": 380,
+    "shape": "straight",
+    "hazards": [
+     "greenside_bunker"
+    ],
+    "difficulty": 0.05
+   },
+   {
+    "n": 12,
+    "par": 3,
+    "yards": 202,
+    "shape": "straight",
+    "hazards": [
+     "greenside_bunker"
+    ],
+    "difficulty": 0.15
+   },
+   {
+    "n": 13,
+    "par": 4,
+    "yards": 401,
+    "shape": "straight",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.08
+   },
+   {
+    "n": 14,
+    "par": 5,
+    "yards": 580,
+    "shape": "dogleg_right",
+    "hazards": [
+     "fairway_bunker_right",
+     "greenside_bunker",
+     "trees_right"
+    ],
+    "difficulty": -0.05
+   },
+   {
+    "n": 15,
+    "par": 4,
+    "yards": 397,
+    "shape": "straight",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker",
+     "trees_left"
+    ],
+    "difficulty": 0.0
+   },
+   {
+    "n": 16,
+    "par": 4,
+    "yards": 403,
+    "shape": "dogleg_right",
+    "hazards": [
+     "fairway_bunker_right",
+     "greenside_bunker",
+     "trees_right"
+    ],
+    "difficulty": 0.05
+   },
+   {
+    "n": 17,
+    "par": 3,
+    "yards": 208,
+    "shape": "straight",
+    "hazards": [
+     "water_left",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.18
+   },
+   {
+    "n": 18,
+    "par": 5,
+    "yards": 543,
+    "shape": "dogleg_left",
+    "hazards": [
+     "water_left",
+     "fairway_bunker_right",
+     "greenside_bunker",
+     "trees_right"
+    ],
+    "difficulty": -0.15
+   }
+  ]
+ },
+ {
+  "id": "tpc-sawgrass",
+  "name": "TPC Sawgrass (Stadium)",
+  "location": "Ponte Vedra Beach, FL",
+  "par": 72,
+  "yardage": 7159,
+  "tournament_ids": [
+   "R2027011"
+  ],
+  "description": "Pete Dye's stadium course. Water touches most of the back nine, and the 17th is the famous island green.",
+  "images": [],
+  "holes": [
+   {
+    "n": 1,
+    "par": 4,
+    "yards": 423,
+    "shape": "dogleg_right",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker",
+     "trees_right"
+    ],
+    "difficulty": 0.08
+   },
+   {
+    "n": 2,
+    "par": 5,
+    "yards": 532,
+    "shape": "dogleg_left",
+    "hazards": [
+     "trees_left",
+     "greenside_bunker"
+    ],
+    "difficulty": -0.35
+   },
+   {
+    "n": 3,
+    "par": 3,
+    "yards": 177,
+    "shape": "straight",
+    "hazards": [
+     "greenside_bunker"
+    ],
+    "difficulty": 0.05
+   },
+   {
+    "n": 4,
+    "par": 4,
+    "yards": 384,
+    "shape": "straight",
+    "hazards": [
+     "water_left",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.08
+   },
+   {
+    "n": 5,
+    "par": 4,
+    "yards": 471,
+    "shape": "straight",
+    "hazards": [
+     "fairway_bunker_right",
+     "greenside_bunker",
+     "trees_left"
+    ],
+    "difficulty": 0.15
+   },
+   {
+    "n": 6,
+    "par": 4,
+    "yards": 393,
+    "shape": "straight",
+    "hazards": [
+     "trees_right",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.05
+   },
+   {
+    "n": 7,
+    "par": 4,
+    "yards": 442,
+    "shape": "straight",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.12
+   },
+   {
+    "n": 8,
+    "par": 3,
+    "yards": 237,
+    "shape": "straight",
+    "hazards": [
+     "greenside_bunker"
+    ],
+    "difficulty": 0.2
+   },
+   {
+    "n": 9,
+    "par": 5,
+    "yards": 583,
+    "shape": "straight",
+    "hazards": [
+     "trees_left",
+     "greenside_bunker"
+    ],
+    "difficulty": -0.25
+   },
+   {
+    "n": 10,
+    "par": 4,
+    "yards": 424,
+    "shape": "straight",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker",
+     "trees_right"
+    ],
+    "difficulty": 0.08
+   },
+   {
+    "n": 11,
+    "par": 5,
+    "yards": 558,
+    "shape": "dogleg_left",
+    "hazards": [
+     "water_left",
+     "greenside_bunker"
+    ],
+    "difficulty": -0.2
+   },
+   {
+    "n": 12,
+    "par": 4,
+    "yards": 302,
+    "shape": "dogleg_left",
+    "hazards": [
+     "water_left",
+     "greenside_bunker"
+    ],
+    "difficulty": -0.15
+   },
+   {
+    "n": 13,
+    "par": 3,
+    "yards": 181,
+    "shape": "straight",
+    "hazards": [
+     "water_left",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.08
+   },
+   {
+    "n": 14,
+    "par": 4,
+    "yards": 481,
+    "shape": "dogleg_left",
+    "hazards": [
+     "fairway_bunker_left",
+     "water_left",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.25
+   },
+   {
+    "n": 15,
+    "par": 4,
+    "yards": 449,
+    "shape": "straight",
+    "hazards": [
+     "trees_right",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.12
+   },
+   {
+    "n": 16,
+    "par": 5,
+    "yards": 523,
+    "shape": "dogleg_left",
+    "hazards": [
+     "water_right",
+     "trees_left",
+     "greenside_bunker"
+    ],
+    "difficulty": -0.4
+   },
+   {
+    "n": 17,
+    "par": 3,
+    "yards": 137,
+    "shape": "straight",
+    "hazards": [
+     "water_green"
+    ],
+    "difficulty": 0.12
+   },
+   {
+    "n": 18,
+    "par": 4,
+    "yards": 462,
+    "shape": "dogleg_left",
+    "hazards": [
+     "water_left",
+     "trees_right",
+     "fairway_bunker_right"
+    ],
+    "difficulty": 0.35
+   }
+  ]
+ },
+ {
+  "id": "waialae",
+  "name": "Waialae Country Club",
+  "location": "Honolulu, HI",
+  "par": 70,
+  "yardage": 7052,
+  "tournament_ids": [
+   "R2027006"
+  ],
+  "description": "A flat, tree-lined par 70 near Diamond Head, where the trade winds decide the scoring.",
+  "images": [],
+  "holes": [
+   {
+    "n": 1,
+    "par": 4,
+    "yards": 480,
+    "shape": "dogleg_left",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker",
+     "trees_left"
+    ],
+    "difficulty": 0.15
+   },
+   {
+    "n": 2,
+    "par": 4,
+    "yards": 425,
+    "shape": "straight",
+    "hazards": [
+     "fairway_bunker_right",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.05
+   },
+   {
+    "n": 3,
+    "par": 4,
+    "yards": 423,
+    "shape": "straight",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.05
+   },
+   {
+    "n": 4,
+    "par": 3,
+    "yards": 203,
+    "shape": "straight",
+    "hazards": [
+     "greenside_bunker"
+    ],
+    "difficulty": 0.12
+   },
+   {
+    "n": 5,
+    "par": 4,
+    "yards": 466,
+    "shape": "dogleg_left",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker",
+     "ob_right"
+    ],
+    "difficulty": 0.1
+   },
+   {
+    "n": 6,
+    "par": 4,
+    "yards": 460,
+    "shape": "dogleg_right",
+    "hazards": [
+     "fairway_bunker_right",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.12
+   },
+   {
+    "n": 7,
+    "par": 3,
+    "yards": 176,
+    "shape": "straight",
+    "hazards": [
+     "greenside_bunker"
+    ],
+    "difficulty": 0.05
+   },
+   {
+    "n": 8,
+    "par": 4,
+    "yards": 454,
+    "shape": "straight",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker",
+     "trees_right"
+    ],
+    "difficulty": 0.08
+   },
+   {
+    "n": 9,
+    "par": 5,
+    "yards": 506,
+    "shape": "straight",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker",
+     "ob_left"
+    ],
+    "difficulty": -0.45
+   },
+   {
+    "n": 10,
+    "par": 4,
+    "yards": 351,
+    "shape": "straight",
+    "hazards": [
+     "fairway_bunker_right",
+     "greenside_bunker"
+    ],
+    "difficulty": -0.05
+   },
+   {
+    "n": 11,
+    "par": 3,
+    "yards": 194,
+    "shape": "straight",
+    "hazards": [
+     "greenside_bunker",
+     "water_left"
+    ],
+    "difficulty": 0.1
+   },
+   {
+    "n": 12,
+    "par": 4,
+    "yards": 450,
+    "shape": "straight",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker",
+     "trees_right"
+    ],
+    "difficulty": 0.05
+   },
+   {
+    "n": 13,
+    "par": 4,
+    "yards": 477,
+    "shape": "dogleg_right",
+    "hazards": [
+     "fairway_bunker_right",
+     "greenside_bunker",
+     "trees_left"
+    ],
+    "difficulty": 0.15
+   },
+   {
+    "n": 14,
+    "par": 4,
+    "yards": 430,
+    "shape": "straight",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.02
+   },
+   {
+    "n": 15,
+    "par": 4,
+    "yards": 398,
+    "shape": "dogleg_left",
+    "hazards": [
+     "fairway_bunker_left",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.0
+   },
+   {
+    "n": 16,
+    "par": 4,
+    "yards": 417,
+    "shape": "straight",
+    "hazards": [
+     "fairway_bunker_right",
+     "greenside_bunker"
+    ],
+    "difficulty": 0.08
+   },
+   {
+    "n": 17,
+    "par": 3,
+    "yards": 191,
+    "shape": "straight",
+    "hazards": [
+     "greenside_bunker"
+    ],
+    "difficulty": 0.08
+   },
+   {
+    "n": 18,
+    "par": 5,
+    "yards": 551,
+    "shape": "dogleg_left",
+    "hazards": [
+     "water_left",
+     "fairway_bunker_right",
+     "greenside_bunker"
+    ],
+    "difficulty": -0.4
+   }
+  ]
+ }
+]

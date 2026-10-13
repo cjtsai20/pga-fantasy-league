@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b4f36">
+  <meta name="robots" content="noindex">
+  <title>Fantasy Golf League</title>
+  <link rel="icon" href="assets/crest.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+  <!-- shared marks, referenced with <use href="#..."> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="crest" viewBox="0 0 64 76">
+        <path d="M32 2 L60 10 V36 C60 54 47 67 32 74 C17 67 4 54 4 36 V10 Z" fill="#0b4f36" stroke="#c9a227" stroke-width="2.5"/>
+        <path d="M32 8 L54 14.5 V36 C54 50.5 44 61 32 67 C20 61 10 50.5 10 36 V14.5 Z" fill="none" stroke="#c9a227" stroke-width="1" opacity=".75"/>
+        <line x1="30" y1="18" x2="30" y2="52" stroke="#fdfbf4" stroke-width="2"/>
+        <path d="M31 18 L45 23 L31 28 Z" fill="#f2c94c"/>
+        <ellipse cx="32" cy="53" rx="12" ry="3.2" fill="#2f7a55"/>
+        <circle cx="38" cy="51.5" r="2" fill="#fdfbf4"/>
+        <path d="M14 44 C16 54 22 60 28 63" fill="none" stroke="#c9a227" stroke-width="1.4"/>
+        <path d="M50 44 C48 54 42 60 36 63" fill="none" stroke="#c9a227" stroke-width="1.4"/>
+        <g fill="#c9a227">
+          <ellipse cx="15.5" cy="48" rx="1.6" ry="3" transform="rotate(-30 15.5 48)"/>
+          <ellipse cx="18.5" cy="54" rx="1.6" ry="3" transform="rotate(-45 18.5 54)"/>
+          <ellipse cx="23" cy="59" rx="1.6" ry="3" transform="rotate(-60 23 59)"/>
+          <ellipse cx="48.5" cy="48" rx="1.6" ry="3" transform="rotate(30 48.5 48)"/>
+          <ellipse cx="45.5" cy="54" rx="1.6" ry="3" transform="rotate(45 45.5 54)"/>
+          <ellipse cx="41" cy="59" rx="1.6" ry="3" transform="rotate(60 41 59)"/>
+        </g>
+      </symbol>
+      <symbol id="flag-mark" viewBox="0 0 40 40">
+        <circle cx="20" cy="20" r="19" fill="none" stroke="currentColor" stroke-width="1.2"/>
+        <line x1="17" y1="9" x2="17" y2="31" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M18 9 L29 13 L18 17 Z" fill="#f2c94c"/>
+        <ellipse cx="20" cy="31" rx="8" ry="2" fill="currentColor" opacity=".35"/>
+      </symbol>
+      <symbol id="trophy-mark" viewBox="0 0 40 40">
+        <path d="M13 8 H27 V15 C27 20 24 23 20 23 C16 23 13 20 13 15 Z" fill="#f2c94c" stroke="#8a6d12" stroke-width="1"/>
+        <path d="M13 10 H9 C9 15 11 17 13.5 17.5 M27 10 H31 C31 15 29 17 26.5 17.5" fill="none" stroke="#8a6d12" stroke-width="1.2"/>
+        <rect x="18.5" y="23" width="3" height="6" fill="#c9a227"/>
+        <rect x="14" y="29" width="12" height="4" rx="1" fill="#0b4f36"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="skip" href="#view">Skip to content</a>
+  <header class="site-header">
+    <div class="topbar"><div class="wrap topbar-inner"><span id="footer-name-top"></span><div id="account" class="account"></div></div></div>
+    <div class="wrap brand-row">
+      <a class="brand" href="#/week" aria-label="Home">
+        <svg class="brand-crest" viewBox="0 0 64 76" aria-hidden="true"><use href="#crest"/></svg>
+        <span class="brand-text"><span class="brand-name" id="brand-name"></span><span class="brand-tag" id="brand-tag"></span></span>
+      </a>
+    </div>
+    <nav class="tabs" aria-label="Sections"><div class="wrap tabs-inner" id="nav"></div></nav>
+  </header>
+
+  <main id="view" class="wrap" tabindex="-1">
+    <div class="loading"><span class="spinner"></span></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <svg class="footer-crest" viewBox="0 0 64 76" aria-hidden="true"><use href="#crest"/></svg>
+      <p class="footer-name" id="footer-name"></p>
+      <p class="footer-refresh" id="refreshed"></p>
+      <p class="footer-fine">An independent members' league. Not affiliated with the PGA TOUR or any tournament or club.</p>
+    </div>
+  </footer>
+  <div id="toasts" aria-live="polite"></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

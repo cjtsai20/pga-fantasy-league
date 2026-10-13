@@ -1,0 +1,26 @@
+[
+ {
+  "season": 2027,
+  "month": "2027-01",
+  "user_id": "u10",
+  "display_name": "Max Brown",
+  "points": 810.0,
+  "recorded_at": "2027-01-28T10:00:00-05:00"
+ },
+ {
+  "season": 2027,
+  "month": "2027-02",
+  "user_id": "u04",
+  "display_name": "Brian Young",
+  "points": 1105.5,
+  "recorded_at": "2027-02-28T10:00:00-05:00"
+ },
+ {
+  "season": 2027,
+  "month": "2027-03",
+  "user_id": "u06",
+  "display_name": "Brian Janger",
+  "points": 817.25,
+  "recorded_at": "2027-03-28T10:00:00-05:00"
+ }
+]

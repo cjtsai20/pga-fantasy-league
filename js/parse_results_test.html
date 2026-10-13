@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>parse_results tests</title>
+<style>body{font:14px/1.5 system-ui,sans-serif;margin:24px}pre{white-space:pre-wrap}.fail{color:#b00020}.pass{color:#006747}</style></head>
+<body>
+<h1>parse_results.js tests</h1>
+<p>Serve <code>site/</code> (<code>python -m http.server</code>) and open <code>/js/parse_results_test.html</code>.</p>
+<p id="summary">running...</p>
+<pre id="out"></pre>
+<script type="module">
+import { buildNameIndex, parseResults, scoreRows, parseField, normName } from "./parse_results.js";
+import { setPointsTables, pointsFor } from "./points.js";
+import { FIXTURES } from "./parse_results_fixtures.js";
+
+const out = document.getElementById("out");
+let pass = 0, fail = 0;
+const log = (ok, msg) => { ok ? pass++ : fail++; out.insertAdjacentHTML("beforeend", `<span class="${ok ? "pass" : "fail"}">${ok ? "PASS" : "FAIL"}</span> ${msg}\n`); };
+const near = (a, b, tol = 0.011) => Math.abs(a - b) <= tol;
+
+const [players, tables] = await Promise.all(["../data/players.json", "../data/points_tables.json"].map((u) => fetch(u).then((r) => r.json())));
+setPointsTables(tables);
+const idx = buildNameIndex(players);
+
+// ---- points table unit checks
+log(pointsFor("regular", "1") === 500, "regular winner = 500");
+log(pointsFor("regular", "T2", 4) === 183.75, "regular T2 four-way tie = (300+190+135+110)/4 = 183.75");
+log(pointsFor("major", "T3", 4) === 312.5, "major T3 four-way tie = 312.5");
+log(pointsFor("signature", "1") === 700 && pointsFor("players", "1") === 750, "signature 700, PLAYERS 750");
+log(pointsFor("team", "1", 1) === 400, "Zurich winners get 400 each");
+log(pointsFor("major", "CUT") === 0 && pointsFor("regular", "WD") === 0 && pointsFor("regular", "-") === 0, "CUT / WD / - score 0");
+log(normName("Nicolai Højgaard") === "nicolai hojgaard" && normName("J.T. Poston") === normName("JT Poston"), "name normalization folds ø and periods");
+
+// ---- fixtures
+const parsed = {};
+for (const f of FIXTURES) {
+  const res = parseResults(f.text, idx, { team: f.event_type === "team", field: f.field });
+  scoreRows(res.rows, f.event_type);
+  parsed[f.name] = res;
+  const rows = res.rows;
+  log(rows.length === f.truth.length, `${f.name}: ${rows.length}/${f.truth.length} rows`);
+  let idOk = 0, posOk = 0, ptsOk = 0, ptsN = 0, flagged = 0;
+  const misses = [];
+  f.truth.forEach((t, i) => {
+    const r = rows[i];
+    if (!r) return;
+    // same-surname partners (the Fitzpatricks) may come back in either order
+    const mate = f.event_type === "team" ? f.truth[i % 2 ? i - 1 : i + 1] : null;
+    const okId = r.matched_player_id === t.id || (mate && r.name === rows[i % 2 ? i - 1 : i + 1]?.name && r.matched_player_id === mate.id);
+    if (okId) idOk++;
+    else if (r.confidence < 0.7 && r.candidates.includes(t.id)) { idOk++; flagged++; }  // ambiguous: flagged for the admin, right golfer offered
+    else misses.push(`${r.name} -> ${r.matched_name ?? "none"} @${r.confidence} (want ${players[t.id]?.name})`);
+    if (r.position === t.position) posOk++;
+    if (t.fedex > 0) { ptsN++; if (near(r.points_table, t.fedex) || r.estimated) ptsOk++; else misses.push(`pts ${r.name} ${r.position} x${r.tied}: ${r.points_table} vs ${t.fedex}`); }
+  });
+  log(idOk === f.truth.length, `${f.name}: golfers matched ${idOk - flagged}/${f.truth.length}${flagged ? `, ${flagged} ambiguous flagged with the right golfer in the dropdown` : ""}${misses.length ? " · " + misses.slice(0, 6).join("; ") : ""}`);
+  log(posOk === f.truth.length, `${f.name}: positions ${posOk}/${f.truth.length}`);
+  if (ptsN) log(ptsOk === ptsN, `${f.name}: table points = official FedEx points for ${ptsOk}/${ptsN} members`);
+}
+
+const by = (fx, name) => parsed[FIXTURES.find((f) => f.name.startsWith(fx)).name].rows.filter((r) => r.matched_name === name);
+const amexT2 = parsed[FIXTURES[0].name].rows.filter((r) => r.position === "T2");
+log(amexT2.length === 4 && amexT2.every((r) => r.tied === 4 && r.points === 183.75 && r.points_pasted === 183.75), "AmEx 2026 T2: four golfers, 183.75 each (pasted and table agree)");
+const hatton = by("Stacked", "Tyrrell Hatton")[0];
+log(hatton && hatton.points === 312.5 && hatton.points_pasted == null, `LIV at a major: Hatton T3 gets table points 312.5 (got ${hatton?.points})`);
+const rahm = by("Stacked", "Jon Rahm")[0];
+log(rahm && rahm.position === "T38" && rahm.tied === 3 && near(rahm.points, 23) && near(rahm.points * 1.25, 28.75),
+  `Rahm T38 (3-way) at the 2026 Masters = 23; x1.25 major multiplier = 28.75, same as the league sheet (got ${rahm?.points})`);
+const amateurs = parsed[FIXTURES[1].name].rows.filter((r) => r.is_amateur);
+log(amateurs.length === 6, `"(a)" amateur markers detected: ${amateurs.length}/6`);
+const zur = parsed[FIXTURES[3].name].rows.filter((r) => r.position === "1");
+log(zur.length === 2 && zur[0].matched_player_id !== zur[1].matched_player_id && zur.every((r) => r.points === 400)
+  && zur.map((r) => r.matched_name).sort().join() === "Alex Fitzpatrick,Matt Fitzpatrick", `Zurich "Fitzpatrick/Fitzpatrick": ${zur.map((r) => r.matched_name).join(" + ")}, 400 each`);
+const peb = parsed[FIXTURES[2].name];
+log(by("ESPN", "Collin Morikawa")[0]?.points === 700, "ESPN: 'Colin Morikawa' typo matched, winner 700");
+log(by("ESPN", "Min Woo Lee")[0]?.points_pasted === 375, "ESPN: integer FedEx column read through the blank flag cell and '(AUS)'");
+log(!peb.rows.some((r) => r.mismatch), `ESPN: pasted points agree with table (${peb.rows.filter((r) => r.mismatch).map((r) => r.name).join(", ") || "no mismatches"})`);
+const chat = parsed[FIXTURES[4].name].rows;
+log(chat[1].matched_name === "Jason Day" && chat[1].points === 183.75, `group chat: "J. Day" -> ${chat[1].matched_name}, ${chat[1].points}`);
+
+// ---- field paste
+const fieldRows = parseField("Scheffler, Scottie\nMcIlroy, Rory\nFang, Ethan (a)\n12  Cam Young\nBobby MacIntyre\nNewguy, Rookie", idx);
+log(fieldRows.length === 6 && fieldRows[2].is_amateur && fieldRows[3].matched_name === "Cameron Young" && fieldRows[4].matched_name === "Robert MacIntyre" && !fieldRows[5].matched_player_id,
+  `field paste: ${fieldRows.map((r) => (r.matched_name || "?" + r.name) + (r.is_amateur ? " (a)" : "")).join(", ")}`);
+
+document.getElementById("summary").textContent = `${pass} passed, ${fail} failed`;
+document.body.dataset.status = fail ? "fail" : "pass";
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+[
+ {
+  "id": "u00",
+  "display_name": "Beck Woodhull",
+  "is_admin": false
+ },
+ {
+  "id": "u01",
+  "display_name": "Heath Springman",
+  "is_admin": false
+ },
+ {
+  "id": "u02",
+  "display_name": "Franklin Feng",
+  "is_admin": false
+ },
+ {
+  "id": "u03",
+  "display_name": "Christopher Tsai",
+  "is_admin": true
+ },
+ {
+  "id": "u04",
+  "display_name": "Brian Young",
+  "is_admin": false
+ },
+ {
+  "id": "u05",
+  "display_name": "Carson Blount",
+  "is_admin": false
+ },
+ {
+  "id": "u06",
+  "display_name": "Brian Janger",
+  "is_admin": false
+ },
+ {
+  "id": "u07",
+  "display_name": "Drew Rancatore",
+  "is_admin": false
+ },
+ {
+  "id": "u08",
+  "display_name": "Ryan D'Cunha",
+  "is_admin": false
+ },
+ {
+  "id": "u09",
+  "display_name": "Benjamin Thorpe",
+  "is_admin": false
+ },
+ {
+  "id": "u10",
+  "display_name": "Max Brown",
+  "is_admin": false
+ },
+ {
+  "id": "u11",
+  "display_name": "Sean Li",
+  "is_admin": false
+ },
+ {
+  "id": "u12",
+  "display_name": "Lukas Thomas",
+  "is_admin": false
+ }
+]

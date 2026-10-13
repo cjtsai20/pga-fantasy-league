@@ -1,0 +1,578 @@
+{
+ "46046": {
+  "name": "Scottie Scheffler",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 310.5,
+   "drive_acc": 0.63,
+   "gir": 0.74,
+   "scrambling": 0.66,
+   "sg_ott": 0.85,
+   "sg_app": 1.3,
+   "sg_arg": 0.45,
+   "sg_putt": 0.4,
+   "putts_per_round": 28.7,
+   "birdie_avg": 4.7
+  }
+ },
+ "28237": {
+  "name": "Rory McIlroy",
+  "country": "NIR",
+  "stats": {
+   "drive_dist": 323.0,
+   "drive_acc": 0.55,
+   "gir": 0.7,
+   "scrambling": 0.6,
+   "sg_ott": 1.1,
+   "sg_app": 0.6,
+   "sg_arg": 0.15,
+   "sg_putt": 0.3,
+   "putts_per_round": 28.9,
+   "birdie_avg": 4.5
+  }
+ },
+ "48081": {
+  "name": "Xander Schauffele",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 306.0,
+   "drive_acc": 0.62,
+   "gir": 0.7,
+   "scrambling": 0.65,
+   "sg_ott": 0.5,
+   "sg_app": 0.7,
+   "sg_arg": 0.3,
+   "sg_putt": 0.4,
+   "putts_per_round": 28.6,
+   "birdie_avg": 4.4
+  }
+ },
+ "50525": {
+  "name": "Collin Morikawa",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 298.0,
+   "drive_acc": 0.7,
+   "gir": 0.72,
+   "scrambling": 0.58,
+   "sg_ott": 0.45,
+   "sg_app": 0.95,
+   "sg_arg": 0.05,
+   "sg_putt": -0.1,
+   "putts_per_round": 29.3,
+   "birdie_avg": 4.2
+  }
+ },
+ "52955": {
+  "name": "Ludvig Aberg",
+  "country": "SWE",
+  "stats": {
+   "drive_dist": 312.0,
+   "drive_acc": 0.64,
+   "gir": 0.71,
+   "scrambling": 0.59,
+   "sg_ott": 0.8,
+   "sg_app": 0.6,
+   "sg_arg": 0.0,
+   "sg_putt": 0.1,
+   "putts_per_round": 29.0,
+   "birdie_avg": 4.3
+  }
+ },
+ "30911": {
+  "name": "Tommy Fleetwood",
+  "country": "ENG",
+  "stats": {
+   "drive_dist": 299.0,
+   "drive_acc": 0.65,
+   "gir": 0.69,
+   "scrambling": 0.64,
+   "sg_ott": 0.3,
+   "sg_app": 0.6,
+   "sg_arg": 0.3,
+   "sg_putt": 0.4,
+   "putts_per_round": 28.7,
+   "birdie_avg": 4.1
+  }
+ },
+ "35450": {
+  "name": "Patrick Cantlay",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 303.0,
+   "drive_acc": 0.64,
+   "gir": 0.69,
+   "scrambling": 0.63,
+   "sg_ott": 0.4,
+   "sg_app": 0.5,
+   "sg_arg": 0.25,
+   "sg_putt": 0.35,
+   "putts_per_round": 28.8,
+   "birdie_avg": 4.1
+  }
+ },
+ "46970": {
+  "name": "Jon Rahm",
+  "country": "ESP",
+  "stats": {
+   "drive_dist": 307.0,
+   "drive_acc": 0.62,
+   "gir": 0.7,
+   "scrambling": 0.63,
+   "sg_ott": 0.7,
+   "sg_app": 0.7,
+   "sg_arg": 0.3,
+   "sg_putt": 0.25,
+   "putts_per_round": 28.9,
+   "birdie_avg": 4.4
+  }
+ },
+ "47959": {
+  "name": "Bryson DeChambeau",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 326.0,
+   "drive_acc": 0.55,
+   "gir": 0.68,
+   "scrambling": 0.6,
+   "sg_ott": 1.0,
+   "sg_app": 0.4,
+   "sg_arg": 0.2,
+   "sg_putt": 0.3,
+   "putts_per_round": 28.9,
+   "birdie_avg": 4.4
+  }
+ },
+ "57366": {
+  "name": "Cameron Young",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 318.0,
+   "drive_acc": 0.55,
+   "gir": 0.67,
+   "scrambling": 0.58,
+   "sg_ott": 0.8,
+   "sg_app": 0.4,
+   "sg_arg": 0.0,
+   "sg_putt": 0.2,
+   "putts_per_round": 29.0,
+   "birdie_avg": 4.2
+  }
+ },
+ "33448": {
+  "name": "Justin Thomas",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 302.0,
+   "drive_acc": 0.58,
+   "gir": 0.68,
+   "scrambling": 0.62,
+   "sg_ott": 0.3,
+   "sg_app": 0.8,
+   "sg_arg": 0.35,
+   "sg_putt": -0.05,
+   "putts_per_round": 29.2,
+   "birdie_avg": 4.2
+  }
+ },
+ "34046": {
+  "name": "Jordan Spieth",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 298.0,
+   "drive_acc": 0.55,
+   "gir": 0.64,
+   "scrambling": 0.65,
+   "sg_ott": 0.0,
+   "sg_app": 0.3,
+   "sg_arg": 0.5,
+   "sg_putt": 0.35,
+   "putts_per_round": 28.6,
+   "birdie_avg": 4.0
+  }
+ },
+ "32839": {
+  "name": "Hideki Matsuyama",
+  "country": "JPN",
+  "stats": {
+   "drive_dist": 301.0,
+   "drive_acc": 0.58,
+   "gir": 0.69,
+   "scrambling": 0.64,
+   "sg_ott": 0.3,
+   "sg_app": 0.75,
+   "sg_arg": 0.55,
+   "sg_putt": -0.2,
+   "putts_per_round": 29.4,
+   "birdie_avg": 4.1
+  }
+ },
+ "34098": {
+  "name": "Russell Henley",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 292.0,
+   "drive_acc": 0.7,
+   "gir": 0.7,
+   "scrambling": 0.62,
+   "sg_ott": 0.2,
+   "sg_app": 0.65,
+   "sg_arg": 0.2,
+   "sg_putt": 0.35,
+   "putts_per_round": 28.8,
+   "birdie_avg": 3.9
+  }
+ },
+ "47504": {
+  "name": "Sam Burns",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 307.0,
+   "drive_acc": 0.57,
+   "gir": 0.66,
+   "scrambling": 0.63,
+   "sg_ott": 0.3,
+   "sg_app": 0.25,
+   "sg_arg": 0.15,
+   "sg_putt": 0.55,
+   "putts_per_round": 28.4,
+   "birdie_avg": 4.1
+  }
+ },
+ "46717": {
+  "name": "Viktor Hovland",
+  "country": "NOR",
+  "stats": {
+   "drive_dist": 305.0,
+   "drive_acc": 0.61,
+   "gir": 0.68,
+   "scrambling": 0.55,
+   "sg_ott": 0.45,
+   "sg_app": 0.55,
+   "sg_arg": -0.25,
+   "sg_putt": 0.0,
+   "putts_per_round": 29.2,
+   "birdie_avg": 4.0
+  }
+ },
+ "33204": {
+  "name": "Shane Lowry",
+  "country": "IRL",
+  "stats": {
+   "drive_dist": 296.0,
+   "drive_acc": 0.6,
+   "gir": 0.67,
+   "scrambling": 0.63,
+   "sg_ott": 0.15,
+   "sg_app": 0.5,
+   "sg_arg": 0.4,
+   "sg_putt": 0.05,
+   "putts_per_round": 29.0,
+   "birdie_avg": 3.8
+  }
+ },
+ "28089": {
+  "name": "Jason Day",
+  "country": "AUS",
+  "stats": {
+   "drive_dist": 302.0,
+   "drive_acc": 0.57,
+   "gir": 0.64,
+   "scrambling": 0.64,
+   "sg_ott": 0.2,
+   "sg_app": 0.2,
+   "sg_arg": 0.35,
+   "sg_putt": 0.3,
+   "putts_per_round": 28.7,
+   "birdie_avg": 3.8
+  }
+ },
+ "40098": {
+  "name": "Matt Fitzpatrick",
+  "country": "ENG",
+  "stats": {
+   "drive_dist": 300.0,
+   "drive_acc": 0.64,
+   "gir": 0.67,
+   "scrambling": 0.61,
+   "sg_ott": 0.3,
+   "sg_app": 0.4,
+   "sg_arg": 0.15,
+   "sg_putt": 0.25,
+   "putts_per_round": 28.9,
+   "birdie_avg": 3.9
+  }
+ },
+ "34363": {
+  "name": "Tyrrell Hatton",
+  "country": "ENG",
+  "stats": {
+   "drive_dist": 299.0,
+   "drive_acc": 0.6,
+   "gir": 0.66,
+   "scrambling": 0.62,
+   "sg_ott": 0.2,
+   "sg_app": 0.45,
+   "sg_arg": 0.2,
+   "sg_putt": 0.15,
+   "putts_per_round": 29.0,
+   "birdie_avg": 3.9
+  }
+ },
+ "37455": {
+  "name": "Si Woo Kim",
+  "country": "KOR",
+  "stats": {
+   "drive_dist": 297.0,
+   "drive_acc": 0.63,
+   "gir": 0.68,
+   "scrambling": 0.6,
+   "sg_ott": 0.25,
+   "sg_app": 0.55,
+   "sg_arg": 0.1,
+   "sg_putt": 0.0,
+   "putts_per_round": 29.2,
+   "birdie_avg": 3.8
+  }
+ },
+ "49960": {
+  "name": "Sepp Straka",
+  "country": "AUT",
+  "stats": {
+   "drive_dist": 300.0,
+   "drive_acc": 0.62,
+   "gir": 0.67,
+   "scrambling": 0.59,
+   "sg_ott": 0.25,
+   "sg_app": 0.45,
+   "sg_arg": 0.05,
+   "sg_putt": 0.1,
+   "putts_per_round": 29.1,
+   "birdie_avg": 3.8
+  }
+ },
+ "56630": {
+  "name": "Akshay Bhatia",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 302.0,
+   "drive_acc": 0.58,
+   "gir": 0.65,
+   "scrambling": 0.63,
+   "sg_ott": 0.15,
+   "sg_app": 0.25,
+   "sg_arg": 0.3,
+   "sg_putt": 0.4,
+   "putts_per_round": 28.6,
+   "birdie_avg": 3.9
+  }
+ },
+ "55182": {
+  "name": "Tom Kim",
+  "country": "KOR",
+  "stats": {
+   "drive_dist": 295.0,
+   "drive_acc": 0.66,
+   "gir": 0.66,
+   "scrambling": 0.6,
+   "sg_ott": 0.15,
+   "sg_app": 0.35,
+   "sg_arg": 0.15,
+   "sg_putt": 0.05,
+   "putts_per_round": 29.1,
+   "birdie_avg": 3.7
+  }
+ },
+ "51766": {
+  "name": "Wyndham Clark",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 314.0,
+   "drive_acc": 0.53,
+   "gir": 0.64,
+   "scrambling": 0.57,
+   "sg_ott": 0.45,
+   "sg_app": 0.1,
+   "sg_arg": 0.0,
+   "sg_putt": 0.3,
+   "putts_per_round": 28.9,
+   "birdie_avg": 3.9
+  }
+ },
+ "39977": {
+  "name": "Max Homa",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 299.0,
+   "drive_acc": 0.58,
+   "gir": 0.63,
+   "scrambling": 0.58,
+   "sg_ott": 0.1,
+   "sg_app": 0.1,
+   "sg_arg": 0.05,
+   "sg_putt": 0.15,
+   "putts_per_round": 29.1,
+   "birdie_avg": 3.6
+  }
+ },
+ "29725": {
+  "name": "Tony Finau",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 312.0,
+   "drive_acc": 0.57,
+   "gir": 0.68,
+   "scrambling": 0.57,
+   "sg_ott": 0.4,
+   "sg_app": 0.4,
+   "sg_arg": -0.05,
+   "sg_putt": -0.25,
+   "putts_per_round": 29.5,
+   "birdie_avg": 3.9
+  }
+ },
+ "24502": {
+  "name": "Adam Scott",
+  "country": "AUS",
+  "stats": {
+   "drive_dist": 306.0,
+   "drive_acc": 0.6,
+   "gir": 0.68,
+   "scrambling": 0.58,
+   "sg_ott": 0.45,
+   "sg_app": 0.4,
+   "sg_arg": 0.0,
+   "sg_putt": -0.1,
+   "putts_per_round": 29.4,
+   "birdie_avg": 3.8
+  }
+ },
+ "36689": {
+  "name": "Brooks Koepka",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 308.0,
+   "drive_acc": 0.58,
+   "gir": 0.66,
+   "scrambling": 0.58,
+   "sg_ott": 0.35,
+   "sg_app": 0.25,
+   "sg_arg": 0.0,
+   "sg_putt": 0.0,
+   "putts_per_round": 29.2,
+   "birdie_avg": 3.8
+  }
+ },
+ "22405": {
+  "name": "Justin Rose",
+  "country": "ENG",
+  "stats": {
+   "drive_dist": 297.0,
+   "drive_acc": 0.58,
+   "gir": 0.65,
+   "scrambling": 0.61,
+   "sg_ott": 0.1,
+   "sg_app": 0.3,
+   "sg_arg": 0.2,
+   "sg_putt": 0.1,
+   "putts_per_round": 29.0,
+   "birdie_avg": 3.7
+  }
+ },
+ "48117": {
+  "name": "Kurt Kitayama",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 309.0,
+   "drive_acc": 0.55,
+   "gir": 0.65,
+   "scrambling": 0.56,
+   "sg_ott": 0.35,
+   "sg_app": 0.2,
+   "sg_arg": -0.1,
+   "sg_putt": 0.0,
+   "putts_per_round": 29.2,
+   "birdie_avg": 3.7
+  }
+ },
+ "34099": {
+  "name": "Harris English",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 300.0,
+   "drive_acc": 0.58,
+   "gir": 0.64,
+   "scrambling": 0.61,
+   "sg_ott": 0.1,
+   "sg_app": 0.15,
+   "sg_arg": 0.2,
+   "sg_putt": 0.25,
+   "putts_per_round": 28.8,
+   "birdie_avg": 3.7
+  }
+ },
+ "46442": {
+  "name": "Maverick McNealy",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 298.0,
+   "drive_acc": 0.62,
+   "gir": 0.65,
+   "scrambling": 0.6,
+   "sg_ott": 0.15,
+   "sg_app": 0.2,
+   "sg_arg": 0.1,
+   "sg_putt": 0.2,
+   "putts_per_round": 28.9,
+   "birdie_avg": 3.6
+  }
+ },
+ "55893": {
+  "name": "Ryan Gerard",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 303.0,
+   "drive_acc": 0.58,
+   "gir": 0.64,
+   "scrambling": 0.58,
+   "sg_ott": 0.15,
+   "sg_app": 0.1,
+   "sg_arg": 0.0,
+   "sg_putt": 0.05,
+   "putts_per_round": 29.1,
+   "birdie_avg": 3.6
+  }
+ },
+ "52372": {
+  "name": "Nick Taylor",
+  "country": "CAN",
+  "stats": {
+   "drive_dist": 294.0,
+   "drive_acc": 0.64,
+   "gir": 0.63,
+   "scrambling": 0.6,
+   "sg_ott": 0.0,
+   "sg_app": 0.05,
+   "sg_arg": 0.1,
+   "sg_putt": 0.15,
+   "putts_per_round": 29.0,
+   "birdie_avg": 3.5
+  }
+ },
+ "99001": {
+  "name": "Club Pro (sample)",
+  "country": "USA",
+  "stats": {
+   "drive_dist": 278.0,
+   "drive_acc": 0.55,
+   "gir": 0.55,
+   "scrambling": 0.5,
+   "sg_ott": -0.8,
+   "sg_app": -0.9,
+   "sg_arg": -0.6,
+   "sg_putt": -0.5,
+   "putts_per_round": 30.3,
+   "birdie_avg": 2.6
+  }
+ }
+}
