@@ -33,6 +33,9 @@ export async function createDemoApi() {
     async joinLeague() {},
     async profile(uid) { return profiles.find((p) => p.id === uid) || null; },
     async profiles() { return profiles; },
+    async golferStats() { return []; },
+    async saveGolferStats() { throw new Error("Demo mode: stats are previewed, not saved."); },
+    async clearGolferStats() { throw new Error("Demo mode: nothing to clear."); },
     async adminMembers(tid) {
       return profiles.map((p, i) => ({ user_id: p.id, display_name: p.display_name, email: `member${i + 1}@example.com`,
         is_admin: p.is_admin, signed_up: "2026-12-01T12:00:00Z", joined: "2026-12-01T12:05:00Z", last_sign_in: null,

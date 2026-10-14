@@ -56,6 +56,20 @@ export function createApi(sb) {
       fail(error);
       return data;
     },
+    async golferStats() {
+      const { data, error } = await sb.from("golfer_stats").select("*");
+      fail(error);
+      return data;
+    },
+    /** Merge new stat values into what's saved (pasting one stat page at a time accumulates). */
+    async saveGolferStats(rows) {
+      const saved = Object.fromEntries((await this.golferStats()).map((r) => [r.player_id, r.stats]));
+      const now = new Date().toISOString();
+      const out = rows.map((r) => ({ player_id: r.player_id, player_name: r.player_name,
+        stats: { ...(saved[r.player_id] || {}), ...r.stats }, updated_at: now }));
+      for (let i = 0; i < out.length; i += 500) fail((await sb.from("golfer_stats").upsert(out.slice(i, i + 500))).error);
+    },
+    async clearGolferStats() { fail((await sb.from("golfer_stats").delete().neq("player_id", "")).error); },
     async adminMembers(tid) {
       const { data, error } = await sb.rpc("admin_members", { p_tournament_id: tid });
       fail(error);

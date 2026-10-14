@@ -3,7 +3,8 @@
 // the event's points_multiplier (majors 1.25x) in the pick_scores view.
 import { $, $$, emptyState, esc, eventName, fmtStamp, pts, toast } from "./ui.js";
 import { loadPointsTables } from "./points.js";
-import { buildNameIndex, newGolferId, normName, parseField, parseResults, scoreRows } from "./parse_results.js";
+import { buildNameIndex, matchName, newGolferId, normName, parseField, parseResults, scoreRows } from "./parse_results.js";
+import { STAT_FIELDS, parseStats } from "./parse_stats.js";
 
 const STYLE = `
 .ap-grid { display: grid; gap: 28px; }
@@ -77,6 +78,70 @@ async function renderMembers(el, api, t) {
     ${owe.length ? `<p class="ap-actions"><a class="btn btn-small" href="mailto:?bcc=${owe.map((r) => encodeURIComponent(r.email)).join(",")}&subject=${encodeURIComponent(`Picks for ${t.name}`)}">Email the ${owe.length} without picks</a></p>` : ""}`;
 }
 
+// Pasted season stats -> golfer_stats, the Play tab's per-golfer baseline.
+async function renderStats(el, api) {
+  const [players, saved] = await Promise.all([api.players(), api.golferStats().catch((e) => e)]);
+  if (saved instanceof Error) {
+    el.innerHTML = `<p class="ap-warn">${/golfer_stats/.test(saved.message)
+      ? "Run <code>supabase/golfer_stats.sql</code> in the Supabase SQL Editor to turn this on." : esc(saved.message)}</p>`;
+    return;
+  }
+  const idx = buildNameIndex(players);
+  const byName = new Map(Object.entries(players).map(([id, p]) => [normName(p.name), id]));
+  const fmt = (k, v) => (v == null ? "" : ["drive_acc", "gir", "scrambling"].includes(k) ? `${(v * 100).toFixed(1)}%` : String(v));
+  const last = saved.reduce((m, r) => (r.updated_at > m ? r.updated_at : m), "");
+  el.innerHTML = `
+    <div class="panel-head"><h2>Season stats for the Play tab</h2>
+      <p class="muted">${saved.length ? `${saved.length} golfers have stats · last saved ${fmtStamp(last)}` : "No stats saved yet: the game uses sample figures."}</p></div>
+    <p class="muted">Copy a stats table (a pgatour.com stat page, a spreadsheet...) and paste it below. Paste one stat at a time and
+      pick which stat it is, or paste a table whose header row names its columns. Each paste is added to what's saved, so you
+      can build a golfer up stat by stat. Golfers without a stat play at tour average for it.</p>
+    <div class="ap-actions">
+      <label>This paste is <select id="st-mode"><option value="auto">a table with a header row</option>
+        ${STAT_FIELDS.map(([k, label]) => `<option value="${k}">${esc(label)}</option>`).join("")}</select></label>
+    </div>
+    <textarea class="ap-paste" id="st-text" placeholder="RANK&#9;PLAYER&#9;AVG&#10;1&#9;Scottie Scheffler&#9;0.574&#10;2&#9;Rory McIlroy&#9;0.243"></textarea>
+    <div class="ap-actions"><button class="btn btn-small" id="st-preview">Preview</button>
+      ${saved.length ? `<button class="btn-link" id="st-clear" style="margin-left:auto">Clear all saved stats</button>` : ""}</div>
+    <div id="st-out"></div>`;
+
+  $("#st-clear", el)?.addEventListener("click", async () => {
+    if (!confirm("Delete every saved golfer stat? The game goes back to sample figures.")) return;
+    try { await api.clearGolferStats(); toast("Saved stats cleared."); renderStats(el, api); } catch (e) { toast(e.message, "error"); }
+  });
+  $("#st-preview", el).addEventListener("click", () => {
+    const mode = $("#st-mode", el).value;
+    const { rows, error, skipped } = parseStats($("#st-text", el).value, idx, mode);
+    const out = $("#st-out", el);
+    if (error || !rows.length) { out.innerHTML = `<p class="ap-warn">${esc(error || "No golfers with values found in that paste.")}</p>`; return; }
+    const keys = STAT_FIELDS.map((f) => f[0]).filter((k) => rows.some((r) => k in r.stats));
+    const doubt = rows.filter((r) => !r.id || r.confidence < 0.75).length;
+    out.innerHTML = `
+      <p class="ap-summary"><span><b>${rows.length}</b> golfers</span><span><b>${rows.length - doubt}</b> matched</span>
+        ${doubt ? `<span><b>${doubt}</b> to check</span>` : ""}${skipped ? `<span>${skipped} rows had no usable value</span>` : ""}
+        <span>Stats: ${keys.map((k) => esc(STAT_FIELDS.find((f) => f[0] === k)[1])).join(", ")}</span></p>
+      <div class="ap-scroll"><table class="table ap-table" style="width:100%"><thead><tr><th>Pasted name</th><th>Golfer</th>
+        ${keys.map((k) => `<th class="num">${esc(STAT_FIELDS.find((f) => f[0] === k)[1])}</th>`).join("")}</tr></thead>
+      <tbody>${rows.map((r, i) => `<tr class="${!r.id ? "is-none" : r.confidence < 0.75 ? "is-doubt" : ""}">
+        <td>${esc(r.name)}</td>
+        <td class="golfer"><input list="st-golfers" data-row="${i}" value="${esc(r.id ? players[r.id]?.name : r.name)}"></td>
+        ${keys.map((k) => `<td class="num">${fmt(k, r.stats[k])}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+      <datalist id="st-golfers">${Object.values(players).map((p) => `<option value="${esc(p.name)}">`).join("")}</datalist>
+      <div class="ap-actions"><button class="btn" id="st-save">Save ${rows.length} golfers</button>
+        <span class="muted">Amber rows: check the golfer. Red: not on the tour list; saved under the pasted name.</span></div>`;
+    $("#st-save", out).addEventListener("click", async (e) => {
+      e.target.disabled = true;
+      const toSave = rows.map((r, i) => {
+        const typed = $(`[data-row="${i}"]`, out).value.trim();
+        const id = byName.get(normName(typed)) || matchName(typed, idx).id || newGolferId(typed);
+        return { player_id: id, player_name: players[id]?.name || typed, stats: r.stats };
+      });
+      try { await api.saveGolferStats(toSave); toast(`Stats saved for ${toSave.length} golfers.`); renderStats(el, api); }
+      catch (err) { toast(err.message, "error"); e.target.disabled = false; }
+    });
+  });
+}
+
 export async function render(root, ctx, params) {
   if (!ctx.profile?.is_admin) {
     root.innerHTML = emptyState("Commissioners only");
@@ -87,8 +152,9 @@ export async function render(root, ctx, params) {
   const now = api.now();
   const all = ctx.tournaments;
   const started = all.filter((t) => now >= new Date(t.lock_at));
-  const sub = params[0] === "members" ? "members" : "results";
-  const tid = params[0] === "members" || params[0] === "results" ? params[1] : params[0];
+  const SUBS = ["results", "members", "stats"];
+  const sub = SUBS.includes(params[0]) ? params[0] : "results";
+  const tid = SUBS.includes(params[0]) ? params[1] : params[0];
   const t = all.find((x) => x.id === tid) || started[started.length - 1] || all[0];
   if (!t) { root.innerHTML = emptyState("No tournaments on the schedule yet"); return; }
   const head = (title) => `
@@ -101,9 +167,16 @@ export async function render(root, ctx, params) {
     <nav class="ap-subnav" aria-label="Admin sections">
       <a href="#/admin/results/${esc(t.id)}" class="${sub === "results" ? "is-on" : ""}">Results &amp; Scoring</a>
       <a href="#/admin/members/${esc(t.id)}" class="${sub === "members" ? "is-on" : ""}">Members</a>
+      <a href="#/admin/stats/${esc(t.id)}" class="${sub === "stats" ? "is-on" : ""}">Golfer Stats</a>
     </nav>`;
   const wireSelect = () => $("#a-select", root).addEventListener("change", (e) => { location.hash = `#/admin/${sub}/${e.target.value}`; });
 
+  if (sub === "stats") {
+    root.innerHTML = `${head("Golfer Stats")}<section class="panel" id="a-stats"><p class="muted">Loading...</p></section>`;
+    wireSelect();
+    await renderStats($("#a-stats", root), api);
+    return;
+  }
   if (sub === "members") {
     root.innerHTML = `${head("Members")}<section class="panel" id="a-members"><p class="muted">Loading members...</p></section>`;
     wireSelect();

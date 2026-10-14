@@ -30,13 +30,33 @@ async function fetchJson(url) {
  * ones in data/players.json that have stats, topped up from the sample fixtures when there are fewer
  * than 30 (real stats win for a golfer in both). Falls back to the sample courses if needed.
  */
-async function loadData() {
+/** Stats the commissioner pasted in Admin -> Golfer Stats (Supabase golfer_stats), keyed by player id. */
+async function pastedStats(supabase) {
+  if (!supabase) return [];
+  try { const { data } = await supabase.from("golfer_stats").select("player_id, player_name, stats"); return data || []; }
+  catch { return []; }
+}
+
+// Only an SG: Total was pasted: split it across the parts in the tour's usual proportions.
+function fillFromTotal(st) {
+  if (st.sg_total == null || ["sg_ott", "sg_app", "sg_arg", "sg_putt"].some((k) => st[k] != null)) return st;
+  const t = st.sg_total;
+  return { ...st, sg_ott: t * 0.28, sg_app: t * 0.38, sg_arg: t * 0.14, sg_putt: t * 0.2 };
+}
+
+async function loadData(supabase) {
   let courses = await fetchJson(DATA("courses.json"));
   courses = Array.isArray(courses) ? courses.filter((c) => Array.isArray(c.holes) && c.holes.length === 18) : [];
   const sample = { courses: false, players: false };
   if (!courses.length) { courses = (await fetchJson(DATA("sample/game_courses.json"))) || []; sample.courses = true; }
   const all = (await fetchJson(DATA("players.json"))) || {};
   let players = Object.fromEntries(Object.entries(all).filter(([, p]) => p && p.stats && Object.keys(p.stats).length));
+  // pasted stats win over anything in players.json; a golfer the tour list doesn't know still plays
+  for (const r of await pastedStats(supabase)) {
+    const base = players[r.player_id] || all[r.player_id] || {};
+    players[r.player_id] = { ...base, name: base.name || r.player_name, stats: fillFromTotal({ ...(base.stats || {}), ...r.stats }), pasted: true };
+  }
+  const pastedCount = Object.values(players).filter((p) => p.pasted).length;
   if (Object.keys(players).length < FIELD_SIZE) {
     const extra = (await fetchJson(DATA("sample/game_players.json"))) || {};
     const real = new Set(Object.values(players).map((p) => p.name.toLowerCase()));
@@ -50,7 +70,7 @@ async function loadData() {
   const statNames = new Set(Object.values(players).map((p) => p.name.toLowerCase()));
   for (const [id, p] of Object.entries(golfers)) if (statNames.has(p.name.toLowerCase())) delete golfers[id];
   Object.assign(golfers, players);
-  return { courses, players, golfers, sample };
+  return { courses, players, golfers, sample, pastedCount };
 }
 
 /** Attach real hole geometry (data/courses/{id}.json) to a course's holes, once. */
@@ -69,10 +89,10 @@ function seededShuffle(arr, rng) {
 const RISK = { low: "Safe", med: "Balanced", high: "Aggressive" };
 
 export async function mountGame(root, { supabase = null, user = null, courseId = null } = {}) {
-  void supabase; void user; // nothing is saved server-side; personal bests stay in localStorage
+  void user; // nothing is saved server-side; personal bests stay in localStorage
   root.innerHTML = `<div class="pg-game"><p class="gm-loading">Loading the course guide...</p></div>`;
   const wrap = root.firstElementChild;
-  const { courses, players, golfers, sample } = await loadData();
+  const { courses, players, golfers, sample, pastedCount } = await loadData(supabase);
   if (!courses.length || !Object.keys(players).length) {
     wrap.innerHTML = `<p class="gm-loading">Course data isn't available yet. Check back after the next refresh.</p>`;
     return;
@@ -101,7 +121,9 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
         <p class="gm-eyebrow">The Clubhouse Challenge</p>
         <h2 class="gm-title">Play the Course</h2>
         <p class="gm-lede">Take a tour pro around a championship layout. You choose every shot and the result comes from that golfer's real tendencies, over 72 holes against a simulated field.</p>
-        ${sample.courses || sample.players ? `<p class="gm-note">${sample.courses ? "Using sample courses and golfer stats" : "Golfer stats are sample figures for now"} until the season's data loads.</p>` : ""}
+        ${sample.courses ? `<p class="gm-note">Using sample courses and golfer stats until the course data loads.</p>`
+          : pastedCount && sample.players ? `<p class="gm-note">${pastedCount} golfers use the league's season stats; the rest of the field is sample figures until more are added.</p>`
+          : sample.players ? `<p class="gm-note">Golfer stats are sample figures until the commissioner adds season stats.</p>` : ""}
       </header>
       <section class="gm-step">
         <h3 class="gm-h3"><span class="gm-num">I</span> Choose your course</h3>

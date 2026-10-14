@@ -1,0 +1,34 @@
+<!doctype html><meta charset="utf-8"><title>parse_stats tests</title><pre id="out"></pre>
+<script type="module">
+import { parseStats } from "./parse_stats.js";
+import { buildNameIndex } from "./parse_results.js";
+const players = await (await fetch("../data/players.json")).json();
+const idx = buildNameIndex(players);
+const out = document.getElementById("out"); let pass = 0, fail = 0;
+const ok = (c, m) => { c ? pass++ : fail++; out.textContent += `${c ? "PASS" : "FAIL"} ${m}\n`; };
+const get = (res, name) => res.rows.find((r) => players[r.id]?.name === name)?.stats;
+
+// pgatour.com single-stat page, tab separated (rank, movement, player, avg, total, rounds)
+let r = parseStats("RANK\tMOVEMENT\tPLAYER\tAVG\tTOTAL SG:PUTTING\tMEASURED ROUNDS\n1\t-\tScottie Scheffler\t0.574\t33.123\t58\nT2\t▲ 3\tRory McIlroy\t0.243\t12.1\t50\n3\t-\tCollin Morikawa\t0.106\t5.3\t50", idx, "sg_putt");
+ok(r.rows.length === 3, `single stat tab: 3 rows (got ${r.rows.length})`);
+ok(get(r, "Scottie Scheffler")?.sg_putt === 0.574, "Scheffler sg_putt 0.574");
+ok(get(r, "Rory McIlroy")?.sg_putt === 0.243, "T2 with movement arrow parsed");
+
+// stacked copy (each cell on its own line), driving accuracy percentages
+r = parseStats("RANK\nPLAYER\n%\n1\n-\nCollin Morikawa\n68.53%\n612\n2\n-\nTommy Fleetwood\n67.83%\n590", idx, "drive_acc");
+ok(r.rows.length === 2, `stacked: 2 rows (got ${r.rows.length})`);
+ok(get(r, "Collin Morikawa")?.drive_acc === 0.6853, "68.53% -> 0.6853");
+
+// spreadsheet with a header row naming several stats
+r = parseStats("Player\tSG: OTT\tSG: APP\tSG: ARG\tSG: Putting\tDriving Distance\tDriving Accuracy %\tGIR %\tScrambling %\n" +
+  "Scottie Scheffler\t0.610\t0.673\t0.392\t0.574\t312.7\t63.94\t72.86\t66.40\nCameron Young\t0.547\t0.353\t0.191\t-0.159\t318.3\t61.07\t68.40\t65.05", idx);
+const s = get(r, "Scottie Scheffler");
+ok(r.rows.length === 2 && s?.sg_ott === 0.61 && s?.sg_putt === 0.574 && s?.drive_dist === 312.7 && s?.gir === 0.7286 && s?.scrambling === 0.664,
+  "header table maps all 8 columns: " + JSON.stringify(s));
+ok(get(r, "Cameron Young")?.sg_putt === -0.159, "negative SG kept");
+
+// spaces instead of tabs, and an out-of-range value dropped
+r = parseStats("RANK  PLAYER  AVG\n1  Scottie Scheffler  312.7\n2  Rory McIlroy  3300.1", idx, "drive_dist");
+ok(get(r, "Scottie Scheffler")?.drive_dist === 312.7 && !get(r, "Rory McIlroy"), "space-separated; nonsense distance ignored");
+out.textContent = `${pass} passed, ${fail} failed\n` + out.textContent;
+</script>

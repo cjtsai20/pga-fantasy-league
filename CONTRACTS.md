@@ -13,6 +13,7 @@ from one of two places.
 | `picks` | members (own, before `lock_at`); admins set `bonus_points` | own always; others' after lock |
 | `pick_scores` (view) | - | members; leaderboards are built from this |
 | `profiles` | `join_league()` RPC | members |
+| `golfer_stats` | admins (Admin -> Golfer Stats paste; merged per golfer) | everyone; the Play tab's per-golfer baseline, over `data/players.json` stats |
 | `monthly_winners` | `finalize_tournament()`, once every event in the month is official | members |
 
 Client config: `js/config.js` exports `SUPABASE_URL`, `SUPABASE_KEY` (publishable, public by design).
