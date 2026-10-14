@@ -111,6 +111,7 @@ export async function mountGame(root, { supabase = null, user = null } = {}) {
         </div>
       </section>
       <section class="gm-step gm-start">
+        <p class="gm-pick">${esc(courses.find((c) => c.id === ui.courseId)?.name)}<span>with ${esc(players[ui.playerId]?.name)}</span></p>
         <label class="gm-seed">Tournament seed <input value="${esc(ui.seed)}" maxlength="24" aria-label="Seed"></label>
         <button class="gm-btn gm-btn--ghost" data-act="reseed">New seed</button>
         <button class="gm-btn gm-btn--primary" data-act="start">Tee off</button>
