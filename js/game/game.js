@@ -43,7 +43,14 @@ async function loadData() {
     for (const [id, p] of Object.entries(extra)) if (!players[id] && !real.has(p.name.toLowerCase())) players[id] = p;
     sample.players = true;
   }
-  return { courses, players, sample };
+  // Anyone on tour can be played; golfers without stats play at tour average. The AI field stays the
+  // golfers with stats, so the leaderboard is made of distinct players.
+  const golfers = {};
+  for (const [id, p] of Object.entries(all)) if (p?.name) golfers[id] = { name: p.name, country: p.country };
+  const statNames = new Set(Object.values(players).map((p) => p.name.toLowerCase()));
+  for (const [id, p] of Object.entries(golfers)) if (statNames.has(p.name.toLowerCase())) delete golfers[id];
+  Object.assign(golfers, players);
+  return { courses, players, golfers, sample };
 }
 
 /** Attach real hole geometry (data/courses/{id}.json) to a course's holes, once. */
@@ -65,7 +72,7 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
   void supabase; void user; // nothing is saved server-side; personal bests stay in localStorage
   root.innerHTML = `<div class="pg-game"><p class="gm-loading">Loading the course guide...</p></div>`;
   const wrap = root.firstElementChild;
-  const { courses, players, sample } = await loadData();
+  const { courses, players, golfers, sample } = await loadData();
   if (!courses.length || !Object.keys(players).length) {
     wrap.innerHTML = `<p class="gm-loading">Course data isn't available yet. Check back after the next refresh.</p>`;
     return;
@@ -76,13 +83,19 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
   const sortedPlayers = Object.entries(players)
     .map(([id, p]) => ({ id, ...p }))
     .sort((a, b) => sgTotal(b) - sgTotal(a) || a.name.localeCompare(b.name));
-  ui.playerId = players[params.get("golfer")] ? params.get("golfer") : sortedPlayers[0].id;
+  ui.playerId = golfers[params.get("golfer")] ? params.get("golfer") : sortedPlayers[0].id;
+  const allGolfers = Object.entries(golfers).map(([id, p]) => ({ id, ...p }));
   let game = null;
 
   // ------------------------------------------------------------ setup screen
   function renderSetup() {
     const q = ui.query.trim().toLowerCase();
-    const list = sortedPlayers.filter((p) => !q || p.name.toLowerCase().includes(q)).slice(0, 60);
+    // no search: the golfers with stats; a search covers every tour golfer (stats first)
+    const list = !q ? sortedPlayers.slice(0, 60)
+      : allGolfers.filter((p) => p.name.toLowerCase().includes(q))
+          .sort((a, b) => !!b.stats - !!a.stats || sgTotal(b) - sgTotal(a) || a.name.localeCompare(b.name)).slice(0, 60);
+    const me = golfers[ui.playerId];
+    if (me && !list.some((p) => p.id === ui.playerId)) list.unshift({ id: ui.playerId, ...me });
     wrap.innerHTML = `
       <header class="gm-head">
         <p class="gm-eyebrow">The Clubhouse Challenge</p>
@@ -106,13 +119,14 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
       </section>
       <section class="gm-step">
         <h3 class="gm-h3"><span class="gm-num">II</span> Choose your golfer</h3>
-        <input class="gm-search" type="search" placeholder="Search golfers" value="${esc(ui.query)}" aria-label="Search golfers">
+        <input class="gm-search" type="search" placeholder="Search any tour golfer by name" value="${esc(ui.query)}" aria-label="Search golfers">
         <div class="gm-golfers" role="listbox">
           ${list.map((p) => golferRow(p, p.id === ui.playerId)).join("") || `<p class="gm-note">No golfers match.</p>`}
         </div>
       </section>
       <section class="gm-step gm-start">
-        <p class="gm-pick">${esc(courses.find((c) => c.id === ui.courseId)?.name)}<span>with ${esc(players[ui.playerId]?.name)}</span></p>
+        <p class="gm-pick">${esc(courses.find((c) => c.id === ui.courseId)?.name)}<span>with ${esc(golfers[ui.playerId]?.name)}${golfers[ui.playerId]?.stats ? "" : " (tour-average stats)"}</span></p>
+        <button class="gm-btn gm-btn--ghost" data-act="golfer">Change golfer</button>
         <label class="gm-seed">Tournament seed <input value="${esc(ui.seed)}" maxlength="24" aria-label="Seed"></label>
         <button class="gm-btn gm-btn--ghost" data-act="reseed">New seed</button>
         <button class="gm-btn gm-btn--primary" data-act="start">Tee off</button>
@@ -122,6 +136,11 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
     const search = wrap.querySelector(".gm-search");
     search.oninput = () => { ui.query = search.value; const pos = search.selectionStart; renderSetup(); const s2 = wrap.querySelector(".gm-search"); s2.focus(); s2.setSelectionRange(pos, pos); };
     wrap.querySelector(".gm-seed input").onchange = (e) => { ui.seed = e.target.value.trim() || randomSeed(); };
+    wrap.querySelector('[data-act="golfer"]').onclick = () => {
+      const s2 = wrap.querySelector(".gm-search");
+      s2.scrollIntoView({ behavior: "smooth", block: "center" });
+      s2.focus({ preventScroll: true });
+    };
     wrap.querySelector('[data-act="reseed"]').onclick = () => { ui.seed = randomSeed(); renderSetup(); };
     wrap.querySelector('[data-act="start"]').onclick = () => { ui.seed = wrap.querySelector(".gm-seed input").value.trim() || ui.seed; startGame(); };
   }
@@ -131,7 +150,7 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
     const stat = (v, f) => (v == null ? "-" : f(v));
     return `<button class="gm-golfer ${on ? "is-on" : ""}" data-player="${esc(p.id)}" role="option" aria-selected="${on}">
       ${avatar(p)}
-      <span class="gm-golfer-name">${esc(p.name)}<small>${esc(p.country || "")}</small></span>
+      <span class="gm-golfer-name">${esc(p.name)}<small>${esc(p.country || "")}${p.stats ? "" : " · tour-average stats"}</small></span>
       <span class="gm-golfer-stats">
         <span><b>${stat(s.drive_dist, (v) => Math.round(v))}</b> yds</span>
         <span><b>${stat(s.gir, (v) => Math.round(v * 100) + "%")}</b> GIR</span>
@@ -146,7 +165,7 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
   async function startGame() {
     const course = courses.find((c) => c.id === ui.courseId);
     await loadGeo(course);
-    const me = players[ui.playerId];
+    const me = golfers[ui.playerId];
     const fieldRng = makeRng(`${ui.seed}|field|${course.id}`);
     const pool = seededShuffle(sortedPlayers.filter((p) => p.id !== ui.playerId).slice(0, 80), fieldRng).slice(0, FIELD_SIZE - 1);
     const field = pool.map((p) => {
