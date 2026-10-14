@@ -1,0 +1,51 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Season quick model vs shot model</title>
+<!--
+  Checks data/season_calib.json: for a strong, an average and a weak golfer on several courses,
+  the quick per-hole model's 18-hole average (2,000 rounds) against sim.js's shot-by-shot model
+  (?n=300 rounds by default). Target: within 0.5 strokes. Serve site/ and open this page.
+  Options: ?n= shot rounds, ?nq= quick rounds, ?seed= a different draw, ?only=id1,id2 some courses.
+-->
+<style>body{font:14px/1.5 system-ui,sans-serif;margin:24px}td,th{padding:3px 10px;text-align:right}th:first-child,td:first-child{text-align:left}.bad{color:#b00020;font-weight:700}</style>
+<h1>Quick model vs shot model</h1><p id="s">running...</p><table id="t"></table>
+<script type="module">
+import { makeRng, skillsFrom, autoRound } from "../sim.js";
+import { attachCourseGeo } from "../geo.js";
+import { setCalibration, calibFor, courseFit, quickRound } from "./engine.js";
+
+const Q = new URLSearchParams(location.search);
+const N = +(Q.get("n") || 300), NQ = +(Q.get("nq") || 2000), SEED = Q.get("seed") || "";  // ?seed= for a fresh draw
+const data = (f) => new URL(`../../../data/${f}`, import.meta.url);
+setCalibration(await (await fetch(data("season_calib.json"))).json());
+const all = await (await fetch(data("courses.json"))).json();
+const ids = Q.get("only") ? Q.get("only").split(",") : ["pebble-beach", "tpc-sawgrass", "augusta-national", "st-andrews-old", "pga-national-champion", "tpc-san-antonio-oaks"];
+const golfers = {
+  strong: { drive_dist: 313, drive_acc: 0.64, sg_ott: 0.61, sg_app: 0.67, sg_arg: 0.39, sg_putt: 0.57 },
+  average: {},
+  weak: { drive_dist: 288, drive_acc: 0.55, sg_ott: -0.5, sg_app: -0.6, sg_arg: -0.4, sg_putt: -0.4 },
+};
+const t = document.getElementById("t");
+t.innerHTML = `<tr><th>Course</th>${Object.keys(golfers).map((g) => `<th>${g}: shot</th><th>quick</th><th>diff</th>`).join("")}</tr>`;
+let worst = 0;
+for (const id of ids) {
+  const c = all.find((x) => x.id === id);
+  if (c.geo_file) attachCourseGeo(c, await (await fetch(data(c.geo_file))).json());
+  const cal = calibFor(c), par = c.holes.reduce((a, h) => a + h.par, 0);
+  let row = `<td>${c.name} (${c.layout_source})</td>`;
+  for (const [g, st] of Object.entries(golfers)) {
+    const sk = skillsFrom(st);
+    let a = 0;
+    for (let r = 0; r < N; r++) a += autoRound(c, sk, makeRng(`check${SEED}|${id}|${g}|${r}`)).reduce((x, y) => x + y, 0);
+    const fit = courseFit(cal, sk), rq = makeRng(`q${SEED}|${id}|${g}`);
+    let b = 0;
+    for (let r = 0; r < NQ; r++) b += quickRound(c, cal, fit, 0, rq).reduce((x, y) => x + y, 0);
+    const sa = a / N - par, sq = b / NQ - par, d = sq - sa;
+    worst = Math.max(worst, Math.abs(d));
+    row += `<td>${sa.toFixed(2)}</td><td>${sq.toFixed(2)}</td><td class="${Math.abs(d) > 0.5 ? "bad" : ""}">${d >= 0 ? "+" : ""}${d.toFixed(2)}</td>`;
+    await new Promise((res) => setTimeout(res, 0));
+  }
+  t.insertAdjacentHTML("beforeend", `<tr>${row}</tr>`);
+}
+document.getElementById("s").textContent = `Strokes to par per round. Shot model ${N} rounds (fresh seeds), quick model ${NQ}. Largest gap: ${worst.toFixed(2)} strokes ${worst <= 0.5 ? "(within 0.5)" : "(over 0.5)"}.`;
+</script>

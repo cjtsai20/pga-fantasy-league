@@ -221,3 +221,10 @@
 .pg-game .gm-key { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; background: var(--g-gold, #e8b923); color: #2b2100; padding: 1px 5px; border-radius: 3px; margin-left: 4px; }
 .pg-game .gm-src { font-size: 12px; color: var(--g-muted); }
 .pg-game .gm-course-emph { display: block; font-size: 12px; color: var(--g-green); margin-top: 4px; padding: 0 14px; }
+
+/* mode switch at the top of the Play tab: Single tournament | Race to the FedEx Cup */
+.pg-game .gm-modes { display: inline-flex; margin: 0 0 18px; border: 1px solid var(--g-green); border-radius: 3px; overflow: hidden; }
+.pg-game .gm-mode { background: #fff; color: var(--g-green); border: 0; padding: 9px 18px; font-size: 12.5px; letter-spacing: .12em;
+  text-transform: uppercase; font-weight: 600; }
+.pg-game .gm-mode + .gm-mode { border-left: 1px solid var(--g-green); }
+.pg-game .gm-mode.is-on { background: var(--g-green); color: #fff; }

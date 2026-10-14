@@ -1,0 +1,91 @@
+/* Race to the FedEx Cup: start screen, season hub and event screens (js/game/season/ui.js).
+   Loaded by ui.js; uses the Play tab's tokens from game.css (.pg-game). */
+
+.pg-game .gm-btn--sm { padding: 6px 12px; font-size: 11px; }
+
+/* sticky main action, same pattern as the single-tournament Tee off bar */
+.pg-game .sp-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end;
+  position: sticky; bottom: 0; z-index: 5; margin-top: 24px; background: #fff; border-top: 3px solid var(--g-green);
+  box-shadow: 0 -6px 18px rgba(0, 0, 0, .08); padding: 12px 16px; }
+.pg-game .sp-bar-txt { margin: 0 auto 0 0; color: var(--g-green); }
+.pg-game .sp-bar-txt b { display: block; font-weight: 600; }
+.pg-game .sp-bar-txt span { display: block; font-size: 13px; color: var(--g-muted); }
+
+/* start screen */
+.pg-game .sp-start .gm-title { margin-bottom: 4px; }
+.pg-game .sp-golfers { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; margin-top: 12px; }
+.pg-game .sp-golfer { display: flex; align-items: center; gap: 10px; padding: 8px 12px; text-align: left; background: #fff;
+  border: 1px solid var(--g-rule); border-radius: 4px; }
+.pg-game .sp-golfer.is-on { border-color: var(--g-green); box-shadow: inset 0 0 0 1px var(--g-green); background: var(--g-green-lt); }
+.pg-game .sp-golfer-name { flex: 1; font-weight: 600; }
+.pg-game .sp-golfer-name small { display: block; font-weight: 400; color: var(--g-muted); font-size: 12px; }
+.pg-game .sp-golfer-sg { font-size: 13px; color: var(--g-green); }
+
+/* hub */
+.pg-game .sp-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding: 16px 0 18px; border-bottom: 1px solid var(--g-rule); margin-bottom: 18px; }
+.pg-game .sp-head--slim { padding: 8px 0 12px; }
+.pg-game .sp-head-me { display: flex; gap: 14px; align-items: center; }
+.pg-game .sp-name { font-family: var(--g-serif); font-size: 32px; font-weight: 600; color: var(--g-green-dk); margin: 2px 0; }
+.pg-game .sp-meta { margin: 0; color: var(--g-muted); font-size: 14px; }
+.pg-game .sp-meta b { color: var(--g-green); }
+.pg-game .sp-head-links { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.pg-game .sp-week, .pg-game .sp-result { background: #fff; border: 1px solid var(--g-rule); border-top: 3px solid var(--g-green);
+  border-radius: 4px; padding: 14px 18px; margin-bottom: 16px; }
+.pg-game .sp-result { border-top-color: var(--g-gold); }
+.pg-game .sp-ev { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; cursor: pointer; }
+.pg-game .sp-ev + .sp-ev { border-top: 1px solid var(--g-rule-soft); }
+.pg-game .sp-ev input { margin-top: 6px; accent-color: var(--g-green); }
+.pg-game .sp-ev-name { display: block; font-family: var(--g-serif); font-size: 24px; color: var(--g-green-dk); }
+.pg-game .sp-ev-meta { display: block; font-size: 13.5px; color: var(--g-muted); }
+.pg-game .sp-result-win { margin: 4px 0 8px; }
+.pg-game .sp-result-top { margin: 0 0 10px; padding-left: 0; list-style: none; font-size: 14px; }
+.pg-game .sp-result-top li { display: flex; gap: 12px; padding: 2px 0; }
+.pg-game .sp-result-top li span:first-child { width: 36px; color: var(--g-muted); }
+.pg-game .sp-result-top li.is-me { font-weight: 600; color: var(--g-green); }
+.pg-game .sp-done p { margin: 6px 0; }
+
+.pg-game .sp-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--g-rule); margin: 8px 0 14px; overflow-x: auto; }
+.pg-game .sp-tabs button { background: none; border: 0; border-bottom: 3px solid transparent; padding: 10px 14px; font-size: 12.5px;
+  letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--g-muted); white-space: nowrap; }
+.pg-game .sp-tabs button.is-on { color: var(--g-green-dk); border-bottom-color: var(--g-gold); }
+
+.pg-game .sp-scroll { max-height: 520px; overflow: auto; border: 1px solid var(--g-rule-soft); background: #fff; }
+.pg-game .sp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.pg-game .sp-table th, .pg-game .sp-table td { padding: 7px 10px; border-bottom: 1px solid var(--g-rule-soft); text-align: left; }
+.pg-game .sp-table thead th { position: sticky; top: 0; background: var(--g-green-dk); color: #fff; font-size: 11px;
+  letter-spacing: .1em; text-transform: uppercase; z-index: 1; }
+.pg-game .sp-table .num { text-align: right; }
+.pg-game .sp-table tr.is-me td { background: #fff8de; font-weight: 600; }
+.pg-game .sp-table tr.is-now td { background: var(--g-green-lt); }
+.pg-game .sp-table tr.sp-line td { border-bottom: 2px solid var(--g-gold-dk); }
+.pg-game .sp-table--tight td { padding: 4px 8px; font-size: 13.5px; }
+.pg-game .sp-table--tight td:first-child { width: 52px; color: var(--g-muted); }
+.pg-game .sp-type { display: block; font-size: 11.5px; color: var(--g-muted); }
+.pg-game .sp-src { font-size: 12.5px; color: var(--g-muted); }
+.pg-game .sp-you { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; background: var(--g-green); color: #fff;
+  padding: 1px 5px; border-radius: 3px; }
+.pg-game .sp-totals { display: flex; gap: 24px; flex-wrap: wrap; margin: 0 0 12px; font-size: 14px; color: var(--g-muted); }
+.pg-game .sp-totals b { color: var(--g-green-dk); font-size: 20px; margin-right: 4px; }
+
+/* an event */
+.pg-game .sp-evhead { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 10px; }
+.pg-game .sp-evname { font-family: var(--g-serif); font-size: 30px; font-weight: 600; color: var(--g-green-dk); margin: 2px 0 0; }
+.pg-game .sp-pos { margin: 0 0 8px; font-size: 14px; color: var(--g-muted); }
+.pg-game .sp-pos b { color: var(--g-green); font-size: 16px; }
+.pg-game .sp-big { font-family: var(--g-serif); font-size: 28px; color: var(--g-green-dk); margin: 4px 0; }
+.pg-game .sp-board { margin-top: 18px; background: #fff; border: 1px solid var(--g-rule); border-radius: 4px; padding: 10px 14px; }
+.pg-game .sp-board-head { display: flex; gap: 12px; align-items: center; margin-bottom: 6px; }
+.pg-game .sp-board-head span { color: var(--g-muted); font-size: 13px; margin-right: auto; }
+.pg-game .sp-holeplay > .gm-topbar { margin-top: 0; }
+
+@media (max-width: 640px) {
+  .pg-game .sp-name { font-size: 26px; }
+  .pg-game .sp-bar .gm-btn { flex: 1; }
+  .pg-game .sp-bar-txt { flex-basis: 100%; }
+  .pg-game .sp-golfers { grid-template-columns: 1fr; }
+}
+
+/* the career intro sits under a left-aligned title, unlike the centered single-tournament header */
+.sp-start .gm-lede { margin: 0 0 20px; }

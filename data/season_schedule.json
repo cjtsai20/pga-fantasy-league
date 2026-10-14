@@ -1,0 +1,266 @@
+[
+ {
+  "id": "R2027002",
+  "season": 2027,
+  "name": "The American Express",
+  "start_date": "2027-01-21",
+  "end_date": "2027-01-24",
+  "event_type": "regular"
+ },
+ {
+  "id": "R2027004",
+  "season": 2027,
+  "name": "The Sentry",
+  "start_date": "2027-01-27",
+  "end_date": "2027-01-30",
+  "event_type": "regular"
+ },
+ {
+  "id": "R2027005",
+  "season": 2027,
+  "name": "AT&T Pebble Beach Pro-Am",
+  "start_date": "2027-02-04",
+  "end_date": "2027-02-07",
+  "event_type": "signature"
+ },
+ {
+  "id": "R2027003",
+  "season": 2027,
+  "name": "WM Phoenix Open",
+  "start_date": "2027-02-11",
+  "end_date": "2027-02-14",
+  "event_type": "regular"
+ },
+ {
+  "id": "R2027007",
+  "season": 2027,
+  "name": "The Genesis Invitational",
+  "start_date": "2027-02-18",
+  "end_date": "2027-02-21",
+  "event_type": "signature"
+ },
+ {
+  "id": "R2027560",
+  "season": 2027,
+  "name": "Additional Event (TBD)",
+  "start_date": "2027-02-18",
+  "end_date": "2027-02-21",
+  "event_type": "opposite"
+ },
+ {
+  "id": "R2027010",
+  "season": 2027,
+  "name": "Cognizant Classic in The Palm Beaches",
+  "start_date": "2027-02-25",
+  "end_date": "2027-02-28",
+  "event_type": "regular"
+ },
+ {
+  "id": "R2027556",
+  "season": 2027,
+  "name": "Cadillac Championship",
+  "start_date": "2027-03-04",
+  "end_date": "2027-03-07",
+  "event_type": "signature"
+ },
+ {
+  "id": "R2027011",
+  "season": 2027,
+  "name": "The Players Championship",
+  "start_date": "2027-03-11",
+  "end_date": "2027-03-14",
+  "event_type": "players"
+ },
+ {
+  "id": "R2027009",
+  "season": 2027,
+  "name": "Arnold Palmer Invitational",
+  "start_date": "2027-03-18",
+  "end_date": "2027-03-21",
+  "event_type": "signature"
+ },
+ {
+  "id": "R2027020",
+  "season": 2027,
+  "name": "Texas Children's Houston Open",
+  "start_date": "2027-03-25",
+  "end_date": "2027-03-28",
+  "event_type": "regular"
+ },
+ {
+  "id": "R2027041",
+  "season": 2027,
+  "name": "Valero Texas Open",
+  "start_date": "2027-04-01",
+  "end_date": "2027-04-04",
+  "event_type": "regular"
+ },
+ {
+  "id": "R2027014",
+  "season": 2027,
+  "name": "Masters Tournament",
+  "start_date": "2027-04-08",
+  "end_date": "2027-04-11",
+  "event_type": "major"
+ },
+ {
+  "id": "R2027012",
+  "season": 2027,
+  "name": "RBC Heritage",
+  "start_date": "2027-04-15",
+  "end_date": "2027-04-18",
+  "event_type": "signature"
+ },
+ {
+  "id": "R2027018",
+  "season": 2027,
+  "name": "Zurich Classic of New Orleans",
+  "start_date": "2027-04-22",
+  "end_date": "2027-04-25",
+  "event_type": "team"
+ },
+ {
+  "id": "R2027019",
+  "season": 2027,
+  "name": "THE CJ CUP Byron Nelson",
+  "start_date": "2027-04-29",
+  "end_date": "2027-05-02",
+  "event_type": "regular"
+ },
+ {
+  "id": "R2027475",
+  "season": 2027,
+  "name": "Valspar Championship",
+  "start_date": "2027-05-06",
+  "end_date": "2027-05-09",
+  "event_type": "regular"
+ },
+ {
+  "id": "R2027480",
+  "season": 2027,
+  "name": "Truist Championship",
+  "start_date": "2027-05-13",
+  "end_date": "2027-05-16",
+  "event_type": "signature"
+ },
+ {
+  "id": "R2027553",
+  "season": 2027,
+  "name": "ONEflight Myrtle Beach Classic",
+  "start_date": "2027-05-13",
+  "end_date": "2027-05-16",
+  "event_type": "opposite"
+ },
+ {
+  "id": "R2027033",
+  "season": 2027,
+  "name": "PGA Championship",
+  "start_date": "2027-05-20",
+  "end_date": "2027-05-23",
+  "event_type": "major"
+ },
+ {
+  "id": "R2027021",
+  "season": 2027,
+  "name": "Charles Schwab Challenge",
+  "start_date": "2027-05-27",
+  "end_date": "2027-05-30",
+  "event_type": "regular"
+ },
+ {
+  "id": "R2027023",
+  "season": 2027,
+  "name": "The Memorial Tournament",
+  "start_date": "2027-06-03",
+  "end_date": "2027-06-06",
+  "event_type": "signature"
+ },
+ {
+  "id": "R2027032",
+  "season": 2027,
+  "name": "RBC Canadian Open",
+  "start_date": "2027-06-10",
+  "end_date": "2027-06-13",
+  "event_type": "regular"
+ },
+ {
+  "id": "R2027026",
+  "season": 2027,
+  "name": "U.S. Open",
+  "start_date": "2027-06-17",
+  "end_date": "2027-06-20",
+  "event_type": "major"
+ },
+ {
+  "id": "R2027034",
+  "season": 2027,
+  "name": "Travelers Championship",
+  "start_date": "2027-06-24",
+  "end_date": "2027-06-27",
+  "event_type": "signature"
+ },
+ {
+  "id": "R2027030",
+  "season": 2027,
+  "name": "John Deere Classic",
+  "start_date": "2027-07-01",
+  "end_date": "2027-07-04",
+  "event_type": "regular"
+ },
+ {
+  "id": "R2027518",
+  "season": 2027,
+  "name": "ISCO Championship",
+  "start_date": "2027-07-08",
+  "end_date": "2027-07-11",
+  "event_type": "opposite"
+ },
+ {
+  "id": "R2027541",
+  "season": 2027,
+  "name": "Genesis Scottish Open",
+  "start_date": "2027-07-08",
+  "end_date": "2027-07-11",
+  "event_type": "regular"
+ },
+ {
+  "id": "R2027100",
+  "season": 2027,
+  "name": "The Open Championship",
+  "start_date": "2027-07-15",
+  "end_date": "2027-07-18",
+  "event_type": "major"
+ },
+ {
+  "id": "R2027522",
+  "season": 2027,
+  "name": "Corales Puntacana Championship",
+  "start_date": "2027-07-15",
+  "end_date": "2027-07-18",
+  "event_type": "opposite"
+ },
+ {
+  "id": "R2027525",
+  "season": 2027,
+  "name": "3M Open",
+  "start_date": "2027-07-22",
+  "end_date": "2027-07-25",
+  "event_type": "regular"
+ },
+ {
+  "id": "R2027559",
+  "season": 2027,
+  "name": "Sompo Championship",
+  "start_date": "2027-07-29",
+  "end_date": "2027-08-01",
+  "event_type": "regular"
+ },
+ {
+  "id": "R2027013",
+  "season": 2027,
+  "name": "GO by Raymond James",
+  "start_date": "2027-08-05",
+  "end_date": "2027-08-08",
+  "event_type": "regular"
+ }
+]

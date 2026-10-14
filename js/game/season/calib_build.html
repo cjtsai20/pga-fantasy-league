@@ -1,0 +1,80 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Season quick-model calibration (builder)</title>
+<!--
+  Builds data/season_calib.json, the per-hole model Race to the FedEx Cup uses for AI golfers.
+  For each course it plays sim.js (the Play tab's shot model) with 15 reference golfers: tour
+  average, and tour average with each of the six skills (distance, accuracy, off-the-tee, approach,
+  around-the-green, putting) moved up and down one step. All 13 use the same random seeds round by
+  round, so the differences between them are measured precisely. Per hole it stores:
+    lo, p  the score distribution (strokes - par from lo upward), pooled over the 15 golfers
+    adj    shift that recentres the pooled distribution on the base golfer's own mean for the hole
+    b      the change in expected strokes per unit of each skill ((mean+ - mean-) / 2 step)
+    a, q   linear and quadratic correction along the all-skills diagonal (two more reference golfers,
+           every skill one step up / down), applied as a*t + q*t^2 with t the mean step offset
+  Serve site/ and open js/game/season/calib_build.html?n=600 ; the JSON appears below. Use
+  ?only=id1,id2 to build some courses. Copy the JSON to data/season_calib.json.
+-->
+<pre id="out">building...</pre>
+<script type="module">
+import { makeRng, skillsFrom, autoRound } from "../sim.js";
+import { attachCourseGeo } from "../geo.js";
+
+const q = new URLSearchParams(location.search);
+const N = +(q.get("n") || 150);
+const only = q.get("only") ? q.get("only").split(",") : null;
+const FEATS = ["dist", "acc", "ott", "app", "arg", "putt"];
+const STEP = { dist: 20, acc: 0.08, ott: 0.6, app: 0.6, arg: 0.4, putt: 0.5 };
+const base = skillsFrom({});
+const data = (f) => new URL(`../../../data/${f}`, import.meta.url);
+const courses = (await (await fetch(data("courses.json"))).json()).filter((c) => c.holes?.length === 18 && (!only || only.includes(c.id)));
+
+const refs = [{ ...base }];
+for (const f of FEATS) { refs.push({ ...base, [f]: base[f] + STEP[f] }); refs.push({ ...base, [f]: base[f] - STEP[f] }); }
+// two diagonal golfers, every skill one step up / down: catches what the one-skill-at-a-time slopes miss
+// when a golfer is better (or worse) at everything at once
+const DIAG_UP = refs.length;
+refs.push(Object.fromEntries(Object.entries(base).map(([k, v]) => [k, FEATS.includes(k) ? v + STEP[k] : v])));
+refs.push(Object.fromEntries(Object.entries(base).map(([k, v]) => [k, FEATS.includes(k) ? v - STEP[k] : v])));
+
+const out = { version: 2, n: N, step: STEP, feats: FEATS, built: new Date().toISOString(), courses: {} };
+for (const c of courses) {
+  if (c.geo_file) attachCourseGeo(c, await (await fetch(data(c.geo_file))).json());
+  const sums = refs.map(() => c.holes.map(() => 0));
+  const counts = c.holes.map(() => ({}));
+  for (let r = 0; r < N; r++) {
+    refs.forEach((sk, gi) => {
+      const sc = autoRound(c, sk, makeRng(`calib|${c.id}|${r}`));   // common random numbers across golfers
+      sc.forEach((v, h) => {
+        sums[gi][h] += v;
+        const d = v - c.holes[h].par;
+        counts[h][d] = (counts[h][d] || 0) + 1;
+      });
+    });
+    if (r % 25 === 24) await new Promise((res) => setTimeout(res, 0));
+  }
+  const mean = (gi, h) => sums[gi][h] / N;
+  out.courses[c.id] = {
+    par: c.holes.reduce((a, h) => a + h.par, 0),
+    base_mean: +c.holes.reduce((a, h, i) => a + mean(0, i), 0).toFixed(3),
+    holes: c.holes.map((h, i) => {
+      const ks = Object.keys(counts[i]).map(Number).sort((a, b) => a - b);
+      const lo = ks[0], hi = ks[ks.length - 1], tot = N * refs.length;
+      const p = [];
+      for (let k = lo; k <= hi; k++) p.push(+((counts[i][k] || 0) / tot).toFixed(5));
+      const b = FEATS.map((f, fi) => +((mean(1 + 2 * fi, i) - mean(2 + 2 * fi, i)) / (2 * STEP[f])).toFixed(5));
+      // recentre: the pooled distribution's mean vs the base golfer's own measured mean on this hole
+      const pooled = p.reduce((a, pk, k) => a + pk * (lo + k), 0) / p.reduce((a, pk) => a + pk, 0);
+      const adj = +(mean(0, i) - h.par - pooled).toFixed(5);
+      // diagonal correction, as a function of t = mean over skills of (skill - base) / step:
+      //   shift = sum(b * d) + a * t + q * t^2, fitted exactly at t = +1 and t = -1
+      const lin = b.reduce((acc, bf, fi) => acc + bf * STEP[FEATS[fi]], 0);
+      const up = mean(DIAG_UP, i) - mean(0, i), dn = mean(DIAG_UP + 1, i) - mean(0, i);
+      const a = +((up - dn) / 2 - lin).toFixed(5), q = +((up + dn) / 2).toFixed(5);
+      return { lo, p, b, adj, a, q };
+    }),
+  };
+  document.getElementById("out").textContent = `built ${Object.keys(out.courses).length}/${courses.length} (${c.id})`;
+}
+document.getElementById("out").textContent = JSON.stringify(out);
+</script>

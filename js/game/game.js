@@ -8,8 +8,9 @@
 // whole tournament; ?seed=abc fixes the seed; ?course=<id> and ?golfer=<player id> preselect;
 // ?hole=n (with autoplay) sims ahead to hole n first.
 
-import { makeRng, skillsFrom, newHole, phase, shotOptions, playShot, autoChoice, autoRound, distToPin, scoreName } from "./sim.js";
-import { drawHole, drawShot, placeBall, drawGreenInset } from "./hole_svg.js";
+import { makeRng, skillsFrom, newHole, playShot, autoChoice, autoRound } from "./sim.js";
+import { drawHole, drawShot, placeBall } from "./hole_svg.js";
+import { situationHTML, holedHTML, optionsHTML, showInset, flyShot } from "./holeui.js";
 import { attachCourseGeo } from "./geo.js";
 import { golferAvatar } from "../avatar.js";
 
@@ -92,8 +93,6 @@ function seededShuffle(arr, rng) {
   return a;
 }
 
-const RISK = { low: "Safe", med: "Balanced", high: "Aggressive" };
-
 // Stats the sim reads, in card order. Lower is worse except putts per round.
 const STATS = [
   ["sg_ott", "SG: Off-the-Tee", "sg"], ["sg_app", "SG: Approach", "sg"], ["sg_arg", "SG: Around-the-Green", "sg"],
@@ -127,8 +126,11 @@ function fillWorst(golfers) {
   }
 }
 
-export async function mountGame(root, { supabase = null, user = null, courseId = null } = {}) {
-  void user; // nothing is saved server-side; personal bests stay in localStorage
+// shared with Race to the FedEx Cup (season/ui.js)
+export { loadData, loadGeo, fillWorst, sgTotal, esc, toPar, fetchJson, STATS, fmtStat, seededShuffle, randomSeed };
+
+export async function mountGame(root, { supabase = null, user = null, courseId = null, tournaments = null } = {}) {
+  // single tournaments keep personal bests in localStorage; Race to the FedEx Cup saves careers there too
   root.innerHTML = `<div class="pg-game"><p class="gm-loading">Loading the course guide...</p></div>`;
   const wrap = root.firstElementChild;
   const { courses, players, golfers, sample, pastedCount } = await loadData(supabase);
@@ -145,6 +147,32 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
   ui.playerId = golfers[params.get("golfer")] ? params.get("golfer") : sortedPlayers[0].id;
   const allGolfers = Object.entries(golfers).map(([id, p]) => ({ id, ...p }));
   let game = null;
+  ui.mode = params.get("mode") === "season" ? "season" : "single";
+
+  // Mode choice at the top of the setup screen: one tournament, or a whole season (season/ui.js).
+  const modeBar = () => `<nav class="gm-modes" aria-label="Game mode">
+      <button class="gm-mode ${ui.mode === "single" ? "is-on" : ""}" data-mode="single">Single tournament</button>
+      <button class="gm-mode ${ui.mode === "season" ? "is-on" : ""}" data-mode="season">Race to the FedEx Cup</button>
+    </nav>`;
+  const wireModes = () => wrap.querySelectorAll("[data-mode]").forEach((b) => b.onclick = () => {
+    if (b.dataset.mode === ui.mode) return;
+    ui.mode = b.dataset.mode;
+    ui.mode === "season" ? openSeason() : renderSetup();
+  });
+  async function openSeason() {
+    wrap.innerHTML = `${modeBar()}<div class="gm-season-root"><p class="gm-loading">Loading the season...</p></div>`;
+    wireModes();
+    try {
+      const { mountSeason } = await import("./season/ui.js");
+      await mountSeason(wrap.querySelector(".gm-season-root"), {
+        supabase, user, tournaments, courses, golfers, players, sample, pastedCount, avatar,
+        exit: () => { ui.mode = "single"; renderSetup(); },
+      });
+    } catch (e) {  // season screens not built yet (see pga_fantasy/handoff/season_builder.txt)
+      console.warn("season mode unavailable", e);
+      wrap.querySelector(".gm-season-root").innerHTML = `<p class="gm-loading">Race to the FedEx Cup is coming soon.</p>`;
+    }
+  }
 
   // ------------------------------------------------------------ setup screen
   function renderSetup() {
@@ -155,7 +183,7 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
           .sort((a, b) => !!b.stats - !!a.stats || sgTotal(b) - sgTotal(a) || a.name.localeCompare(b.name)).slice(0, 60);
     const me = golfers[ui.playerId];
     if (me && !list.some((p) => p.id === ui.playerId)) list.unshift({ id: ui.playerId, ...me });
-    wrap.innerHTML = `
+    wrap.innerHTML = `${modeBar()}
       <header class="gm-head">
         <p class="gm-eyebrow">The Clubhouse Challenge</p>
         <h2 class="gm-title">Play the Course</h2>
@@ -195,6 +223,7 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
         <button class="gm-btn gm-btn--ghost" data-act="reseed">New seed</button>
         <button class="gm-btn gm-btn--primary" data-act="start">Tee off</button>
       </section>`;
+    wireModes();
     wrap.querySelectorAll("[data-course]").forEach((b) => b.onclick = () => { ui.courseId = b.dataset.course; renderSetup(); });
     wrap.querySelectorAll("[data-player]").forEach((b) => b.onclick = () => {
       ui.playerId = b.dataset.player;
@@ -355,31 +384,18 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
   function renderShotPanel() {
     const st = game.hole, h = st.hole;
     const sit = wrap.querySelector(".gm-situation"), opts = wrap.querySelector(".gm-options");
-    const lieName = { tee: "on the tee", fairway: "in the fairway", rough: "in the rough", fw_bunker: "in a fairway bunker", gs_bunker: "in a greenside bunker", trees: "in the trees", fringe: "on the fringe", green: "on the green", drop: "in the drop area" };
     if (st.holed) {
-      const name = st.pickedUp ? `Picked up, ${st.strokes}` : scoreName(st.strokes, h.par);
-      const d = st.strokes - h.par;
       const last = game.holeIdx === 17;
       const tourneyOver = last && game.round === ROUNDS - 1;
-      sit.innerHTML = `<p class="gm-result ${d < 0 ? "is-good" : d > 0 ? "is-bad" : ""}">${esc(name)}</p>
-        <p class="gm-sub">${st.strokes} strokes on the par ${h.par}${st.putts ? ` · ${st.putts} putt${st.putts === 1 ? "" : "s"}` : ""}</p>`;
+      sit.innerHTML = holedHTML(st);
       opts.innerHTML = `<button class="gm-btn gm-btn--primary gm-next">${tourneyOver ? "See the final leaderboard" : last ? `Start round ${game.round + 2}` : `On to hole ${h.n + 1}`}</button>`;
       opts.querySelector(".gm-next").onclick = () => nextHole();
-      drawGreenInset(view, h, st.s, st.x, false);
     } else {
-      const d = distToPin(st), ph = phase(st);
-      const where = ph === "putt" ? `${(d * 3) < 3 ? (d * 3).toFixed(1) : Math.round(d * 3)} ft putt` : `${Math.round(d)} yds to the pin`;
-      sit.innerHTML = `<p class="gm-shotno">Shot ${st.strokes + 1}</p><p class="gm-where">${where}</p><p class="gm-sub">${lieName[st.lie] || ""}</p>`;
-      const caddie = autoChoice(st, game.sk);
-      opts.innerHTML = shotOptions(st, game.sk).map((o) => `
-        <button class="gm-opt gm-risk-${o.risk}" data-opt="${o.id}">
-          <span class="gm-opt-top"><span class="gm-opt-label">${esc(o.label)}</span>
-          <span class="gm-chip">${RISK[o.risk]}</span>${o.id === caddie ? `<span class="gm-chip gm-chip--caddie">Caddie's pick</span>` : ""}</span>
-          ${o.desc ? `<span class="gm-opt-desc">${esc(o.desc)}</span>` : ""}
-        </button>`).join("");
+      sit.innerHTML = situationHTML(st);
+      opts.innerHTML = optionsHTML(st, game.sk);
       opts.querySelectorAll("[data-opt]").forEach((b) => b.onclick = () => hit(b.dataset.opt));
-      drawGreenInset(view, h, st.s, st.x, ph === "putt");
     }
+    showInset(view, st);
     const log = wrap.querySelector(".gm-log");
     log.innerHTML = game.log.map((t) => `<li>${esc(t)}</li>`).join("");
     log.scrollTop = log.scrollHeight;
@@ -392,9 +408,7 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
     wrap.querySelectorAll(".gm-opt, [data-sim]").forEach((b) => (b.disabled = true));
     const shot = playShot(game.hole, opt, game.sk, game.rng);
     game.log.push(shot.text);
-    drawGreenInset(view, game.hole.hole, 0, 0, false);
-    if (shot.from.s === 0 && shot.to.s === 0 && shot.penalty) placeBall(view, 0, 0);
-    else await drawShot(view, shot, animate ? (shot.phase === "putt" ? 550 : 900) : 0);
+    await flyShot(view, game.hole, shot, animate);
     ui.busy = false;
     if (game.hole.holed) finishHole();
     renderShotPanel();
@@ -532,6 +546,7 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
   }
 
   // ------------------------------------------------------------ go
+  if (ui.mode === "season") { await openSeason(); return; }
   renderSetup();
   const auto = params.get("autoplay");
   if (auto) {
