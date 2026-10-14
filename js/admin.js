@@ -42,6 +42,36 @@ const injectStyle = () => {
   document.head.appendChild(el);
 };
 
+// Who signed up, who finished joining, and who still owes picks for the selected event.
+async function renderMembers(el, api, t) {
+  let rows;
+  try { rows = await api.adminMembers(t.id); } catch (e) {
+    el.innerHTML = `<div class="panel-head"><h2>Members</h2></div><p class="ap-warn">${/admin_members/.test(e.message)
+      ? "Run <code>supabase/admin_members.sql</code> in the Supabase SQL Editor to turn on this list."
+      : esc(e.message)}</p>`;
+    return;
+  }
+  const joined = rows.filter((r) => r.display_name), pending = rows.filter((r) => !r.display_name);
+  const owe = joined.filter((r) => r.picks_this_event < 2);
+  const day = (iso) => (iso ? new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "-");
+  el.innerHTML = `
+    <div class="panel-head"><h2>Members</h2>
+      <p class="muted">${joined.length} in the league${pending.length ? ` · ${pending.length} signed up without the league code` : ""}
+        · ${owe.length ? `${owe.length} still need picks for ${esc(t.name)}` : `everyone has picked for ${esc(t.name)}`}</p></div>
+    <div class="ap-scroll" style="max-height:420px"><table class="table ap-table" style="width:100%">
+      <thead><tr><th>Member</th><th>Email</th><th>Joined</th><th>Last sign-in</th><th class="num">${esc(t.name)}</th><th class="num">Golfers used</th></tr></thead>
+      <tbody>${joined.map((r) => `<tr class="${r.picks_this_event >= 2 ? "is-picked" : ""}">
+        <td>${esc(r.display_name)}${r.is_admin ? ` <span class="ap-conf">admin</span>` : ""}</td>
+        <td><a href="mailto:${esc(r.email)}">${esc(r.email)}</a></td>
+        <td>${day(r.joined)}</td><td>${day(r.last_sign_in)}</td>
+        <td class="num">${r.picks_this_event >= 2 ? "Picked" : `<span class="ap-mismatch">${r.picks_this_event}/2</span>`}</td>
+        <td class="num">${r.picks_season}</td></tr>`).join("")}
+      ${pending.map((r) => `<tr><td class="muted">Not joined yet</td><td><a href="mailto:${esc(r.email)}">${esc(r.email)}</a></td>
+        <td>signed up ${day(r.signed_up)}</td><td>${day(r.last_sign_in)}</td><td class="num">-</td><td class="num">-</td></tr>`).join("")}
+      </tbody></table></div>
+    ${owe.length ? `<p class="ap-actions"><a class="btn btn-small" href="mailto:?bcc=${owe.map((r) => encodeURIComponent(r.email)).join(",")}&subject=${encodeURIComponent(`Picks for ${t.name}`)}">Email the ${owe.length} without picks</a></p>` : ""}`;
+}
+
 export async function render(root, ctx, params) {
   if (!ctx.profile?.is_admin) {
     root.innerHTML = emptyState("Commissioners only");
@@ -77,6 +107,7 @@ export async function render(root, ctx, params) {
       </select></label>
     </div>
     <div class="ap-grid">
+      <section class="panel" id="a-members"><div class="panel-head"><h2>Members</h2></div><p class="muted">Loading members...</p></section>
       <section class="panel">
         <div class="panel-head"><h2>${eventName(t)} · Results</h2>
           <p class="muted">Copy the leaderboard from anywhere (pgatour.com, ESPN, a spreadsheet) and paste it below.
@@ -109,6 +140,7 @@ export async function render(root, ctx, params) {
     <datalist id="ap-golfers">${Object.values(players).map((p) => `<option value="${esc(p.name)}">`).join("")}</datalist>`;
 
   $("#a-select", root).addEventListener("change", (e) => { location.hash = `#/admin/${e.target.value}`; });
+  renderMembers($("#a-members", root), api, t);
   const byName = new Map(Object.entries(players).map(([id, p]) => [normName(p.name), id]));
 
   // ------------------------------------------------------------ results

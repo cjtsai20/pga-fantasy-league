@@ -74,7 +74,8 @@ function renderCourse(root, ctx, c) {
   const events = ctx.tournaments.filter((t) => (c.tournament_ids || []).includes(t.id) || t.course_id === c.id);
   const holes = c.holes || [];
   root.innerHTML = `
-    <p class="crumb"><a href="#/courses">← All courses</a></p>
+    <p class="crumb"><a href="#/courses">← All courses</a>
+      ${c.holes?.length === 18 ? `<a class="btn btn-small" style="float:right" href="#/play/${esc(c.id)}">Play this course</a>` : ""}</p>
     <div class="page-head"><div><p class="eyebrow">${esc(c.location || "")}</p><h1 class="page-title">${esc(c.name)}</h1></div></div>
     <div class="course-hero">
       ${photo(c, "is-hero")}

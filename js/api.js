@@ -56,6 +56,11 @@ export function createApi(sb) {
       fail(error);
       return data;
     },
+    async adminMembers(tid) {
+      const { data, error } = await sb.rpc("admin_members", { p_tournament_id: tid });
+      fail(error);
+      return data;
+    },
 
     // ---- reference data
     async tournaments() {

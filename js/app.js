@@ -88,7 +88,7 @@ async function route() {
       case "history": await standings.renderHistory(root, ctx); break;
       case "winners": await standings.renderWinners(root, ctx); break;
       case "courses": await courses.render(root, ctx, params); break;
-      case "play": await renderPlay(root); break;
+      case "play": await renderPlay(root, params); break;
       case "admin": await admin.render(root, ctx, params); break;
       default: location.hash = "#/week"; return;
     }
@@ -102,7 +102,7 @@ async function route() {
   if (name !== "week" || !params.length) window.scrollTo({ top: 0 });
 }
 
-async function renderPlay(root) {
+async function renderPlay(root, params = []) {
   root.innerHTML = `<div class="page-head"><div><p class="eyebrow">The Practice Tee</p><h1 class="page-title">Play</h1></div></div>
     <section id="game-root"></section>`;
   const el = $("#game-root", root);
@@ -111,7 +111,7 @@ async function renderPlay(root) {
     // mount once the section is in the document so the game can measure itself
     queueMicrotask(async () => {
       const cleanup = await mod.mountGame(el, { supabase: ctx.api.supabase, user: ctx.user, profile: ctx.profile,
-        api: ctx.api, tournaments: ctx.tournaments });
+        api: ctx.api, tournaments: ctx.tournaments, courseId: params[0] });
       if (typeof cleanup === "function") ctx.onCleanup(cleanup);
     });
   } catch (e) {

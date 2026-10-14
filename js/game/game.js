@@ -61,7 +61,7 @@ function seededShuffle(arr, rng) {
 
 const RISK = { low: "Safe", med: "Balanced", high: "Aggressive" };
 
-export async function mountGame(root, { supabase = null, user = null } = {}) {
+export async function mountGame(root, { supabase = null, user = null, courseId = null } = {}) {
   void supabase; void user; // nothing is saved server-side; personal bests stay in localStorage
   root.innerHTML = `<div class="pg-game"><p class="gm-loading">Loading the course guide...</p></div>`;
   const wrap = root.firstElementChild;
@@ -71,7 +71,8 @@ export async function mountGame(root, { supabase = null, user = null } = {}) {
     return;
   }
   const params = new URLSearchParams(location.search);
-  const ui = { courseId: courses.some((c) => c.id === params.get("course")) ? params.get("course") : courses[0].id, playerId: null, seed: params.get("seed") || randomSeed(), query: "", fullBoard: false, busy: false };
+  const wanted = courseId || params.get("course");  // #/play/<course id> from a course page, or ?course= for tests
+  const ui = { courseId: courses.some((c) => c.id === wanted) ? wanted : courses[0].id, playerId: null, seed: params.get("seed") || randomSeed(), query: "", fullBoard: false, busy: false };
   const sortedPlayers = Object.entries(players)
     .map(([id, p]) => ({ id, ...p }))
     .sort((a, b) => sgTotal(b) - sgTotal(a) || a.name.localeCompare(b.name));
