@@ -198,4 +198,26 @@
   .gm-start .gm-btn--primary { flex: 1; }
 }
 
-.gm-course-tag { align-self: flex-start; margin-top: 4px; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--g-green, #006747); border: 1px solid currentColor; border-radius: 2px; padding: 1px 6px; }
+.gm-course-tag { align-self: flex-start; margin: 4px 14px 0; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--g-green, #006747); border: 1px solid currentColor; border-radius: 2px; padding: 1px 6px; }
+
+/* course emphasis box and golfer stat card (setup screen) */
+.pg-game .gm-emph { margin: 0 0 16px; padding: 14px 18px; background: #fff; border: 1px solid var(--g-rule); border-left: 4px solid var(--g-gold, #e8b923); border-radius: 4px; }
+.pg-game .gm-emph-title { margin: 0 0 8px; font-weight: 600; color: var(--g-green); }
+.pg-game .gm-emph ol { margin: 0; padding-left: 20px; }
+.pg-game .gm-emph li { margin: 4px 0; }
+.pg-game .gm-emph li span { display: block; font-size: 13.5px; color: var(--g-muted); }
+.pg-game .gm-emph-none { margin: 0; font-size: 14px; color: var(--g-muted); }
+.pg-game .gm-card { margin: 0 0 16px; padding: 16px 18px; background: #fff; border: 1px solid var(--g-rule); border-top: 3px solid var(--g-green); border-radius: 4px; }
+.pg-game .gm-card-head { display: flex; gap: 14px; align-items: center; margin-bottom: 10px; }
+.pg-game .gm-avatar--lg { width: 72px; height: 72px; flex: none; }
+.pg-game .gm-avatar--lg svg { width: 100%; height: 100%; }
+.pg-game .gm-card-name { margin: 0; font-size: 20px; font-weight: 600; color: var(--g-green); }
+.pg-game .gm-card-sub { margin: 2px 0 0; font-size: 13px; color: var(--g-muted); }
+.pg-game .gm-card-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.pg-game .gm-card-table th, .pg-game .gm-card-table td { padding: 6px 8px; border-bottom: 1px solid var(--g-rule); text-align: left; }
+.pg-game .gm-card-table thead th { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--g-muted); }
+.pg-game .gm-card-table td:nth-child(2), .pg-game .gm-card-table td:nth-child(3) { font-variant-numeric: tabular-nums; }
+.pg-game .gm-card-table tr.is-key { background: #fff8de; }
+.pg-game .gm-key { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; background: var(--g-gold, #e8b923); color: #2b2100; padding: 1px 5px; border-radius: 3px; margin-left: 4px; }
+.pg-game .gm-src { font-size: 12px; color: var(--g-muted); }
+.pg-game .gm-course-emph { display: block; font-size: 12px; color: var(--g-green); margin-top: 4px; padding: 0 14px; }

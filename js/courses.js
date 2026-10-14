@@ -92,6 +92,10 @@ function renderCourse(root, ctx, c) {
     ${c.images?.length > 1 ? `<div class="gallery">${c.images.slice(1).map((img) => `
       <figure><img src="${esc(img.url)}" alt="${esc(c.name)}" loading="lazy"><figcaption>${credit(img)}</figcaption></figure>`).join("")}</div>` : ""}
     ${holes.length ? `
+      <section class="panel"><div class="panel-head"><h2>What This Course Rewards</h2>
+        <p class="muted">Measured from the layout against the rest of the schedule.</p></div>
+        ${c.emphasis?.length ? `<ol class="emph-list">${c.emphasis.map((e) => `<li><b>${esc(e.label)}</b> <span class="muted">${esc(e.reason)}</span></li>`).join("")}</ol>`
+          : `<p class="muted">${esc(c.emphasis_note || "Nothing measured stands out.")}</p>`}</section>
       <section class="panel"><div class="panel-head"><h2>Scorecard</h2>
         ${holes.some((h) => h.difficulty != null) ? `<p class="muted">vs Par = tour scoring average relative to par.</p>` : ""}</div>
         ${scorecard(holes)}</section>

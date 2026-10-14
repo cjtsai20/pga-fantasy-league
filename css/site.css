@@ -390,3 +390,5 @@ input:focus { border-color: var(--green-500); outline: none; box-shadow: 0 0 0 3
 .hole-dialog-body .hole-svg { max-height: 72vh; width: auto; margin: 0 auto; }
 .hole-dialog-close { position: absolute; top: 8px; right: 12px; border: 0; background: none; font-size: 28px; line-height: 1; cursor: pointer; color: inherit; }
 .hole-dialog-credit { font-size: .8rem; margin: 8px 0 0; text-align: center; }
+.emph-list { margin: 0; padding-left: 22px; }
+.emph-list li { margin: 6px 0; }

@@ -50,26 +50,32 @@ async function loadData(supabase) {
   const sample = { courses: false, players: false };
   if (!courses.length) { courses = (await fetchJson(DATA("sample/game_courses.json"))) || []; sample.courses = true; }
   const all = (await fetchJson(DATA("players.json"))) || {};
-  let players = Object.fromEntries(Object.entries(all).filter(([, p]) => p && p.stats && Object.keys(p.stats).length));
+  const srcOf = (stats, tag) => Object.fromEntries(Object.keys(stats || {}).map((k) => [k, tag]));
+  let players = Object.fromEntries(Object.entries(all).filter(([, p]) => p && p.stats && Object.keys(p.stats).length)
+    .map(([id, p]) => [id, { ...p, src: srcOf(p.stats, "season") }]));
   // pasted stats win over anything in players.json; a golfer the tour list doesn't know still plays
   for (const r of await pastedStats(supabase)) {
     const base = players[r.player_id] || all[r.player_id] || {};
-    players[r.player_id] = { ...base, name: base.name || r.player_name, stats: fillFromTotal({ ...(base.stats || {}), ...r.stats }), pasted: true };
+    const merged = { ...(base.stats || {}), ...r.stats }, stats = fillFromTotal(merged);
+    const src = { ...(base.src || {}), ...srcOf(r.stats, "entered") };
+    for (const k of Object.keys(stats)) if (!(k in merged)) src[k] = "est";
+    players[r.player_id] = { ...base, name: base.name || r.player_name, stats, src, pasted: true };
   }
   const pastedCount = Object.values(players).filter((p) => p.pasted).length;
   if (Object.keys(players).length < FIELD_SIZE) {
     const extra = (await fetchJson(DATA("sample/game_players.json"))) || {};
     const real = new Set(Object.values(players).map((p) => p.name.toLowerCase()));
-    for (const [id, p] of Object.entries(extra)) if (!players[id] && !real.has(p.name.toLowerCase())) players[id] = p;
+    for (const [id, p] of Object.entries(extra)) if (!players[id] && !real.has(p.name.toLowerCase())) players[id] = { ...p, src: srcOf(p.stats, "sample") };
     sample.players = true;
   }
-  // Anyone on tour can be played; golfers without stats play at tour average. The AI field stays the
-  // golfers with stats, so the leaderboard is made of distinct players.
+  // Anyone on tour can be played; missing stats are filled with the worst entered (fillWorst), else
+  // tour average. The AI field stays the golfers with stats of their own.
   const golfers = {};
   for (const [id, p] of Object.entries(all)) if (p?.name) golfers[id] = { name: p.name, country: p.country };
   const statNames = new Set(Object.values(players).map((p) => p.name.toLowerCase()));
   for (const [id, p] of Object.entries(golfers)) if (statNames.has(p.name.toLowerCase())) delete golfers[id];
   Object.assign(golfers, players);
+  fillWorst(golfers);
   return { courses, players, golfers, sample, pastedCount };
 }
 
@@ -87,6 +93,39 @@ function seededShuffle(arr, rng) {
 }
 
 const RISK = { low: "Safe", med: "Balanced", high: "Aggressive" };
+
+// Stats the sim reads, in card order. Lower is worse except putts per round.
+const STATS = [
+  ["sg_ott", "SG: Off-the-Tee", "sg"], ["sg_app", "SG: Approach", "sg"], ["sg_arg", "SG: Around-the-Green", "sg"],
+  ["sg_putt", "SG: Putting", "sg"], ["drive_dist", "Driving distance", "yds"], ["drive_acc", "Driving accuracy", "pct"],
+  ["gir", "Greens in regulation", "pct"], ["scrambling", "Scrambling", "pct"], ["putts_per_round", "Putts per round", "num"],
+];
+const HIGHER_IS_WORSE = new Set(["putts_per_round"]);
+// a course emphasis also lights up the stats that feed it
+const RELATED = { drive_dist: ["drive_dist", "sg_ott"], drive_acc: ["drive_acc", "sg_ott"], sg_app: ["sg_app", "gir"],
+  sg_arg: ["sg_arg", "scrambling"], sg_putt: ["sg_putt", "putts_per_round"] };
+const SRC_LABEL = { entered: "entered", est: "from SG: Total", season: "season data", worst: "worst entered", sample: "sample" };
+const fmtStat = (kind, v) => v == null ? "-" : kind === "sg" ? `${v > 0 ? "+" : ""}${v.toFixed(3)}` : kind === "pct" ? `${(v * 100).toFixed(1)}%`
+  : kind === "yds" ? `${v.toFixed(1)} yds` : v.toFixed(2);
+
+/**
+ * A golfer missing a stat takes the worst value entered for it by anyone (pasted stats only), so a
+ * gap never makes a golfer better than the league's data says. Stats nobody has entered stay at tour
+ * average. Records where each value came from in p.src.
+ */
+function fillWorst(golfers) {
+  const real = (p, k) => ["entered", "est"].includes(p.src?.[k]);  // only what the commissioner pasted
+  for (const [k] of STATS) {
+    const vals = Object.values(golfers).filter((p) => p.pasted && real(p, k)).map((p) => p.stats[k]);
+    if (!vals.length) continue;
+    const worst = HIGHER_IS_WORSE.has(k) ? Math.max(...vals) : Math.min(...vals);
+    for (const p of Object.values(golfers)) {
+      if (p.stats?.[k] != null) continue;
+      p.stats = { ...(p.stats || {}), [k]: worst };
+      p.src = { ...(p.src || {}), [k]: "worst" };
+    }
+  }
+}
 
 export async function mountGame(root, { supabase = null, user = null, courseId = null } = {}) {
   void user; // nothing is saved server-side; personal bests stay in localStorage
@@ -127,6 +166,7 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
       </header>
       <section class="gm-step">
         <h3 class="gm-h3"><span class="gm-num">I</span> Choose your course</h3>
+        ${courseBox(courses.find((c) => c.id === ui.courseId))}
         <div class="gm-courses">
           ${courses.map((c) => `
             <button class="gm-course ${c.id === ui.courseId ? "is-on" : ""}" data-course="${esc(c.id)}">
@@ -134,6 +174,7 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
               <span class="gm-course-name">${esc(c.name)}</span>
               <span class="gm-course-meta">${esc(c.location || "")}</span>
               <span class="gm-course-meta">Par ${c.par} · ${Number(c.yardage).toLocaleString()} yds</span>
+              ${c.emphasis?.length ? `<span class="gm-course-emph">Rewards: ${c.emphasis.map((e) => esc(e.label)).join(" · ")}</span>` : ""}
               ${c.layout_source === "osm" ? `<span class="gm-course-tag">Mapped layout</span>` : ""}
               ${bestFor(c.id) != null ? `<span class="gm-course-best">Your best: ${toPar(bestFor(c.id))}</span>` : ""}
             </button>`).join("")}
@@ -141,20 +182,25 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
       </section>
       <section class="gm-step">
         <h3 class="gm-h3"><span class="gm-num">II</span> Choose your golfer</h3>
+        ${statCard(ui.playerId, courses.find((c) => c.id === ui.courseId))}
         <input class="gm-search" type="search" placeholder="Search any tour golfer by name" value="${esc(ui.query)}" aria-label="Search golfers">
         <div class="gm-golfers" role="listbox">
           ${list.map((p) => golferRow(p, p.id === ui.playerId)).join("") || `<p class="gm-note">No golfers match.</p>`}
         </div>
       </section>
       <section class="gm-step gm-start">
-        <p class="gm-pick">${esc(courses.find((c) => c.id === ui.courseId)?.name)}<span>with ${esc(golfers[ui.playerId]?.name)}${golfers[ui.playerId]?.stats ? "" : " (tour-average stats)"}</span></p>
+        <p class="gm-pick">${esc(courses.find((c) => c.id === ui.courseId)?.name)}<span>with ${esc(golfers[ui.playerId]?.name)}</span></p>
         <button class="gm-btn gm-btn--ghost" data-act="golfer">Change golfer</button>
         <label class="gm-seed">Tournament seed <input value="${esc(ui.seed)}" maxlength="24" aria-label="Seed"></label>
         <button class="gm-btn gm-btn--ghost" data-act="reseed">New seed</button>
         <button class="gm-btn gm-btn--primary" data-act="start">Tee off</button>
       </section>`;
     wrap.querySelectorAll("[data-course]").forEach((b) => b.onclick = () => { ui.courseId = b.dataset.course; renderSetup(); });
-    wrap.querySelectorAll("[data-player]").forEach((b) => b.onclick = () => { ui.playerId = b.dataset.player; renderSetup(); });
+    wrap.querySelectorAll("[data-player]").forEach((b) => b.onclick = () => {
+      ui.playerId = b.dataset.player;
+      renderSetup();
+      wrap.querySelector(".gm-card")?.scrollIntoView({ behavior: "smooth", block: "start" });  // show his stats
+    });
     const search = wrap.querySelector(".gm-search");
     search.oninput = () => { ui.query = search.value; const pos = search.selectionStart; renderSetup(); const s2 = wrap.querySelector(".gm-search"); s2.focus(); s2.setSelectionRange(pos, pos); };
     wrap.querySelector(".gm-seed input").onchange = (e) => { ui.seed = e.target.value.trim() || randomSeed(); };
@@ -167,12 +213,46 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
     wrap.querySelector('[data-act="start"]').onclick = () => { ui.seed = wrap.querySelector(".gm-seed input").value.trim() || ui.seed; startGame(); };
   }
 
+  function courseBox(c) {
+    if (!c) return "";
+    const em = c.emphasis || [];
+    return `<div class="gm-emph" aria-live="polite">
+      <p class="gm-emph-title">What ${esc(c.name)} rewards</p>
+      ${em.length ? `<ol>${em.map((e) => `<li><b>${esc(e.label)}</b><span>${esc(e.reason)}</span></li>`).join("")}</ol>`
+        : `<p class="gm-emph-none">${esc(c.emphasis_note || "Nothing measured stands out.")}</p>`}
+    </div>`;
+  }
+
+  // Selected golfer's stats: value, rank among golfers with that stat of their own, and its source.
+  function statCard(id, course) {
+    const p = golfers[id];
+    if (!p) return "";
+    const key = new Set((course?.emphasis || []).flatMap((e) => RELATED[e.stat] || []));
+    const own = (q, k) => q.stats?.[k] != null && ["entered", "est", "season", "sample"].includes(q.src?.[k]);
+    const rows = STATS.map(([k, label, kind]) => {
+      const v = p.stats?.[k], src = p.src?.[k];
+      let rank = "";
+      if (own(p, k)) {
+        const pool = Object.values(golfers).filter((q) => own(q, k)).map((q) => q.stats[k]);
+        const better = pool.filter((x) => (HIGHER_IS_WORSE.has(k) ? x < v : x > v)).length;
+        rank = `${better + 1} of ${pool.length}`;
+      }
+      return `<tr class="${key.has(k) ? "is-key" : ""}"><th>${esc(label)}${key.has(k) ? ` <span class="gm-key">key here</span>` : ""}</th>
+        <td>${v == null ? "tour avg" : fmtStat(kind, v)}</td><td>${rank}</td><td class="gm-src">${esc(SRC_LABEL[src] || (v == null ? "no data" : ""))}</td></tr>`;
+    }).join("");
+    return `<div class="gm-card">
+      <div class="gm-card-head">${avatar({ id, ...p }, "gm-avatar--lg")}<div><p class="gm-card-name">${esc(p.name)}</p>
+        <p class="gm-card-sub">${esc(p.country || "")}${course?.emphasis?.length ? ` · stats that matter at ${esc(course.name)} are highlighted` : ""}</p></div></div>
+      <table class="gm-card-table"><thead><tr><th>Stat</th><th>Value</th><th>Rank</th><th>Source</th></tr></thead><tbody>${rows}</tbody></table>
+    </div>`;
+  }
+
   function golferRow(p, on) {
     const s = p.stats || {};
     const stat = (v, f) => (v == null ? "-" : f(v));
     return `<button class="gm-golfer ${on ? "is-on" : ""}" data-player="${esc(p.id)}" role="option" aria-selected="${on}">
       ${avatar(p)}
-      <span class="gm-golfer-name">${esc(p.name)}<small>${esc(p.country || "")}${p.stats ? "" : " · tour-average stats"}</small></span>
+      <span class="gm-golfer-name">${esc(p.name)}<small>${esc(p.country || "")}${!p.stats ? " · tour-average stats" : Object.values(p.src || {}).includes("worst") ? " · some stats filled" : ""}</small></span>
       <span class="gm-golfer-stats">
         <span><b>${stat(s.drive_dist, (v) => Math.round(v))}</b> yds</span>
         <span><b>${stat(s.gir, (v) => Math.round(v * 100) + "%")}</b> GIR</span>
