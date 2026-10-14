@@ -32,6 +32,11 @@ const STYLE = `
 .ap-est { color: var(--muted, #6b6b63); font-size: 11px; }
 .ap-field-list { columns: 3 220px; font-size: 13.5px; margin: 10px 0 0; padding: 0; list-style: none; }
 .ap-field-list li { padding: 2px 0; break-inside: avoid; }
+.ap-subnav { display: flex; gap: 6px; margin: -8px 0 24px; border-bottom: 1px solid var(--rule-soft, #ebe6d9); }
+.ap-subnav a { padding: 10px 16px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600;
+  color: var(--muted, #6b6b63); text-decoration: none; border-bottom: 3px solid transparent; margin-bottom: -1px; }
+.ap-subnav a:hover { color: var(--green-700, #006747); }
+.ap-subnav a.is-on { color: var(--green-800, #0b4a32); border-bottom-color: var(--gold, #e8b923); }
 `;
 
 const injectStyle = () => {
@@ -46,7 +51,7 @@ const injectStyle = () => {
 async function renderMembers(el, api, t) {
   let rows;
   try { rows = await api.adminMembers(t.id); } catch (e) {
-    el.innerHTML = `<div class="panel-head"><h2>Members</h2></div><p class="ap-warn">${/admin_members/.test(e.message)
+    el.innerHTML = `<div class="panel-head"><h2>Roster</h2></div><p class="ap-warn">${/admin_members/.test(e.message)
       ? "Run <code>supabase/admin_members.sql</code> in the Supabase SQL Editor to turn on this list."
       : esc(e.message)}</p>`;
     return;
@@ -55,7 +60,7 @@ async function renderMembers(el, api, t) {
   const owe = joined.filter((r) => r.picks_this_event < 2);
   const day = (iso) => (iso ? new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "-");
   el.innerHTML = `
-    <div class="panel-head"><h2>Members</h2>
+    <div class="panel-head"><h2>Roster</h2>
       <p class="muted">${joined.length} in the league${pending.length ? ` · ${pending.length} signed up without the league code` : ""}
         · ${owe.length ? `${owe.length} still need picks for ${esc(t.name)}` : `everyone has picked for ${esc(t.name)}`}</p></div>
     <div class="ap-scroll" style="max-height:420px"><table class="table ap-table" style="width:100%">
@@ -82,8 +87,29 @@ export async function render(root, ctx, params) {
   const now = api.now();
   const all = ctx.tournaments;
   const started = all.filter((t) => now >= new Date(t.lock_at));
-  const t = all.find((x) => x.id === params[0]) || started[started.length - 1] || all[0];
+  const sub = params[0] === "members" ? "members" : "results";
+  const tid = params[0] === "members" || params[0] === "results" ? params[1] : params[0];
+  const t = all.find((x) => x.id === tid) || started[started.length - 1] || all[0];
   if (!t) { root.innerHTML = emptyState("No tournaments on the schedule yet"); return; }
+  const head = (title) => `
+    <div class="page-head">
+      <div><p class="eyebrow">Commissioner</p><h1 class="page-title">${title}</h1></div>
+      <label class="select-wrap"><span class="sr-only">Tournament</span><select id="a-select">
+        ${all.map((x) => `<option value="${esc(x.id)}" ${x.id === t.id ? "selected" : ""}>${esc(x.name)}${x.status === "official" ? " ✓" : ""}</option>`).join("")}
+      </select></label>
+    </div>
+    <nav class="ap-subnav" aria-label="Admin sections">
+      <a href="#/admin/results/${esc(t.id)}" class="${sub === "results" ? "is-on" : ""}">Results &amp; Scoring</a>
+      <a href="#/admin/members/${esc(t.id)}" class="${sub === "members" ? "is-on" : ""}">Members</a>
+    </nav>`;
+  const wireSelect = () => $("#a-select", root).addEventListener("change", (e) => { location.hash = `#/admin/${sub}/${e.target.value}`; });
+
+  if (sub === "members") {
+    root.innerHTML = `${head("Members")}<section class="panel" id="a-members"><p class="muted">Loading members...</p></section>`;
+    wireSelect();
+    await renderMembers($("#a-members", root), api, t);
+    return;
+  }
 
   const [players, , results, picks, field] = await Promise.all([
     api.players(), loadPointsTables(), api.results(t.id), api.pickScores({ tournament_id: t.id }),
@@ -99,15 +125,8 @@ export async function render(root, ctx, params) {
   const mult = Number(t.points_multiplier ?? 1);
   const lastUpd = results.reduce((m, r) => (r.updated_at && r.updated_at > m ? r.updated_at : m), "");
 
-  root.innerHTML = `
-    <div class="page-head">
-      <div><p class="eyebrow">Commissioner</p><h1 class="page-title">Results &amp; Scoring</h1></div>
-      <label class="select-wrap"><span class="sr-only">Tournament</span><select id="a-select">
-        ${all.map((x) => `<option value="${esc(x.id)}" ${x.id === t.id ? "selected" : ""}>${esc(x.name)}${x.status === "official" ? " ✓" : ""}</option>`).join("")}
-      </select></label>
-    </div>
+  root.innerHTML = `${head("Results &amp; Scoring")}
     <div class="ap-grid">
-      <section class="panel" id="a-members"><div class="panel-head"><h2>Members</h2></div><p class="muted">Loading members...</p></section>
       <section class="panel">
         <div class="panel-head"><h2>${eventName(t)} · Results</h2>
           <p class="muted">Copy the leaderboard from anywhere (pgatour.com, ESPN, a spreadsheet) and paste it below.
@@ -139,8 +158,7 @@ export async function render(root, ctx, params) {
     </div>
     <datalist id="ap-golfers">${Object.values(players).map((p) => `<option value="${esc(p.name)}">`).join("")}</datalist>`;
 
-  $("#a-select", root).addEventListener("change", (e) => { location.hash = `#/admin/${e.target.value}`; });
-  renderMembers($("#a-members", root), api, t);
+  wireSelect();
   const byName = new Map(Object.entries(players).map(([id, p]) => [normName(p.name), id]));
 
   // ------------------------------------------------------------ results
