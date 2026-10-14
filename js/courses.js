@@ -6,7 +6,8 @@ import { emptyState, esc, eventName, fmtDates } from "./ui.js";
 
 const sum = (a) => a.reduce((x, y) => x + y, 0);
 
-function photo(c, cls = "") {
+// `linked: false` inside a course card: the card is already an <a>, and a nested link splits it apart.
+function photo(c, cls = "", { linked = true } = {}) {
   const img = c.images?.[0];
   if (!img) {  // no licensed photo yet: a quiet crest plate instead
     return `<div class="course-photo is-illustrated ${cls}"><div class="plate">
@@ -14,9 +15,9 @@ function photo(c, cls = "") {
       <p class="plate-name">${esc(c.name)}</p><p class="plate-sub">Par ${esc(c.par)} · ${Number(c.yardage).toLocaleString()} yards</p></div></div>`;
   }
   return `<figure class="course-photo ${cls}"><img src="${esc(img.url)}" alt="${esc(c.name)}" loading="lazy">
-    <figcaption>${credit(img)}</figcaption></figure>`;
+    <figcaption>${credit(img, linked)}</figcaption></figure>`;
 }
-const credit = (img) => `Photo: ${img.source ? `<a href="${esc(img.source)}" target="_blank" rel="noopener">${esc(img.credit || "source")}</a>` : esc(img.credit || "")}${img.license ? ` · ${esc(img.license)}` : ""}`;
+const credit = (img, linked = true) => `Photo: ${img.source && linked ? `<a href="${esc(img.source)}" target="_blank" rel="noopener">${esc(img.credit || "source")}</a>` : esc(img.credit || "")}${img.license ? ` · ${esc(img.license)}` : ""}`;
 
 // Course data is public reference data (not league data), so the real files are used even in demo mode.
 async function publicJson(path) {
@@ -40,7 +41,7 @@ export async function render(root, ctx, params) {
     ${courses.length ? `<div class="course-grid">${courses.map((x) => {
       const events = ctx.tournaments.filter((t) => (x.tournament_ids || []).includes(t.id) || t.course_id === x.id);
       return `<a class="course-card" href="#/courses/${esc(x.id)}">
-        ${photo(x)}
+        ${photo(x, "", { linked: false })}
         <div class="course-card-body">
           <h2>${esc(x.name)}</h2>
           <p class="muted">${esc(x.location || "")}</p>
@@ -48,7 +49,7 @@ export async function render(root, ctx, params) {
           ${events.length ? `<p class="course-events">${events.map(eventName).join(" · ")}</p>` : ""}
         </div></a>`;
     }).join("")}</div>`
-      : emptyState("Course guide coming soon", "Courses are added by the daily refresh.")}`;
+      : emptyState("Course guide coming soon")}`;
 }
 
 function scorecard(holes) {
