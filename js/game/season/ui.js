@@ -332,9 +332,12 @@ export async function mountSeason(root, deps) {
     if (!R.isRookie(career)) return "";
     const bank = R.bank(career), now = R.areaSg(career), open = R.canTrain(career) && !S.busy;
     const tp = R.TP.map(([, p]) => p), r = career.rookie, talent = R.learnLabel(R.talentOf(career));
+    const age = R.ageOf(career), ageF = R.ageFactor(age), pot = R.potentialOf(career), room = R.roomLeft(career);
     const msg = S.trainMsg?.year === career.year && S.trainMsg.week === career.weekIdx ? S.trainMsg : null;  // the latest session, this week
     return `<section class="sp-week sp-train">
-      <div class="sp-train-head"><p class="gm-eyebrow">Training · ${talent === "steady" ? "a steady learner" : `a ${talent} learner`}</p><p class="sp-train-bank"><b>${bank}</b> training point${bank === 1 ? "" : "s"} to spend</p></div>
+      <div class="sp-train-head"><p class="gm-eyebrow">Training · age ${age} · ${talent === "steady" ? "a steady learner" : `a ${talent} learner`}</p><p class="sp-train-bank"><b>${bank}</b> training point${bank === 1 ? "" : "s"} to spend</p></div>
+      <p class="sp-train-scout">Scouts' read: ${esc(pot.band)}.${room <= 0 ? " <b>You've reached your ceiling</b>: training can't take you any further, so it's all about form now."
+        : room < R.POTENTIAL.TAPER ? " You're close to your ceiling, so each session gains less." : ""}${ageF < 1 ? ` At ${age}, training takes ${Math.round(ageF * 100)}% as well as it did in your early 20s.` : ""}</p>
       ${msg ? `<p class="sp-train-msg is-${msg.luck || "ok"}">${msg.luck === "dud" ? `That ${esc(msg.label.toLowerCase())} session didn't click: no gain` : `${msg.luck === "breakthrough" ? "Breakthrough! " : ""}${esc(msg.label)} +${msg.gain.toFixed(3)}`} for ${msg.cost} points.</p>` : ""}
       <div class="sp-train-grid">${R.AREAS.map(([k, label]) => {
         const cost = R.sessionCost(career, k), n = r.levels?.[k] || 0, can = open && bank >= cost;
@@ -348,7 +351,9 @@ export async function mountSeason(root, deps) {
         2 for a missed cut, ${tp[4]} for making it, ${tp[3]} for a top 25, ${tp[2]} for a top 10, ${tp[1]} for a top 5 and ${tp[0]} for a win;
         ${R.TRAIN.PGA}x on the PGA TOUR, plus ${R.TRAIN.SEASON} each off-season. Unspent points carry over. Each session raises one
         area's strokes gained a round and the next one there costs ${R.TRAIN.RISE} more. Gains vary: some golfers learn faster than
-        others, weaker areas improve faster than strong ones, and about 1 session in 10 is a breakthrough (and 1 in 20 doesn't click).</p>
+        others, weaker areas improve faster than strong ones, and about 1 session in 10 is a breakthrough (and 1 in 20 doesn't click).
+        Training works best through age ${R.AGE.PEAK} and less each year after, and every golfer has a ceiling somewhere among
+        the PGA TOUR's top ${R.POTENTIAL.TOP} (a very few above its best) that nothing takes them past.</p>
     </section>`;
   }
 
@@ -591,7 +596,8 @@ export async function mountSeason(root, deps) {
         ${up ? `<p class="sp-zone is-promo sp-off-big">You're promoted: ${esc(career.userName)} plays the PGA TOUR in ${career.year}.</p>`
           : down ? `<p class="sp-zone is-releg sp-off-big">You're relegated: ${esc(career.userName)} plays the Korn Ferry Tour in ${career.year}. Finish in its top ${PROMOTE} to come back.</p>`
           : `<p class="sp-meta">${esc(career.userName)} stays on the ${esc(tierName(userTier()))} for ${career.year}.</p>`}
-        ${o.training ? `<p class="sp-meta">Training: ${o.training.left} unspent point${o.training.left === 1 ? "" : "s"} carried over plus ${o.training.bonus} for the off-season, <b>${o.training.left + o.training.bonus}</b> to spend.</p>` : ""}
+        ${o.training ? `<p class="sp-meta">Training: ${o.training.left} unspent point${o.training.left === 1 ? "" : "s"} carried over plus ${o.training.bonus} for the off-season, <b>${o.training.left + o.training.bonus}</b> to spend.${o.training.age ? ` You're ${o.training.age} this season.` : ""}</p>` : ""}
+        ${o.training?.capped ? `<p class="sp-meta">Your off-season jump hit your ceiling: you start ${career.year} as good as you'll get.</p>` : ""}
       </section>
       ${mineDev ? `<section class="sp-form sp-off-me"><div class="sp-form-nums">
           <div><span>Last season's baseline</span><b>${sg(mineDev.before)}</b></div>

@@ -174,3 +174,4 @@
 .sp-train-msg { margin: 6px 0 0; font-size: 14px; padding: 6px 10px; border-radius: 4px; background: var(--g-green-lt, #eef6f0); }
 .sp-train-msg.is-breakthrough { background: #fff4cc; font-weight: 600; }
 .sp-train-msg.is-dud { background: #f6ecea; color: #8a2e22; }
+.sp-train-scout { margin: 4px 0 0; font-size: 14px; }
