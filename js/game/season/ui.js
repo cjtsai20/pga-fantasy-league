@@ -9,7 +9,7 @@ import {
   FIELD_SIZE, PLAYOFF_SIZE, newSeason, standings, weekEntrants, startEvent, userMakesCut, finishEvent,
   simEvent, simWeek, advanceWeek, skillsMap, setCalibration, cutAfter36, hasCut, makeRng, sgTotal, formOf, FORM,
 } from "./engine.js";
-import { loadCareer, saveCareer, clearCareer, cloudLoad, cloudClear, cloudSaver, furtherAlong, progressOf } from "./store.js";
+import { loadCareer, saveCareer, clearCareer, cloudLoad, cloudClear, cloudSaver, furtherAlong, progressOf, otherLocalCareers } from "./store.js";
 import { playHole, autoStrokes } from "./holeplay.js";
 import { scorecardHTML } from "../holeui.js";
 import { loadPointsTables } from "../../points.js";
@@ -120,6 +120,7 @@ export async function mountSeason(root, deps) {
     S.pick ||= list[0]?.id;
     const picked = pool[S.pick];
     root.innerHTML = `
+      ${otherCareersCard()}
       <section class="sp-start">
         <p class="gm-eyebrow">Career mode</p>
         <h2 class="gm-title">Race to the FedEx Cup</h2>
@@ -141,6 +142,7 @@ export async function mountSeason(root, deps) {
         <button class="gm-btn gm-btn--primary" data-act="begin" ${picked ? "" : "disabled"}>Start career</button>
       </div>`;
     root.querySelectorAll("[data-g]").forEach((b) => (b.onclick = () => { S.pick = b.dataset.g; renderStart(); }));
+    wireOthers();
     const s = root.querySelector(".sp-search");
     s.oninput = () => { S.query = s.value; const pos = s.selectionStart; renderStart(); const s2 = root.querySelector(".sp-search"); s2.focus(); s2.setSelectionRange(pos, pos); };
     root.querySelector('[data-act="begin"]').onclick = () => {
@@ -164,6 +166,7 @@ export async function mountSeason(root, deps) {
         <div class="sp-head-links"><button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="abandon">Abandon career</button>
           <span class="sp-sync">${esc(syncText())}</span></div>
       </header>
+      ${otherCareersCard()}
       ${formCard()}
       ${last ? resultCard(last) : ""}
       ${done ? seasonDoneCard(mine) : w ? weekCard(w, live) : ""}
@@ -185,6 +188,29 @@ export async function mountSeason(root, deps) {
   }
 
   const sg = (v) => `${v >= 0 ? "+" : ""}${v.toFixed(2)}`;
+
+  // Careers this browser holds under another slot (guest/preview/before sign-in) that are further
+  // along than the current one: offer to make one the account's career.
+  const where = (c) => `${c.userName} · ${c.year} ${c.phase === "regular" ? `week ${Math.min(c.weekIdx + 1, c.schedule.length)}` : c.phase === "done" ? "season complete" : c.phase}`;
+  const others = () => otherLocalCareers(uid).filter((o) => progressOf(o.career) > progressOf(career));
+  function wireOthers() {
+    root.querySelectorAll("[data-other]").forEach((b) => (b.onclick = () => {
+      const o = others()[+b.dataset.other];
+      if (!o) return;
+      if (career && !confirm(`Replace ${where(career)} with ${where(o.career)}? This becomes your career on every device.`)) return;
+      career = o.career; S.lastEvent = null;
+      save();
+      render();
+    }));
+  }
+  function otherCareersCard() {
+    const list = others();
+    if (!list.length) return "";
+    return `<section class="sp-week sp-other"><p class="gm-eyebrow">Another career on this browser</p>
+      ${list.map((o, i) => `<p>${esc(where(o.career))}${career ? ` is further along than this one (${esc(where(career))})` : " is saved on this browser"}.
+        <button class="gm-btn gm-btn--primary gm-btn--sm" data-other="${i}">Use ${esc(o.career.userName)}'s career</button></p>`).join("")}
+    </section>`;
+  }
 
   /** Your golfer's strokes gained right now: base (season stats) + form, with the season's form line. */
   function formCard() {
@@ -314,6 +340,7 @@ export async function mountSeason(root, deps) {
       render();
     });
     on("dismiss", () => { S.lastEvent = null; renderHub(); });
+    wireOthers();
     on("next", () => {
       career = newSeason({ golfers: pool, pastedCount: deps.pastedCount || 0, userId: career.userGolferId, seed: career.seed,
         tournaments, courses, year: career.year + 1, prev: career });

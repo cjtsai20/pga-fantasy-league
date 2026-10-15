@@ -24,6 +24,23 @@ export function saveCareer(userId, career) {
 export function clearCareer(userId) { localStorage.removeItem(key(userId)); }
 
 /**
+ * Other careers saved in this browser under a different slot (played as a guest, in the preview, or
+ * before signing in), so a member can bring one into their account: [{slot, career}].
+ */
+export function otherLocalCareers(userId) {
+  const out = [];
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (!k?.startsWith("pg-season:") || k === key(userId)) continue;
+      const c = JSON.parse(localStorage.getItem(k) || "null");
+      if (c && c.v === VERSION) out.push({ slot: k, career: c });
+    }
+  } catch { /* storage blocked */ }
+  return out;
+}
+
+/**
  * How far along a career is, as one sortable number: season, then phase (regular season, playoffs,
  * cup, done), then week, then holes played in the live event or matches finished in the playoffs/cup
  * (plus holes into the user's own match).
