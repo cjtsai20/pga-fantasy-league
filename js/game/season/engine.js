@@ -10,13 +10,23 @@
 // AI golfers use a quick per-hole model calibrated against sim.js (data/season_calib.json, built by
 // calib_build.html): a tour-average golfer's score distribution on each hole, shifted by that hole's
 // linear response to each of the six skills sim.js uses. Course fit therefore comes from the same
-// shot model the user plays with. Weekly form adds N(0, 0.35) strokes per round, seeded per event.
-// Golfer skills stay fixed across seasons (they come from the stats the commissioner pastes).
+// shot model the user plays with. Weekly form (FORM below) carries week to week.
+//
+// From a career's second season there are two tiers (tiers.js): the PGA TOUR (career.field, the Race
+// to the FedEx Cup) and the Korn Ferry Tour (career.tier2), each 100 golfers playing the same weeks.
+// Between seasons the bottom 25 and top 25 swap, the bottom of tier 2 is replaced by generated
+// golfers, and every golfer's strokes gained develops a little (rarely a lot). The career keeps its
+// own copy of every golfer's stats in career.golfers. Careers without tiers play as before.
 
 import { makeRng, skillsFrom } from "../sim.js";
 import { pointsFor } from "../../points.js";
+import {
+  TIER_SIZE, PROMOTE, RELEGATE, TIER2_TURNOVER, TIER2_START_DATASET, TIER2_START_COLLEGE, TIER2_START_JOURNEYMEN,
+  NEW_COLLEGE, NEW_JOURNEYMEN, tierName, developmentDelta, applyDevelopment, generateGolfers, tier2Schedule, DEV, NOT_TOUR_MEMBERS,
+} from "./tiers.js";
 
 export { makeRng, skillsFrom };
+export { TIER_SIZE, PROMOTE, RELEGATE, TIER2_TURNOVER, tierName, DEV };
 
 export const FIELD_SIZE = 100;
 export const PLAYOFF_SIZE = 16;
@@ -92,16 +102,23 @@ export function statSource(p) {
  * are stable within a career. The user's golfer always plays: outside the top 100 he replaces #100.
  * @param golfers {id: {name, country, stats, src, pasted, sample}}
  */
-export function buildField(golfers, { userId, seed, pastedCount = 0 }) {
+/** Every eligible golfer in field order (see buildField): [{id, name, country, sg, src, g, h}]. */
+export function rankGolfers(golfers, { seed, pastedCount = 0 }) {
   const group = (p) => (p.pasted || Object.values(p.src || {}).includes("season") ? 0 : p.sample ? (pastedCount < FIELD_SIZE ? 1 : 3) : 2);
-  const ranked = Object.entries(golfers)
-    .filter(([, p]) => p?.name)
+  return Object.entries(golfers)
+    .filter(([id, p]) => p?.name && !NOT_TOUR_MEMBERS.has(id))
     .map(([id, p]) => ({ id, name: p.name, country: p.country || "", sg: sgTotal(p), src: statSource(p), g: group(p), h: hashId(seed, id) }))
     .filter((r) => r.g !== 3)
     .sort((a, b) => a.g - b.g || b.sg - a.sg || a.h - b.h);
+}
+
+export function buildField(golfers, { userId, seed, pastedCount = 0 }) {
+  const ranked = rankGolfers(golfers, { seed, pastedCount });
   let field = ranked.slice(0, FIELD_SIZE);
   if (userId && !field.some((r) => r.id === userId)) {
-    const me = ranked.find((r) => r.id === userId);
+    const p = golfers[userId];
+    const me = ranked.find((r) => r.id === userId)
+      || (p?.name && { id: userId, name: p.name, country: p.country || "", sg: sgTotal(p), src: statSource(p) });  // e.g. a non-member he picked
     if (me) field = [...field.slice(0, FIELD_SIZE - 1), me];
   }
   return field.map(({ g, h, ...r }) => r);
@@ -288,10 +305,33 @@ export function playoffWinner(ids, course, calib, skills, seed) {
 }
 
 // ---------------------------------------------------------------- standings
-/** FedEx Cup standings from the career's finished events: points, wins, starts, top 10s. */
-export function standings(career) {
-  const row = Object.fromEntries(career.field.map((g) => [g.id, { ...g, points: 0, wins: 0, starts: 0, top10: 0 }]));
-  for (const ev of Object.values(career.events)) {
+// ---------------------------------------------------------------- tiers: who is where
+/** Both tiers' field items (tier 1 first). Careers without tiers: just the field. */
+export const allField = (career) => (career.tier2?.field ? [...career.field, ...career.tier2.field] : career.field);
+/** 1 or 2 for a golfer in this season's tiers, else null. */
+export function tierOf(career, id) {
+  if (career.field.some((g) => g.id === id)) return 1;
+  return career.tier2?.field?.some((g) => g.id === id) ? 2 : null;
+}
+export const userTier = (career) => career.userTier || tierOf(career, career.userGolferId) || 1;
+const isTier2Id = (id) => typeof id === "string" && id.startsWith("K-");
+/** The event map an event id lives in (tier 2 ids start "K-"). */
+const storeFor = (career, id) => (isTier2Id(id) && career.tier2 ? career.tier2.events : career.events);
+export const eventById = (career, id) => storeFor(career, id)[id] || null;
+/** The user's tier: its schedule, this week of it, and its event map. */
+export const userSchedule = (career) => (userTier(career) === 2 && career.tier2 ? career.tier2.schedule : career.schedule);
+export const userWeek = (career) => userSchedule(career)[career.weekIdx] || null;
+export const userEvents = (career) => (userTier(career) === 2 && career.tier2 ? career.tier2.events : career.events);
+export function golferName(career, id) {
+  return career.golfers?.[id]?.name || allField(career).find((g) => g.id === id)?.name || id;
+}
+
+/** Standings for a tier from its finished events (tier 1 = the FedEx Cup): points, wins, starts, top 10s. */
+export function standings(career, tier = 1) {
+  const field = tier === 2 ? career.tier2?.field || [] : career.field;
+  const events = tier === 2 ? career.tier2?.events || {} : career.events;
+  const row = Object.fromEntries(field.map((g) => [g.id, { ...g, points: 0, wins: 0, starts: 0, top10: 0 }]));
+  for (const ev of Object.values(events)) {
     if (ev.status !== "done") continue;
     for (const r of ev.results) {
       const x = row[r.id];
@@ -312,7 +352,7 @@ export function standings(career) {
 /** Each golfer's form curve from his base-SG percentile in the field: {sd, k} (see FORM). */
 export function formShape(career) {
   if (career._shape) return career._shape;
-  const ranked = [...career.field].sort((a, b) => a.sg - b.sg), n = ranked.length;
+  const ranked = [...allField(career)].sort((a, b) => a.sg - b.sg), n = ranked.length;
   return (career._shape = Object.fromEntries(ranked.map((g, i) => {
     const p = n > 1 ? i / (n - 1) : 1;  // 0 = weakest, 1 = best
     return [g.id, { sd: FORM.SD_WORST - (FORM.SD_WORST - FORM.SD_BEST) * p, k: FORM.K_MAX * (1 - p) }];
@@ -340,14 +380,15 @@ export function ensureForm(career) {
   career.formHist ||= {};
   career.formU ||= {};
   // careers saved before the latent state existed (or carried-over form without it): start from form / sd
-  for (const g of career.field) {
+  const everyone = allField(career);
+  for (const g of everyone) {
     if (career.formU[g.id] == null && career.form[g.id] != null) career.formU[g.id] = Math.max(-U_CAP, Math.min(U_CAP, career.form[g.id] / shape[g.id].sd));
   }
   let w = career.formWeek ?? -1;
   while (w < target) {
     w++;
     const rng = makeRng(`${career.seed}|${career.year}|form|${w}`);
-    for (const g of career.field) {
+    for (const g of everyone) {
       const z = rng.normal(), prev = career.formU[g.id];
       let u = w === 0 && prev == null ? z : RHO * (prev ?? 0) + keep * z;
       u = Math.max(-U_CAP, Math.min(U_CAP, u));
@@ -364,7 +405,7 @@ export function ensureForm(career) {
 /** A golfer's base SG, current form and the two combined, for display. */
 export function formOf(career, id) {
   ensureForm(career);
-  const g = career.field.find((x) => x.id === id);
+  const g = allField(career).find((x) => x.id === id);
   const f = career.form?.[id] ?? 0, shape = formShape(career)[id] || { sd: FORM.SD_WORST, k: FORM.K_MAX }, sd = shape.sd;
   return { base: g?.sg ?? 0, form: f, now: (g?.sg ?? 0) + f, sd, k: shape.k, range: formRange(shape), hist: (career.formHist?.[id] || []).slice(),
     label: f >= sd ? "Hot" : f >= sd / 3 ? "Warm" : f <= -sd ? "Cold" : f <= -sd / 3 ? "Cool" : "Steady" };
@@ -373,29 +414,105 @@ export function formOf(career, id) {
 /** Skills for every golfer in the locked field, with this week's form applied (not saved; rebuilt). */
 export function skillsMap(career) {
   if (ensureForm(career) || career._skWeek !== career.formWeek) { delete career._sk; career._skWeek = career.formWeek; }
-  return (career._sk ||= Object.fromEntries(career.field.map((g) => {
+  return (career._sk ||= Object.fromEntries(allField(career).map((g) => {
     const sk = skillsFrom(g.stats || {}), f = career.form?.[g.id] || 0;
     for (const [k, share] of Object.entries(FORM_SPLIT)) sk[k] += f * share;
     return [g.id, sk];
   })));
 }
 
-/** A new career (or the next season of one): locks the field and the schedule for `year`. */
+const fieldItem = (g) => ({ id: g.id, name: g.name, country: g.country || "", sg: sgTotal(g), src: g.src || "", stats: g.stats || {},
+  ...(g.created ? { created: g.created } : {}) });
+const byStrength = (a, b) => b.sg - a.sg || a.name.localeCompare(b.name);
+const golferRecord = (r, golfers) => ({ id: r.id, name: r.name, country: r.country || "", stats: { ...(golfers[r.id]?.stats || r.stats || {}) },
+  src: r.src || "" });
+
+/**
+ * A new career (or the next season of one): locks both tiers' fields and schedules for `year`.
+ * - New career: tier 1 = top 100 by strokes gained (buildField); tier 2 = the next 50 in the data plus
+ *   25 generated college standouts and 25 generated journeymen.
+ * - Next season of a two-tier career: bottom RELEGATE of tier 1 down, top PROMOTE of tier 2 up, bottom
+ *   TIER2_TURNOVER of tier 2 out (never the user's golfer: the next one up goes instead) and as many
+ *   generated golfers in; then every returning golfer develops (developmentDelta).
+ * - Next season of a career started before tiers: tier 1 is last season's field (bottom 25 down), tier 2
+ *   is built fresh as for a new career and its 25 strongest go up.
+ * The changes are recorded in career.offseason.
+ */
 export function newSeason({ golfers, pastedCount, userId, seed, tournaments, courses, year, prev = null }) {
-  const field = buildField(golfers, { userId, seed: `${seed}|${year}`, pastedCount })
-    .map((r) => ({ ...r, stats: golfers[r.id]?.stats || {} }));
   const weeks = buildWeeks(tournaments, courses);
-  return {
-    v: 1, seed, userGolferId: userId, userName: golfers[userId]?.name || "You", year, phase: "regular",
+  const rec = {};          // id -> {id, name, country, stats, src, created?, born?}: the career's own copy
+  let t1 = [], t2 = [], offseason = null;
+  const taken = new Set(Object.values(golfers).map((g) => (g?.name || "").toLowerCase()));
+  const freshTier2 = (excludeIds) => {  // the data's next best, then generated golfers
+    const ranked = rankGolfers(golfers, { seed: `${seed}|${year}`, pastedCount }).filter((r) => !excludeIds.has(r.id) && r.id !== userId);
+    const fromData = ranked.slice(0, TIER2_START_DATASET).map((r) => golferRecord(r, golfers));
+    const gen = [...generateGolfers("college", TIER2_START_COLLEGE, { seed, year, takenNames: taken }),
+                 ...generateGolfers("journeyman", TIER2_START_JOURNEYMEN, { seed, year, takenNames: taken })];
+    return [...fromData, ...gen];
+  };
+
+  if (!prev) {
+    t1 = buildField(golfers, { userId, seed: `${seed}|${year}`, pastedCount }).map((r) => golferRecord(r, golfers));
+    t2 = freshTier2(new Set(t1.map((g) => g.id)));
+  } else {
+    for (const g of [...prev.field, ...(prev.tier2?.field || [])]) rec[g.id] = prev.golfers?.[g.id] ? { ...prev.golfers[g.id] } : golferRecord(g, {});
+    for (const [id, g] of Object.entries(prev.golfers || {})) rec[id] ||= { ...g };
+    const st1 = standings(prev, 1).map((r) => r.id);
+    const relegated = st1.slice(-RELEGATE);
+    let promoted, departed, joined, pool2;
+    if (prev.tier2?.field) {
+      const st2 = standings(prev, 2).map((r) => r.id);
+      promoted = st2.slice(0, PROMOTE);
+      const rest = st2.slice(PROMOTE);
+      const bottom = rest.filter((id) => id !== prev.userGolferId);  // the user's golfer keeps his card
+      departed = bottom.slice(-TIER2_TURNOVER);
+      const newcomers = [...generateGolfers("college", NEW_COLLEGE, { seed, year, takenNames: taken }),
+                         ...generateGolfers("journeyman", NEW_JOURNEYMEN, { seed, year, takenNames: taken })];
+      newcomers.forEach((g) => (rec[g.id] = g));
+      joined = newcomers.map((g) => g.id);
+      pool2 = [...rest.filter((id) => !departed.includes(id)), ...relegated, ...joined];
+    } else {
+      const fresh = freshTier2(new Set(st1));
+      fresh.forEach((g) => (rec[g.id] = g));
+      const freshRanked = fresh.map((g) => ({ id: g.id, sg: sgTotal(g), name: g.name })).sort(byStrength);
+      promoted = freshRanked.slice(0, PROMOTE).map((g) => g.id);
+      departed = [];
+      joined = fresh.map((g) => g.id);
+      pool2 = [...freshRanked.slice(PROMOTE).map((g) => g.id), ...relegated];
+    }
+    const pool1 = [...st1.filter((id) => !relegated.includes(id)), ...promoted];
+    // development: everyone returning this season (golfers generated this year start fresh)
+    const development = [];
+    for (const id of [...pool1, ...pool2]) {
+      const g = rec[id];
+      if (!g || g.born === year) continue;
+      const before = sgTotal(g), { delta, big } = developmentDelta(seed, year, id);
+      g.stats = applyDevelopment(g.stats, delta);
+      development.push({ id, name: g.name, before: Math.round(before * 1000) / 1000, after: Math.round(sgTotal(g) * 1000) / 1000, delta, big });
+    }
+    t1 = pool1.map((id) => rec[id]);
+    t2 = pool2.map((id) => rec[id]);
+    offseason = { year, development: development.sort((a, b) => b.delta - a.delta), relegated, promoted, departed, joined };
+  }
+  for (const g of [...t1, ...t2]) rec[g.id] = g;
+
+  const field = t1.map(fieldItem).sort(byStrength), field2 = t2.map(fieldItem).sort(byStrength);
+  const both = [...field, ...field2];
+  const career = {
+    v: 1, seed, userGolferId: userId, userName: rec[userId]?.name || golfers[userId]?.name || "You", year, phase: "regular",
     field, schedule: weeks, weekIdx: 0, events: {},
+    tier2: { field: field2, schedule: tier2Schedule(weeks, courses, seed, year), events: {} },
+    golfers: rec, offseason,
     venues: pickVenues(courses, seed, year, prev ? [prev.venues?.playoffs, prev.venues?.cup].filter(Boolean) : []),
     playoffs: null, cup: null, userMatch: null,
-    // form carries into the new season for golfers still in the field (ensureForm steps it from here)
-    formU: prev?.formU ? Object.fromEntries(field.filter((g) => prev.formU[g.id] != null).map((g) => [g.id, prev.formU[g.id]])) : {},
+    // form carries into the new season for golfers still in either tier (ensureForm steps it from here)
+    formU: prev?.formU ? Object.fromEntries(both.filter((g) => prev.formU[g.id] != null).map((g) => [g.id, prev.formU[g.id]])) : {},
     form: {}, formHist: {}, formWeek: null,
     cupHolders: prev?.cupHolders || { ryder: "EUR", presidents: "USA" },
     history: prev?.history || [],
   };
+  career.userTier = tierOf(career, userId) || 1;
+  return career;
 }
 
 /**
@@ -404,14 +521,22 @@ export function newSeason({ golfers, pastedCount, userId, seed, tournaments, cou
  * (taking the place of the last golfer in that group if he'd otherwise be in the other).
  */
 export function weekEntrants(career, week, userEventId) {
+  const out = {};
+  const t2week = career.tier2?.schedule?.[career.weekIdx];
+  if (t2week) for (const ev of t2week.events) out[ev.id] = career.tier2.field.map((g) => g.id);  // every tier-2 golfer
+  const w1 = week?.events?.some((e) => e.tier === 2) ? career.schedule[career.weekIdx] : week;  // a tier-2 week was passed
+  if (!w1) return out;
   const ids = standings(career).map((r) => r.id);
-  if (week.events.length === 1) return { [week.events[0].id]: ids };
-  const [main, opp] = week.events[0].type === "opposite" ? [week.events[1], week.events[0]] : week.events;
+  if (w1.events.length === 1) return { ...out, [w1.events[0].id]: ids };
+  const [main, opp] = w1.events[0].type === "opposite" ? [w1.events[1], w1.events[0]] : w1.events;
   let a = ids.slice(0, OPPOSITE_SPLIT), b = ids.slice(OPPOSITE_SPLIT);
-  const u = career.userGolferId, want = userEventId || main.id;
-  if (want === main.id && !a.includes(u)) { b = [...b.filter((x) => x !== u), a[a.length - 1]]; a = [...a.slice(0, -1), u]; }
-  if (want === opp.id && !b.includes(u)) { a = [...a.filter((x) => x !== u), b[b.length - 1]]; b = [...b.slice(0, -1), u]; }
-  return { [main.id]: a, [opp.id]: b };
+  const u = career.userGolferId;
+  if (userTier(career) === 1) {
+    const want = userEventId && !isTier2Id(userEventId) ? userEventId : main.id;
+    if (want === main.id && !a.includes(u)) { b = [...b.filter((x) => x !== u), a[a.length - 1]]; a = [...a.slice(0, -1), u]; }
+    if (want === opp.id && !b.includes(u)) { a = [...a.filter((x) => x !== u), b[b.length - 1]]; b = [...b.slice(0, -1), u]; }
+  }
+  return { ...out, [main.id]: a, [opp.id]: b };
 }
 
 /**
@@ -422,9 +547,10 @@ export function startEvent(career, ev, entrants, course, userPlays) {
   const sk = skillsMap(career), cal = calibFor(course), seed = `${career.seed}|${career.year}|${ev.id}`;
   const u = career.userGolferId;
   const ai = simAiRounds(entrants.filter((id) => !userPlays || id !== u), course, cal, sk, seed);
-  career.events[ev.id] = { status: "live", id: ev.id, name: ev.name, type: ev.type, courseId: ev.courseId, start: ev.start,
+  const store = ev.tier === 2 && career.tier2 ? career.tier2.events : storeFor(career, ev.id);
+  store[ev.id] = { status: "live", id: ev.id, name: ev.name, type: ev.type, courseId: ev.courseId, start: ev.start, ...(ev.tier === 2 ? { tier: 2 } : {}),
     entrants, ai, user: userPlays && entrants.includes(u) ? [[], [], [], []] : null, round: 0, par: course.holes.reduce((a, h) => a + h.par, 0) };
-  return career.events[ev.id];
+  return store[ev.id];
 }
 
 /** Does the user make the cut, given his first 36 holes? (true for no-cut events) */
@@ -438,7 +564,7 @@ export function userMakesCut(live) {
 
 /** Finish an event: apply the cut, rank, award FedEx points, store compact results. */
 export function finishEvent(career, evId, course) {
-  const live = career.events[evId], u = career.userGolferId;
+  const store = storeFor(career, evId), live = store[evId], u = career.userGolferId;
   const rows = Object.entries(live.ai).map(([id, rounds]) => ({ id, rounds: rounds.map((r) => r.slice()) }));
   if (live.user) rows.push({ id: u, rounds: live.user.map((r) => r.slice()) });
   if (hasCut(live.type)) {
@@ -447,16 +573,16 @@ export function finishEvent(career, evId, course) {
   }
   const sk = skillsMap(career), cal = calibFor(course);
   const ranked = rankEvent(rows, live.par, live.type, (ids) => playoffWinner(ids, course, cal, sk, `${career.seed}|${career.year}|${evId}`));
-  const name = Object.fromEntries(career.field.map((g) => [g.id, g.name]));
+  const name = Object.fromEntries(allField(career).map((g) => [g.id, g.name]));
   const me = ranked.find((r) => r.id === u);
-  career.events[evId] = {
-    status: "done", id: evId, name: live.name, type: live.type, courseId: live.courseId, start: live.start, par: live.par,
+  store[evId] = {
+    status: "done", id: evId, name: live.name, type: live.type, courseId: live.courseId, start: live.start, par: live.par, ...(live.tier === 2 ? { tier: 2 } : {}),
     results: ranked.map((r) => ({ id: r.id, pos: r.pos, total: r.total, toPar: r.toPar, points: r.points,
       rounds: r.id === u || ranked.indexOf(r) < 10 ? r.rounds.map((x) => x.reduce((a, b) => a + b, 0) || null) : undefined })),
     winner: { id: ranked[0].id, name: name[ranked[0].id], toPar: ranked[0].toPar, playoff: !!ranked[0].playoff },
     userPos: me ? me.pos : null, userPoints: me ? me.points : 0, userPlayed: !!live.user,
   };
-  return career.events[evId];
+  return store[evId];
 }
 
 /** Sim a whole event (the user's rounds too) and finish it. */
@@ -465,15 +591,17 @@ export function simEvent(career, ev, entrants, course) {
   return finishEvent(career, ev.id, course);
 }
 
-/** Sim the rest of this week (both events if it's an opposite-field week) and move on. */
+/** Sim the rest of this week in both tiers (tier 1's opposite-field event too) and move on. */
 export function simWeek(career, courses, userEventId) {
   const week = career.schedule[career.weekIdx];
   const ent = weekEntrants(career, week, userEventId);
-  for (const ev of week.events) {
-    if (career.events[ev.id]?.status === "done") continue;
+  const all = [...week.events, ...(career.tier2?.schedule?.[career.weekIdx]?.events || [])];
+  for (const ev of all) {
+    const cur = eventById(career, ev.id);
+    if (cur?.status === "done") continue;
     const course = courses.find((c) => c.id === ev.courseId);
-    if (career.events[ev.id]?.status === "live") {
-      const live = career.events[ev.id];
+    if (cur?.status === "live") {
+      const live = cur;
       if (live.user) live.user = autoUserRounds(career, live, course);
       finishEvent(career, ev.id, course);
     } else simEvent(career, ev, ent[ev.id], course);

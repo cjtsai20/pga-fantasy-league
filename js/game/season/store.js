@@ -70,7 +70,7 @@ export function progressOf(c) {
   const matchHoles = c.userMatch?.state?.holes?.length || 0;
   let sub = 0;
   if (c.phase === "regular") {
-    const live = Object.values(c.events || {}).find((e) => e.status === "live");
+    const live = [...Object.values(c.events || {}), ...Object.values(c.tier2?.events || {})].find((e) => e.status === "live" && e.user);
     sub = live?.user ? live.user.reduce((n, r) => n + r.length, 0) : 0;
     sub += Object.values(c.events || {}).filter((e) => e.status === "done").length * 100;  // opposite-field weeks
   } else if (c.phase === "playoffs") {

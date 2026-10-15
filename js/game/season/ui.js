@@ -9,6 +9,7 @@ import {
   FIELD_SIZE, PLAYOFF_SIZE, newSeason, standings, weekEntrants, startEvent, userMakesCut, finishEvent,
   simEvent, simWeek, advanceWeek, skillsMap, setCalibration, cutAfter36, hasCut, makeRng, sgTotal, formOf, FORM,
 } from "./engine.js";
+import * as E from "./engine.js";  // tier API (tierName, PROMOTE, ...) read through E so older engines still load
 import { loadCareer, saveCareer, clearCareer, cloudLoadAll, cloudSave, cloudClear, cloudSaver, furtherAlong, progressOf, otherLocalCareers, SLOTS, activeSlot, setActiveSlot } from "./store.js";
 import { playHole, autoStrokes } from "./holeplay.js";
 import { scorecardHTML } from "../holeui.js";
@@ -86,9 +87,25 @@ export async function mountSeason(root, deps) {
     saver.schedule();
   };
   const courseOf = (id) => courses.find((c) => c.id === id);
-  const week = () => career.schedule[career.weekIdx];
-  const liveEvent = () => Object.values(career.events).find((e) => e.status === "live");
-  const me = () => standings(career).find((r) => r.id === career.userGolferId);
+
+  // ---- tiers: PGA TOUR (1) and Korn Ferry Tour (2). A career without career.tier2 is tier-1 only.
+  const TIER_SIZE = E.TIER_SIZE ?? FIELD_SIZE, PROMOTE = E.PROMOTE ?? 25, RELEGATE = E.RELEGATE ?? 25;
+  const hasTiers = (c = career) => !!c?.tier2;
+  const userTier = (c = career) => (hasTiers(c) ? c.userTier || 1 : 1);
+  const tierName = (t) => (E.tierName ? E.tierName(t) : t === 2 ? "Korn Ferry Tour" : "PGA TOUR");
+  const rankLabel = (t) => (t === 2 ? "Korn Ferry Tour rank" : "FedEx Cup rank");
+  const tierStandings = (t, c = career) => (t === 2 ? (hasTiers(c) ? standings(c, 2) : []) : standings(c));
+  const tierField = (t, c = career) => (t === 2 ? c.tier2?.field || [] : c.field);
+  const tierEvents = (t, c = career) => (t === 2 ? c.tier2?.events || {} : c.events);
+  const tierWeek = (t, c = career) => (t === 2 ? c.tier2?.schedule?.[c.weekIdx] : c.schedule[c.weekIdx]);
+  const tierSchedule = (t, c = career) => (t === 2 ? c.tier2?.schedule || [] : c.schedule);
+  const safeForm = (id) => { try { return formOf(career, id); } catch { return null; } };
+  /** Where a standings rank sits: 'promo' (top 25 of tier 2), 'releg' (bottom 25 of tier 1) or ''. */
+  const zoneOf = (t, rank) => (t === 2 ? (rank <= PROMOTE ? "promo" : "") : rank > TIER_SIZE - RELEGATE ? "releg" : "");
+
+  const week = () => tierWeek(userTier());
+  const liveEvent = () => [...Object.values(career.events), ...Object.values(career.tier2?.events || {})].find((e) => e.status === "live");
+  const me = () => tierStandings(userTier()).find((r) => r.id === career.userGolferId);
   const userPick = () => {
     const w = week(); if (!w) return null;
     return (career.picks ||= {})[career.weekIdx] || (w.events.find((e) => e.type !== "opposite") || w.events[0]).id;
@@ -103,6 +120,7 @@ export async function mountSeason(root, deps) {
     cleanup();
     if (!S.slot) return renderSlots();
     if (!career) return renderStart();
+    if (career.offseason && !career.offseason.seen) return renderOffseason();
     if (career.phase === "regular") {
       const live = liveEvent();
       if (live && !S.hubWhileLive) return renderEvent(live);
@@ -125,13 +143,13 @@ export async function mountSeason(root, deps) {
   }
   function slotSummary(c) {
     if (!c) return `<p class="sp-slot-empty">Empty</p>`;
-    const st = standings(c), mine = st.find((r) => r.id === c.userGolferId);
+    const t = userTier(c), st = tierStandings(t, c), mine = st.find((r) => r.id === c.userGolferId);
     const stage = c.phase === "regular" ? `Week ${Math.min(c.weekIdx + 1, c.schedule.length)} of ${c.schedule.length}`
       : c.phase === "playoffs" ? "FedEx Cup Playoffs" : c.phase === "cup" ? (c.year % 2 ? "Ryder Cup" : "Presidents Cup") : "Season complete";
-    const country = c.field.find((g) => g.id === c.userGolferId)?.country;
+    const country = (c.golfers?.[c.userGolferId] || [...c.field, ...tierField(2, c)].find((g) => g.id === c.userGolferId))?.country;
     return `<div class="sp-slot-me">${avatar({ id: c.userGolferId, name: c.userName, country })}
-        <div><p class="sp-slot-name">${esc(c.userName)}</p><p class="sp-meta">${c.year} season · ${esc(stage)}</p>
-        <p class="sp-meta">FedEx Cup rank <b>${mine?.rank ?? "-"}</b> · ${fmtPts(mine?.points)} pts · ${mine?.wins || 0} win${mine?.wins === 1 ? "" : "s"}${c.history?.length ? ` · ${c.history.length} season${c.history.length === 1 ? "" : "s"} done` : ""}</p></div></div>`;
+        <div><p class="sp-slot-name">${esc(c.userName)}</p><p class="sp-meta">${tierBadge(t)} ${c.year} season · ${esc(stage)}</p>
+        <p class="sp-meta">${rankLabel(t)} <b>${mine?.rank ?? "-"}</b> · ${fmtPts(mine?.points)} pts · ${mine?.wins || 0} win${mine?.wins === 1 ? "" : "s"}${c.history?.length ? ` · ${c.history.length} season${c.history.length === 1 ? "" : "s"} done` : ""}</p></div></div>`;
   }
   function renderSlots() {
     const last = activeSlot(uid);
@@ -170,7 +188,9 @@ export async function mountSeason(root, deps) {
         <p class="gm-lede">Play a full season as one golfer against the top ${FIELD_SIZE} on tour by strokes gained: the
           ${tournaments.length ? "league's" : ""} schedule with real FedEx Cup points and cuts, then the top ${PLAYOFF_SIZE} meet in
           a match-play bracket for the FedEx Cup, and the year ends with the Ryder Cup (odd years) or the Presidents Cup
-          (even years). Your career carries on season after season, saved in this browser.</p>
+          (even years). Your career carries on season after season: from your second season there's a 100-man Korn Ferry
+          Tour below, the bottom ${RELEGATE} of the PGA TOUR drop to it and its top ${PROMOTE} move up, and every golfer's
+          stats move a little each off-season.</p>
         <h3 class="gm-h3"><span class="gm-num">I</span> Choose your golfer</h3>
         <input class="gm-search sp-search" type="search" placeholder="Search any tour golfer by name" value="${esc(S.query)}" aria-label="Search golfers">
         <div class="sp-golfers">${list.map((p) => `
@@ -198,15 +218,23 @@ export async function mountSeason(root, deps) {
 
   // ------------------------------------------------------------ hub
   function renderHub() {
-    const st = standings(career), mine = st.find((r) => r.id === career.userGolferId);
+    const t = userTier(), st = tierStandings(t), mine = st.find((r) => r.id === career.userGolferId);
     const w = week(), live = liveEvent(), done = career.phase === "done";
-    const last = !done && career.phase === "regular" && S.lastEvent && career.events[S.lastEvent];
+    const last = !done && career.phase === "regular" && S.lastEvent && (career.events[S.lastEvent] || career.tier2?.events?.[S.lastEvent]);
+    const zone = mine && career.phase === "regular" ? zoneOf(t, mine.rank) : "";
+    const tabs = hasTiers()
+      ? [["standings", `${tierName(t)} standings`], ["standings2", `${tierName(3 - t)} standings`], ["schedule", "Schedule"], ["field", "The fields"], ["career", "Career"]]
+      : [["standings", "FedEx Cup standings"], ["schedule", "Schedule"], ["field", "The field"], ["career", "Career"]];
+    if (!tabs.some(([k]) => k === S.tab)) S.tab = "standings";
     root.innerHTML = `
       <header class="sp-head">
         <div class="sp-head-me">${avatar({ id: career.userGolferId, name: career.userName, country: career.field.find((g) => g.id === career.userGolferId)?.country }, "gm-avatar--lg")}
-          <div><p class="gm-eyebrow">Race to the FedEx Cup · ${career.year} season</p>
+          <div><p class="gm-eyebrow">Race to the FedEx Cup · ${career.year} season ${tierBadge(t)}</p>
             <h2 class="sp-name">${esc(career.userName)}</h2>
-            <p class="sp-meta">FedEx Cup rank <b>${mine?.rank ?? "-"}</b> of ${st.length} · ${fmtPts(mine?.points)} pts · ${mine?.wins || 0} win${mine?.wins === 1 ? "" : "s"} · ${mine?.top10 || 0} top 10s</p></div></div>
+            <p class="sp-meta">${rankLabel(t)} <b>${mine?.rank ?? "-"}</b> of ${st.length} · ${fmtPts(mine?.points)} pts · ${mine?.wins || 0} win${mine?.wins === 1 ? "" : "s"} · ${mine?.top10 || 0} top 10s</p>
+            ${zone === "promo" ? `<p class="sp-zone is-promo">In the promotion places: finish in the top ${PROMOTE} to move up to the PGA TOUR.</p>`
+              : zone === "releg" ? `<p class="sp-zone is-releg">In the relegation places: the bottom ${RELEGATE} drop to the Korn Ferry Tour${hasTiers() ? "" : " when it starts next season"}.</p>`
+              : t === 2 && career.phase === "regular" ? `<p class="sp-zone">Finish in the top ${PROMOTE} to be promoted to the PGA TOUR.</p>` : ""}</div></div>
         <div class="sp-head-links"><button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="switch">Switch career</button>
           <button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="abandon">Abandon career</button>
           <span class="sp-sync">${esc(syncText())}</span></div>
@@ -215,9 +243,10 @@ export async function mountSeason(root, deps) {
       ${formCard()}
       ${last ? resultCard(last) : ""}
       ${done ? seasonDoneCard(mine) : w ? weekCard(w, live) : ""}
-      <nav class="sp-tabs" role="tablist">${[["standings", "FedEx Cup standings"], ["schedule", "Schedule"], ["field", "The field"], ["career", "Career"]]
+      <nav class="sp-tabs" role="tablist">${tabs
         .map(([k, l]) => `<button role="tab" class="${S.tab === k ? "is-on" : ""}" data-tab="${k}">${l}</button>`).join("")}</nav>
-      <section class="sp-tabpanel">${{ standings: standingsTab, schedule: scheduleTab, field: fieldTab, career: careerTab }[S.tab](st)}</section>
+      <section class="sp-tabpanel">${{ standings: () => standingsTab(st, t), standings2: () => standingsTab(tierStandings(3 - t), 3 - t),
+        schedule: scheduleTab, field: fieldTab, career: careerTab }[S.tab]()}</section>
       <div class="sp-bar">${done
         ? `<p class="sp-bar-txt"><b>${career.year} season complete</b><span>Your career continues next year</span></p>
            <button class="gm-btn gm-btn--primary" data-act="next">Start ${career.year + 1} season</button>`
@@ -226,7 +255,7 @@ export async function mountSeason(root, deps) {
              <button class="gm-btn gm-btn--ghost" data-act="simlive">Sim rest of event</button>
              <button class="gm-btn gm-btn--primary" data-act="resume">Resume event</button>`
           : `<p class="sp-bar-txt"><b>Week ${career.weekIdx + 1} of ${career.schedule.length}</b><span>${esc(w.events.find((e) => e.id === userPick())?.name || "")}</span></p>
-             <button class="gm-btn gm-btn--ghost" data-act="simall" ${S.busy ? "disabled" : ""}>Sim to end of regular season</button>
+             <button class="gm-btn gm-btn--ghost" data-act="simall" ${S.busy ? "disabled" : ""}>Sim to end of ${t === 2 ? "the season" : "regular season"}</button>
              <button class="gm-btn gm-btn--ghost" data-act="simweek" ${S.busy ? "disabled" : ""}>Sim event</button>
              <button class="gm-btn gm-btn--primary" data-act="play" ${S.busy ? "disabled" : ""}>Play event</button>`}</div>`;
     wireHub();
@@ -289,7 +318,7 @@ export async function mountSeason(root, deps) {
   function weekCard(w, live) {
     const pick = userPick();
     return `<section class="sp-week">
-      <p class="gm-eyebrow">This week${w.events.length > 1 ? " · choose your event" : ""}</p>
+      <p class="gm-eyebrow">This week${hasTiers() ? ` · ${esc(tierName(userTier()))}` : ""}${w.events.length > 1 ? " · choose your event" : ""}</p>
       ${w.events.map((e) => {
         const c = courseOf(e.courseId);
         return `<label class="sp-ev ${e.id === pick ? "is-on" : ""}">
@@ -307,7 +336,7 @@ export async function mountSeason(root, deps) {
     return `<section class="sp-result">
       <p class="gm-eyebrow">Final · ${esc(ev.name)}</p>
       <p class="sp-result-win">${esc(ev.winner.name)} wins at ${toPar(ev.winner.toPar)}${ev.winner.playoff ? " in a playoff" : ""}.
-        ${ev.userPos ? `You finished <b>${esc(ev.userPos)}</b>${ev.userPoints ? `, +${fmtPts(ev.userPoints)} FedEx Cup points` : ""}.` : ""}</p>
+        ${ev.userPos ? `You finished <b>${esc(ev.userPos)}</b>${ev.userPoints ? `, +${fmtPts(ev.userPoints)} ${userTier() === 2 ? "Korn Ferry Tour" : "FedEx Cup"} points` : ""}.` : ""}</p>
       <ol class="sp-result-top">${top.map((r) => `<li class="${r.id === career.userGolferId ? "is-me" : ""}"><span>${esc(r.pos)}</span> ${esc(nameOf(r.id))} <span>${toPar(r.toPar)}</span> <span>${fmtPts(r.points)} pts</span></li>`).join("")}</ol>
       <button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="dismiss">Dismiss</button>
     </section>`;
@@ -317,59 +346,92 @@ export async function mountSeason(root, deps) {
     const h = career.history[career.history.length - 1];
     return `<section class="sp-week sp-done">
       <p class="gm-eyebrow">${career.year} season complete</p>
-      <p>You finished <b>${mine?.rank ?? "-"}</b> in the FedEx Cup standings with ${fmtPts(mine?.points)} points.</p>
+      <p>You finished <b>${mine?.rank ?? "-"}</b> in the ${userTier() === 2 ? "Korn Ferry Tour" : "FedEx Cup"} standings with ${fmtPts(mine?.points)} points.</p>
+      ${mine ? (() => { const z = zoneOf(userTier(), mine.rank);
+        return z === "promo" ? `<p class="sp-zone is-promo">Top ${PROMOTE}: you're promoted to the PGA TOUR for ${career.year + 1}.</p>`
+          : z === "releg" ? `<p class="sp-zone is-releg">Bottom ${RELEGATE}: you drop to the Korn Ferry Tour for ${career.year + 1}.</p>` : ""; })() : ""}
       ${h?.playoffs ? `<p>FedEx Cup Playoffs: ${esc(h.playoffs.championName || "")} won the FedEx Cup${h.playoffs.userOut ? `; you: ${esc(h.playoffs.userOut)}` : " (you didn't qualify)"}.</p>` : ""}
       ${h?.cup ? `<p>${esc(h.cup.name || "")}: ${esc(h.cup.text || "")}${h.cup.picked ? ` · your record ${h.cup.record.w}-${h.cup.record.l}-${h.cup.record.h}` : ""}</p>` : ""}
     </section>`;
   }
 
-  const nameOf = (id) => career.field.find((g) => g.id === id)?.name || id;
+  const nameOf = (id) => career.golfers?.[id]?.name || career.field.find((g) => g.id === id)?.name
+    || career.tier2?.field?.find((g) => g.id === id)?.name || id;
 
-  function standingsTab(st) {
-    return `<div class="sp-scroll"><table class="sp-table">
+  function standingsTab(st, t = 1) {
+    if (!st.length) return `<p class="gm-note">The ${esc(tierName(t))} starts next season.</p>`;
+    const n = st.length;
+    const cls = (r) => [r.id === career.userGolferId ? "is-me" : "",
+      t === 1 && r.rank === PLAYOFF_SIZE ? "sp-line" : "",
+      t === 2 && r.rank === PROMOTE ? "sp-promo-line" : "",
+      t === 1 && r.rank === n - RELEGATE ? "sp-releg-line" : "",
+      zoneOf(t, r.rank) ? `is-${zoneOf(t, r.rank)}` : ""].join(" ");
+    return `<div class="sp-scroll"><table class="sp-table sp-standings">
       <thead><tr><th>Rank</th><th>Golfer</th><th class="num">Points</th><th class="num">Wins</th><th class="num">Top 10</th><th class="num">Starts</th></tr></thead>
-      <tbody>${st.map((r) => `<tr class="${r.id === career.userGolferId ? "is-me" : ""} ${r.rank === PLAYOFF_SIZE ? "sp-line" : ""}">
-        <td>${r.rank}</td><td>${esc(r.name)}${r.id === career.userGolferId ? ` <span class="sp-you">You</span>` : ""}</td>
+      <tbody>${st.map((r) => `<tr class="${cls(r)}">
+        <td>${r.rank}</td><td>${esc(r.name)}${r.id === career.userGolferId ? ` <span class="sp-you">You</span>` : ""}${created(r.id)}</td>
         <td class="num">${fmtPts(r.points)}</td><td class="num">${r.wins}</td><td class="num">${r.top10}</td><td class="num">${r.starts}</td></tr>`).join("")}</tbody>
-    </table></div><p class="gm-note">The top ${PLAYOFF_SIZE} after the regular season play the FedEx Cup Playoffs.</p>`;
+    </table></div>
+    <p class="sp-legend">${t === 1
+      ? `<span class="sp-key sp-key--line"></span> The top ${PLAYOFF_SIZE} after the regular season play the FedEx Cup Playoffs.
+         <span class="sp-key sp-key--releg"></span> The bottom ${RELEGATE} drop to the Korn Ferry Tour${hasTiers() ? "" : " (it starts next season)"}.`
+      : `<span class="sp-key sp-key--promo"></span> The top ${PROMOTE} are promoted to the PGA TOUR. The bottom ${E.TIER2_TURNOVER ?? 25} lose their place to new college standouts and journeymen.`}</p>`;
+  }
+  /** A small tag for golfers the game created (college standouts, journeymen). */
+  function created(id) {
+    const c = career.golfers?.[id]?.created;
+    return c ? ` <span class="sp-new">${c === "college" ? "College" : "Journeyman"}</span>` : "";
+  }
+  function tierBadge(t) {
+    return `<span class="sp-tier sp-tier--${t}">${esc(tierName(t))}</span>`;
   }
 
+  function tierSwitch(key) {
+    if (!hasTiers()) return "";
+    S[key] ||= userTier();
+    return `<div class="sp-tierswitch" role="tablist">${[1, 2].map((t) => `<button role="tab" class="${S[key] === t ? "is-on" : ""}" data-tswitch="${key}:${t}">${esc(tierName(t))}${t === userTier() ? " (you)" : ""}</button>`).join("")}</div>`;
+  }
   function scheduleTab() {
-    return `<div class="sp-scroll"><table class="sp-table">
+    const t = hasTiers() ? (S.schedTier ||= userTier()) : 1, evs = tierEvents(t), mineHere = t === userTier();
+    return `${tierSwitch("schedTier")}<div class="sp-scroll"><table class="sp-table">
       <thead><tr><th>Week</th><th>Event</th><th>Course</th><th>Winner</th><th>You</th></tr></thead>
-      <tbody>${career.schedule.map((w, i) => w.events.map((e, j) => {
-        const r = career.events[e.id], c = courseOf(e.courseId);
+      <tbody>${tierSchedule(t).map((w, i) => (w?.events || []).map((e, j) => {
+        const r = evs[e.id], c = courseOf(e.courseId);
         return `<tr class="${i === career.weekIdx && career.phase === "regular" ? "is-now" : ""}">
           <td>${j ? "" : `${i + 1} · ${fmtDate(e.start)}`}</td><td>${evName(e)}<small class="sp-type">${esc(TYPE_LABEL[e.type] || "")}</small></td>
           <td>${esc(c?.name || "")}</td>
           <td>${r?.status === "done" ? `${esc(r.winner.name)} (${toPar(r.winner.toPar)})` : r?.status === "live" ? "In progress" : i === career.weekIdx ? "This week" : ""}</td>
-          <td>${r?.status === "done" ? (r.userPos ? `${esc(r.userPos)}${r.userPoints ? ` · ${fmtPts(r.userPoints)}` : ""}` : "-") : ""}</td></tr>`;
+          <td>${r?.status === "done" && mineHere ? (r.userPos ? `${esc(r.userPos)}${r.userPoints ? ` · ${fmtPts(r.userPoints)}` : ""}` : "-") : ""}</td></tr>`;
       }).join("")).join("")}
-      ${["Playoffs", "Cup"].map((k, i) => `<tr><td>${i ? "Year end" : "Postseason"}</td><td>${i ? (career.year % 2 ? "Ryder Cup" : "Presidents Cup") : "FedEx Cup Playoffs (match play)"}</td>
-        <td>${esc(courseOf(i ? career.venues?.cup : career.venues?.playoffs)?.name || "")}</td><td></td><td></td></tr>`).join("")}</tbody>
+      ${t === 1 ? ["Playoffs", "Cup"].map((k, i) => `<tr><td>${i ? "Year end" : "Postseason"}</td><td>${i ? (career.year % 2 ? "Ryder Cup" : "Presidents Cup") : "FedEx Cup Playoffs (match play)"}</td>
+        <td>${esc(courseOf(i ? career.venues?.cup : career.venues?.playoffs)?.name || "")}</td><td></td><td></td></tr>`).join("") : ""}</tbody>
     </table></div>`;
   }
 
   function fieldTab() {
-    const f = career.field.slice().sort((a, b) => b.sg - a.sg);
-    return `<p class="gm-note">The ${career.year} field: the top ${FIELD_SIZE} golfers by strokes gained when the season began. Missing stats use the worst value entered. Form is this week's swing; SG now = baseline + form.</p>
+    const t = hasTiers() ? (S.fieldTier ||= userTier()) : 1;
+    const f = tierField(t).slice().sort((a, b) => b.sg - a.sg);
+    return `${tierSwitch("fieldTier")}<p class="gm-note">${hasTiers()
+        ? `The ${career.year} ${esc(tierName(t))} field (${f.length} golfers): ${t === 1 ? "last season's PGA TOUR survivors plus the Korn Ferry Tour's promoted golfers" : "relegated PGA TOUR golfers, the rest of the data set and the game's college standouts and journeymen"}.`
+        : `The ${career.year} field: the top ${FIELD_SIZE} golfers by strokes gained when the season began.`}
+      Missing stats use the worst value entered. Form is this week's swing; SG now = baseline + form.</p>
       <div class="sp-scroll"><table class="sp-table">
       <thead><tr><th>#</th><th>Golfer</th><th>Country</th><th class="num">SG baseline</th><th class="num">Form</th><th class="num">SG now</th><th>Stats</th></tr></thead>
-      <tbody>${f.map((g, i) => { const fo = formOf(career, g.id); return `<tr class="${g.id === career.userGolferId ? "is-me" : ""}"><td>${i + 1}</td><td>${esc(g.name)}</td><td>${esc(g.country || "")}</td>
-        <td class="num">${sg(g.sg)}</td><td class="num sp-form-${fo.label.toLowerCase()}">${sg(fo.form)}</td><td class="num"><b>${sg(fo.now)}</b></td><td class="sp-src">${esc(g.src || "")}</td></tr>`; }).join("")}</tbody>
+      <tbody>${f.map((g, i) => { const fo = safeForm(g.id) || { form: 0, now: g.sg, label: "Steady" }; return `<tr class="${g.id === career.userGolferId ? "is-me" : ""}"><td>${i + 1}</td><td>${esc(g.name)}${created(g.id)}</td><td>${esc(g.country || "")}</td>
+        <td class="num">${sg(g.sg)}</td><td class="num sp-form-${fo.label.toLowerCase()}">${sg(fo.form)}</td><td class="num"><b>${sg(fo.now)}</b></td><td class="sp-src">${esc(g.src || (g.created ? "created" : ""))}</td></tr>`; }).join("")}</tbody>
     </table></div>`;
   }
 
   function careerTab() {
     const h = career.history;
     const tot = { wins: sum(h.map((x) => x.wins || 0)), titles: h.filter((x) => x.playoffs?.userOut === "Champion").length,
-      cups: h.filter((x) => x.cup?.picked).length };
+      cups: h.filter((x) => x.cup?.picked).length, kft: h.filter((x) => x.tier === 2).length };
     return `<div class="sp-totals"><span><b>${h.length}</b> season${h.length === 1 ? "" : "s"} completed</span><span><b>${tot.wins}</b> wins</span>
-        <span><b>${tot.titles}</b> FedEx Cup title${tot.titles === 1 ? "" : "s"}</span><span><b>${tot.cups}</b> cup appearance${tot.cups === 1 ? "" : "s"}</span></div>
+        <span><b>${tot.titles}</b> FedEx Cup title${tot.titles === 1 ? "" : "s"}</span><span><b>${tot.cups}</b> cup appearance${tot.cups === 1 ? "" : "s"}</span>${tot.kft ? `<span><b>${tot.kft}</b> Korn Ferry Tour season${tot.kft === 1 ? "" : "s"}</span>` : ""}</div>
       ${h.length ? `<div class="sp-scroll"><table class="sp-table">
-        <thead><tr><th>Year</th><th class="num">FedEx rank</th><th class="num">Points</th><th class="num">Wins</th><th class="num">Top 10</th><th>Playoffs</th><th>Cup</th></tr></thead>
-        <tbody>${h.map((x) => `<tr><td>${x.year}</td><td class="num">${x.rank ?? "-"}</td><td class="num">${fmtPts(x.points)}</td><td class="num">${x.wins || 0}</td><td class="num">${x.top10 || 0}</td>
-          <td>${esc(x.playoffs?.userOut || "Didn't qualify")}</td>
+        <thead><tr><th>Year</th>${h.some((x) => x.tier) ? "<th>Tour</th>" : ""}<th class="num">Rank</th><th class="num">Points</th><th class="num">Wins</th><th class="num">Top 10</th><th>Playoffs</th><th>Cup</th></tr></thead>
+        <tbody>${h.map((x) => `<tr><td>${x.year}</td>${h.some((y) => y.tier) ? `<td>${esc(tierName(x.tier || 1))}${x.moved === "promoted" ? ' <span class="sp-up">promoted</span>' : x.moved === "relegated" ? ' <span class="sp-down">relegated</span>' : ""}</td>` : ""}<td class="num">${x.rank ?? "-"}</td><td class="num">${fmtPts(x.points)}</td><td class="num">${x.wins || 0}</td><td class="num">${x.top10 || 0}</td>
+          <td>${esc(x.playoffs?.userOut || (x.tier === 2 ? "-" : "Didn't qualify"))}</td>
           <td>${x.cup ? `${esc(x.cup.name || "")}: ${esc(x.cup.text || "")}${x.cup.picked ? ` (${x.cup.record.w}-${x.cup.record.l}-${x.cup.record.h})` : " (not picked)"}` : ""}</td></tr>`).join("")}</tbody>
       </table></div>` : `<p class="gm-note">Finished seasons appear here.</p>`}`;
   }
@@ -377,6 +439,7 @@ export async function mountSeason(root, deps) {
   function wireHub() {
     const on = (act, fn) => root.querySelector(`[data-act="${act}"]`)?.addEventListener("click", fn);
     root.querySelectorAll("[data-tab]").forEach((b) => (b.onclick = () => { S.tab = b.dataset.tab; renderHub(); }));
+    root.querySelectorAll("[data-tswitch]").forEach((b) => (b.onclick = () => { const [k, v] = b.dataset.tswitch.split(":"); S[k] = +v; renderHub(); }));
     root.querySelectorAll('input[name="sp-ev"]').forEach((r) => (r.onchange = () => { (career.picks ||= {})[career.weekIdx] = r.value; save(); renderHub(); }));
     on("abandon", async () => {
       if (!confirm("Abandon this career? It can't be undone.")) return;
@@ -390,7 +453,7 @@ export async function mountSeason(root, deps) {
     on("next", () => {
       career = newSeason({ golfers: pool, pastedCount: deps.pastedCount || 0, userId: career.userGolferId, seed: career.seed,
         tournaments, courses, year: career.year + 1, prev: career });
-      S.lastEvent = null; save(); render();
+      S.lastEvent = null; S.schedTier = null; S.fieldTier = null; save(); render();
     });
     on("play", () => playEvent());
     on("resume", () => { S.hubWhileLive = false; render(); });
@@ -399,7 +462,7 @@ export async function mountSeason(root, deps) {
     on("simall", async () => {
       S.busy = true; renderHub();
       const bar = root.querySelector(".sp-bar-txt");
-      while (career.phase === "regular") {
+      while (career.phase === "regular" && week()) {
         const ev = userPick();
         simWeek(career, courses, ev);
         S.lastEvent = ev;
@@ -408,6 +471,47 @@ export async function mountSeason(root, deps) {
       }
       S.busy = false; save(); render();
     });
+  }
+
+  // ------------------------------------------------------------ off-season report (before a new season)
+  function renderOffseason() {
+    const o = career.offseason, uidG = career.userGolferId;
+    const nm = (id) => career.golfers?.[id]?.name || nameOf(id);
+    const dev = o.development || [];
+    const mineDev = dev.find((d) => d.id === uidG);
+    const risers = dev.slice().sort((a, b) => b.delta - a.delta).slice(0, 5);
+    const fallers = dev.slice().sort((a, b) => a.delta - b.delta).slice(0, 5);
+    const up = (o.promoted || []).includes(uidG), down = (o.relegated || []).includes(uidG);
+    const joined = o.joined || [], college = joined.filter((id) => career.golfers?.[id]?.created === "college").length;
+    const list = (ids, cls) => `<ul class="sp-movers ${cls}">${ids.map((id) => `<li class="${id === uidG ? "is-me" : ""}">${esc(nm(id))}${id === uidG ? ' <span class="sp-you">You</span>' : ""}</li>`).join("") || "<li>-</li>"}</ul>`;
+    const devRow = (d) => `<tr class="${d.id === uidG ? "is-me" : ""}"><td>${esc(d.name || nm(d.id))}${d.big === "up" ? ' <span class="sp-up">big jump</span>' : d.big === "down" ? ' <span class="sp-down">big drop</span>' : ""}</td>
+      <td class="num">${sg(d.before)}</td><td class="num">${sg(d.after)}</td><td class="num ${d.delta >= 0 ? "sp-pos-d" : "sp-neg-d"}">${sg(d.delta)}</td></tr>`;
+    root.innerHTML = `
+      <section class="sp-start sp-off">
+        <p class="gm-eyebrow">Off-season · into ${career.year}</p>
+        <h2 class="gm-title">The ${career.year} season is set</h2>
+        ${up ? `<p class="sp-zone is-promo sp-off-big">You're promoted: ${esc(career.userName)} plays the PGA TOUR in ${career.year}.</p>`
+          : down ? `<p class="sp-zone is-releg sp-off-big">You're relegated: ${esc(career.userName)} plays the Korn Ferry Tour in ${career.year}. Finish in its top ${PROMOTE} to come back.</p>`
+          : `<p class="sp-meta">${esc(career.userName)} stays on the ${esc(tierName(userTier()))} for ${career.year}.</p>`}
+      </section>
+      ${mineDev ? `<section class="sp-form sp-off-me"><div class="sp-form-nums">
+          <div><span>Last season's baseline</span><b>${sg(mineDev.before)}</b></div>
+          <div><span>Off-season change</span><b class="${mineDev.delta >= 0 ? "sp-form-warm" : "sp-form-cool"}">${sg(mineDev.delta)}${mineDev.big ? (mineDev.big === "up" ? " · big jump" : " · big drop") : ""}</b></div>
+          <div><span>${career.year} baseline</span><b>${sg(mineDev.after)}</b></div></div>
+        <p class="gm-note">Every golfer's stats move each off-season on the same odds: most by about &plusmn;0.1 strokes a round, and about 3 in 200 jump or drop by 0.6 to 1.2.</p></section>` : ""}
+      <div class="sp-off-grid">
+        <section class="sp-week"><p class="gm-eyebrow">Promoted to the PGA TOUR (${(o.promoted || []).length})</p>${list(o.promoted || [], "is-up")}</section>
+        <section class="sp-week"><p class="gm-eyebrow">Relegated to the Korn Ferry Tour (${(o.relegated || []).length})</p>${list(o.relegated || [], "is-down")}</section>
+      </div>
+      <div class="sp-off-grid">
+        <section class="sp-week"><p class="gm-eyebrow">Biggest risers</p><table class="sp-table sp-table--tight"><thead><tr><th>Golfer</th><th class="num">Before</th><th class="num">After</th><th class="num">Change</th></tr></thead><tbody>${risers.map(devRow).join("")}</tbody></table></section>
+        <section class="sp-week"><p class="gm-eyebrow">Biggest fallers</p><table class="sp-table sp-table--tight"><thead><tr><th>Golfer</th><th class="num">Before</th><th class="num">After</th><th class="num">Change</th></tr></thead><tbody>${fallers.map(devRow).join("")}</tbody></table></section>
+      </div>
+      <section class="sp-week"><p class="gm-eyebrow">Korn Ferry Tour turnover</p>
+        <p>${(o.departed || []).length} golfers lost their Korn Ferry Tour place. ${joined.length} newcomers join: ${college} college standout${college === 1 ? "" : "s"} and ${joined.length - college} journeym${joined.length - college === 1 ? "an" : "en"}.</p></section>
+      <div class="sp-bar"><p class="sp-bar-txt"><b>${career.year} season</b><span>${esc(tierName(userTier()))}</span></p>
+        <button class="gm-btn gm-btn--primary" data-act="begin-season">Start the ${career.year} season</button></div>`;
+    root.querySelector('[data-act="begin-season"]').onclick = () => { career.offseason.seen = true; save(); render(); };
   }
 
   // ------------------------------------------------------------ an event, shot by shot
@@ -486,7 +590,7 @@ export async function mountSeason(root, deps) {
     }
     const { r, h } = progress(live), cut = cutState(live);
     const board = liveBoard(live, course), meRow = board.rows.find((x) => x.me);
-    const head = `<div class="sp-evhead"><div><p class="gm-eyebrow">${esc(TYPE_LABEL[live.type] || "")} · ${career.year}</p>
+    const head = `<div class="sp-evhead"><div><p class="gm-eyebrow">${hasTiers() ? `${esc(tierName(userTier()))} · ` : ""}${esc(TYPE_LABEL[live.type] || "")} · ${career.year}</p>
         <h3 class="sp-evname">${evName(live)}</h3></div>
         <button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="hub">Season hub</button></div>`;
     if (r >= 4 || cut === false) {
@@ -534,24 +638,26 @@ export async function mountSeason(root, deps) {
 
   function finishLive(live, course) {
     finishEvent(career, live.id, course);
-    const w = week();
-    if (w && w.events.every((e) => career.events[e.id]?.status === "done")) advanceWeek(career);
+    // simWeek finishes whatever is still unplayed this week (the other tour's event, an opposite-field
+    // event) and moves to the next week; with nothing left it only advances.
+    simWeek(career, courses, live.id);
     S.lastEvent = live.id; S.hubWhileLive = false;
     save(); render();
   }
 
   // ------------------------------------------------------------ playoffs and the cup (ui_post.js)
   async function renderPost() {
-    const st = standings(career), mine = st.find((r) => r.id === career.userGolferId);
-    root.innerHTML = `<header class="sp-head sp-head--slim"><div><p class="gm-eyebrow">Race to the FedEx Cup · ${career.year} season</p>
-        <p class="sp-meta">${esc(career.userName)} · regular season rank <b>${mine?.rank ?? "-"}</b> · ${fmtPts(mine?.points)} pts</p></div>
+    const t = userTier(), st = tierStandings(t), mine = st.find((r) => r.id === career.userGolferId);
+    root.innerHTML = `<header class="sp-head sp-head--slim"><div><p class="gm-eyebrow">Race to the FedEx Cup · ${career.year} season ${hasTiers() ? tierBadge(t) : ""}</p>
+        <p class="sp-meta">${esc(career.userName)} · ${t === 2 ? "Korn Ferry Tour final rank" : "regular season rank"} <b>${mine?.rank ?? "-"}</b> · ${fmtPts(mine?.points)} pts
+          ${t === 2 ? ` · ${mine && mine.rank <= PROMOTE ? "promoted to the PGA TOUR next season" : "you can watch the PGA TOUR's postseason"}` : ""}</p></div>
         <div class="sp-head-links"><button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="standings">Final standings</button>
           <button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="switch">Switch career</button></div></header>
       <div class="sp-post"><p class="gm-loading">Loading...</p></div>`;
     root.querySelector('[data-act="switch"]').onclick = () => closeSlot();
     root.querySelector('[data-act="standings"]').onclick = () => {
       const box = root.querySelector(".sp-post");
-      box.innerHTML = `${standingsTab(st)}<button class="gm-btn gm-btn--primary" data-act="back">Back</button>`;
+      box.innerHTML = `${standingsTab(st, t)}<button class="gm-btn gm-btn--primary" data-act="back">Back</button>`;
       box.querySelector('[data-act="back"]').onclick = () => render();
     };
     const el = root.querySelector(".sp-post");
@@ -575,7 +681,10 @@ export async function mountSeason(root, deps) {
   function pushHistory() {
     if (career.history.some((x) => x.year === career.year && x.seed === career.seed)) return;
     const mine = me();
+    const t = userTier(), z = mine ? zoneOf(t, mine.rank) : "";
     career.history.push({ year: career.year, seed: career.seed, rank: mine?.rank ?? null, points: mine?.points ?? 0,
+      tier: t, tier2Rank: t === 2 ? mine?.rank ?? null : null,
+      moved: z === "promo" ? "promoted" : z === "releg" && hasTiers() ? "relegated" : null,
       wins: mine?.wins || 0, top10: mine?.top10 || 0, starts: mine?.starts || 0,
       fedexLeader: standings(career)[0]?.name || "", playoffs: career.playoffResult || null, cup: career.cupResult || null });
   }

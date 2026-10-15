@@ -117,3 +117,35 @@
 .sp-slot-empty { margin: 8px 0; color: var(--g-muted); font-style: italic; }
 .sp-slot .gm-btn { align-self: flex-start; }
 .sp-back { margin: 0 0 8px; }
+
+/* two tiers: PGA TOUR / Korn Ferry Tour */
+.sp-tier { display: inline-block; vertical-align: middle; margin-left: 6px; padding: 1px 7px; border-radius: 3px; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; }
+.sp-tier--1 { background: var(--g-green-dk, #0b4a32); color: #fff; }
+.sp-tier--2 { background: #e7dcc0; color: #4a3b12; }
+.sp-zone { margin: 6px 0 0; font-size: 13.5px; color: var(--g-muted); }
+.sp-zone.is-promo { color: #1d7a3a; font-weight: 600; }
+.sp-zone.is-releg { color: #b23a2b; font-weight: 600; }
+.sp-standings tr.sp-promo-line td { border-bottom: 3px solid #1d7a3a; }
+.sp-standings tr.sp-releg-line td { border-bottom: 3px solid #b23a2b; }
+.sp-standings tr.is-promo td:first-child { box-shadow: inset 3px 0 0 #1d7a3a; }
+.sp-standings tr.is-releg td:first-child { box-shadow: inset 3px 0 0 #b23a2b; }
+.sp-legend { font-size: 13px; color: var(--g-muted); margin: 8px 0 0; line-height: 1.8; }
+.sp-key { display: inline-block; width: 22px; height: 0; vertical-align: middle; margin: 0 4px 0 10px; border-top: 3px solid; }
+.sp-key:first-child { margin-left: 0; }
+.sp-key--line { border-color: var(--g-gold, #e8b923); }
+.sp-key--promo { border-color: #1d7a3a; }
+.sp-key--releg { border-color: #b23a2b; }
+.sp-new { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; background: #efe7d1; color: #6b5420; padding: 1px 5px; border-radius: 3px; }
+.sp-up, .sp-down { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; padding: 1px 5px; border-radius: 3px; color: #fff; }
+.sp-up { background: #1d7a3a; }
+.sp-down { background: #b23a2b; }
+.sp-tierswitch { display: inline-flex; border: 1px solid var(--g-rule); border-radius: 4px; overflow: hidden; margin: 0 0 12px; }
+.sp-tierswitch button { background: #fff; border: 0; padding: 7px 14px; font: inherit; font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--g-muted); cursor: pointer; }
+.sp-tierswitch button.is-on { background: var(--g-green, #006747); color: #fff; }
+/* off-season report */
+.sp-off-big { font-size: 17px; }
+.sp-off-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.sp-movers { columns: 2 140px; margin: 6px 0 0; padding-left: 18px; font-size: 14px; }
+.sp-movers li.is-me { font-weight: 700; color: var(--g-green-dk); }
+.sp-pos-d { color: #1d7a3a; }
+.sp-neg-d { color: #b23a2b; }
