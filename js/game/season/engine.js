@@ -24,7 +24,13 @@ export const CUT_LINE = 65;
 const FEATS = ["dist", "acc", "ott", "app", "arg", "putt"];
 const BASE = skillsFrom({});
 let STEP = { dist: 20, acc: 0.08, ott: 0.6, app: 0.6, arg: 0.4, putt: 0.5 };  // calibration steps (season_calib.json "step")
-const FORM_SD = 0.35;            // strokes per round, per golfer per event
+// Form: a running strokes-gained-per-round offset per golfer, carried week to week (hot and cold
+// streaks). Each week keeps RHO of last week's form plus a fresh swing. The typical swing (stationary
+// SD) shrinks with skill: SD_WORST for the field's weakest golfer down to SD_BEST for its best, and form
+// is capped at +/- CLAMP typical swings, so the best have the higher floor and ceiling and the weakest
+// the wider spread (occasionally playing well above their level).
+export const FORM = { RHO: 0.7, SD_BEST: 0.30, SD_WORST: 0.75, CLAMP: 2.2 };
+const FORM_SPLIT = { ott: 0.25, app: 0.35, arg: 0.15, putt: 0.25 };  // how a form swing spreads over the SG areas
 const NO_CUT = new Set(["signature"]);
 export const OPPOSITE_SPLIT = 75; // opposite-field weeks: the top 75 in the standings play the main event
 
@@ -235,9 +241,8 @@ export function simAiRounds(entrants, course, calib, skills, seed, rounds = [0, 
   const out = {};
   for (const id of entrants) {
     const rng = makeRng(`${seed}|${id}`);
-    const form = rng.normal() * FORM_SD / 18;
-    const fit = courseFit(calib, skills[id]);
-    out[id] = [0, 1, 2, 3].map((r) => (rounds.includes(r) ? quickRound(course, calib, fit, form, rng) : []));
+    const fit = courseFit(calib, skills[id]);  // skills already carry this week's form (skillsMap)
+    out[id] = [0, 1, 2, 3].map((r) => (rounds.includes(r) ? quickRound(course, calib, fit, 0, rng) : []));
   }
   return out;
 }
@@ -277,9 +282,56 @@ export function standings(career) {
 }
 
 // ---------------------------------------------------------------- career flow
-/** Skills for every golfer in the locked field (not saved; rebuilt from the field's stats). */
+/** Typical form swing (SG per round) for each golfer, from his base-SG percentile in the field. */
+export function formSd(career) {
+  const ranked = [...career.field].sort((a, b) => a.sg - b.sg), n = ranked.length;
+  return Object.fromEntries(ranked.map((g, i) => [g.id, FORM.SD_WORST - (FORM.SD_WORST - FORM.SD_BEST) * (n > 1 ? i / (n - 1) : 1)]));
+}
+
+/**
+ * Bring every golfer's form up to the current week (seeded, so a career replays the same way).
+ * Week 0 of a season starts from last season's form when there is one, else a fresh draw. History is
+ * kept per golfer for the form charts. During the playoffs and cups form stays at its final value.
+ */
+export function ensureForm(career) {
+  const target = Math.min(career.weekIdx, career.schedule.length - 1);
+  if (career.formWeek != null && career.formWeek >= target) return false;
+  const sd = formSd(career), { RHO, CLAMP } = FORM, keep = Math.sqrt(1 - RHO * RHO);
+  career.form ||= {};
+  career.formHist ||= {};
+  let w = career.formWeek ?? -1;
+  while (w < target) {
+    w++;
+    const rng = makeRng(`${career.seed}|${career.year}|form|${w}`);
+    for (const g of career.field) {
+      const z = rng.normal(), cap = CLAMP * sd[g.id], prev = career.form[g.id];
+      let v = w === 0 && prev == null ? z * sd[g.id] : RHO * (prev ?? 0) + keep * sd[g.id] * z;
+      v = Math.max(-cap, Math.min(cap, v));
+      career.form[g.id] = Math.round(v * 1000) / 1000;
+      (career.formHist[g.id] ||= [])[w] = career.form[g.id];
+    }
+  }
+  career.formWeek = target;
+  return true;
+}
+
+/** A golfer's base SG, current form and the two combined, for display. */
+export function formOf(career, id) {
+  ensureForm(career);
+  const g = career.field.find((x) => x.id === id);
+  const f = career.form?.[id] ?? 0, sd = formSd(career)[id] ?? FORM.SD_WORST;
+  return { base: g?.sg ?? 0, form: f, now: (g?.sg ?? 0) + f, sd, hist: (career.formHist?.[id] || []).slice(),
+    label: f >= sd ? "Hot" : f >= sd / 3 ? "Warm" : f <= -sd ? "Cold" : f <= -sd / 3 ? "Cool" : "Steady" };
+}
+
+/** Skills for every golfer in the locked field, with this week's form applied (not saved; rebuilt). */
 export function skillsMap(career) {
-  return (career._sk ||= Object.fromEntries(career.field.map((g) => [g.id, skillsFrom(g.stats || {})])));
+  if (ensureForm(career) || career._skWeek !== career.formWeek) { delete career._sk; career._skWeek = career.formWeek; }
+  return (career._sk ||= Object.fromEntries(career.field.map((g) => {
+    const sk = skillsFrom(g.stats || {}), f = career.form?.[g.id] || 0;
+    for (const [k, share] of Object.entries(FORM_SPLIT)) sk[k] += f * share;
+    return [g.id, sk];
+  })));
 }
 
 /** A new career (or the next season of one): locks the field and the schedule for `year`. */
@@ -292,6 +344,9 @@ export function newSeason({ golfers, pastedCount, userId, seed, tournaments, cou
     field, schedule: weeks, weekIdx: 0, events: {},
     venues: pickVenues(courses, seed, year, prev ? [prev.venues?.playoffs, prev.venues?.cup].filter(Boolean) : []),
     playoffs: null, cup: null, userMatch: null,
+    // form carries into the new season for golfers still in the field (ensureForm steps it from here)
+    form: prev?.form ? Object.fromEntries(field.filter((g) => prev.form[g.id] != null).map((g) => [g.id, prev.form[g.id]])) : {},
+    formHist: {}, formWeek: null,
     cupHolders: prev?.cupHolders || { ryder: "EUR", presidents: "USA" },
     history: prev?.history || [],
   };

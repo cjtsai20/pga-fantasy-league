@@ -7,7 +7,7 @@
 
 import {
   FIELD_SIZE, PLAYOFF_SIZE, newSeason, standings, weekEntrants, startEvent, userMakesCut, finishEvent,
-  simEvent, simWeek, advanceWeek, skillsMap, setCalibration, cutAfter36, hasCut, makeRng, sgTotal,
+  simEvent, simWeek, advanceWeek, skillsMap, setCalibration, cutAfter36, hasCut, makeRng, sgTotal, formOf, FORM,
 } from "./engine.js";
 import { loadCareer, saveCareer, clearCareer } from "./store.js";
 import { playHole, autoStrokes } from "./holeplay.js";
@@ -145,6 +145,7 @@ export async function mountSeason(root, deps) {
             <p class="sp-meta">FedEx Cup rank <b>${mine?.rank ?? "-"}</b> of ${st.length} · ${fmtPts(mine?.points)} pts · ${mine?.wins || 0} win${mine?.wins === 1 ? "" : "s"} · ${mine?.top10 || 0} top 10s</p></div></div>
         <div class="sp-head-links"><button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="abandon">Abandon career</button></div>
       </header>
+      ${formCard()}
       ${last ? resultCard(last) : ""}
       ${done ? seasonDoneCard(mine) : w ? weekCard(w, live) : ""}
       <nav class="sp-tabs" role="tablist">${[["standings", "FedEx Cup standings"], ["schedule", "Schedule"], ["field", "The field"], ["career", "Career"]]
@@ -162,6 +163,36 @@ export async function mountSeason(root, deps) {
              <button class="gm-btn gm-btn--ghost" data-act="simweek" ${S.busy ? "disabled" : ""}>Sim event</button>
              <button class="gm-btn gm-btn--primary" data-act="play" ${S.busy ? "disabled" : ""}>Play event</button>`}</div>`;
     wireHub();
+  }
+
+  const sg = (v) => `${v >= 0 ? "+" : ""}${v.toFixed(2)}`;
+
+  /** Your golfer's strokes gained right now: base (season stats) + form, with the season's form line. */
+  function formCard() {
+    const f = formOf(career, career.userGolferId), cap = FORM.CLAMP * f.sd;
+    const pts = f.hist.map((v, i) => [i, v]).filter(([, v]) => v != null);
+    const W = 560, H = 90, n = Math.max(career.schedule.length - 1, 1);
+    const x = (i) => 8 + (i / n) * (W - 16), y = (v) => H / 2 - (v / cap) * (H / 2 - 8);
+    const line = pts.map(([i, v], k) => `${k ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("");
+    const chart = pts.length ? `<svg class="sp-form-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Form by week this season">
+        <rect x="8" y="${y(f.sd).toFixed(1)}" width="${W - 16}" height="${(y(-f.sd) - y(f.sd)).toFixed(1)}" class="sp-form-band"/>
+        <line x1="8" x2="${W - 8}" y1="${H / 2}" y2="${H / 2}" class="sp-form-zero"/>
+        <path d="${line}" class="sp-form-line"/>
+        <text x="8" y="${H - 1}" class="sp-form-lbl">Week 1</text><text x="${W - 8}" y="${H - 1}" text-anchor="end" class="sp-form-lbl">Week ${n + 1}</text>
+        <text x="${W - 8}" y="10" text-anchor="end" class="sp-form-lbl">hot</text><text x="${W - 8}" y="${H - 12}" text-anchor="end" class="sp-form-lbl">cold</text>
+        ${pts.length ? `<circle cx="${x(pts[pts.length - 1][0]).toFixed(1)}" cy="${y(pts[pts.length - 1][1]).toFixed(1)}" r="4" class="sp-form-dot"/>` : ""}
+      </svg>` : "";
+    return `<section class="sp-form">
+      <div class="sp-form-nums">
+        <div><span>Season baseline</span><b>${sg(f.base)}</b></div>
+        <div><span>Form</span><b class="sp-form-${f.label.toLowerCase()}">${sg(f.form)} · ${f.label}</b></div>
+        <div><span>Strokes gained right now</span><b>${sg(f.now)}</b></div>
+      </div>
+      ${chart}
+      <p class="gm-note">Form swings week to week and carries over, so streaks last a few events. Your typical swing is
+        &plusmn;${f.sd.toFixed(2)} a round (better golfers swing less), capped at &plusmn;${cap.toFixed(2)}: between ${sg(f.base - cap)} and ${sg(f.base + cap)}.
+        The shaded band is one typical swing either side.</p>
+    </section>`;
   }
 
   function weekCard(w, live) {
@@ -230,11 +261,11 @@ export async function mountSeason(root, deps) {
 
   function fieldTab() {
     const f = career.field.slice().sort((a, b) => b.sg - a.sg);
-    return `<p class="gm-note">The ${career.year} field: the top ${FIELD_SIZE} golfers by strokes gained when the season began. Missing stats use the worst value entered.</p>
+    return `<p class="gm-note">The ${career.year} field: the top ${FIELD_SIZE} golfers by strokes gained when the season began. Missing stats use the worst value entered. Form is this week's swing; SG now = baseline + form.</p>
       <div class="sp-scroll"><table class="sp-table">
-      <thead><tr><th>#</th><th>Golfer</th><th>Country</th><th class="num">SG total</th><th>Stats</th></tr></thead>
-      <tbody>${f.map((g, i) => `<tr class="${g.id === career.userGolferId ? "is-me" : ""}"><td>${i + 1}</td><td>${esc(g.name)}</td><td>${esc(g.country || "")}</td>
-        <td class="num">${g.sg >= 0 ? "+" : ""}${g.sg.toFixed(2)}</td><td class="sp-src">${esc(g.src || "")}</td></tr>`).join("")}</tbody>
+      <thead><tr><th>#</th><th>Golfer</th><th>Country</th><th class="num">SG baseline</th><th class="num">Form</th><th class="num">SG now</th><th>Stats</th></tr></thead>
+      <tbody>${f.map((g, i) => { const fo = formOf(career, g.id); return `<tr class="${g.id === career.userGolferId ? "is-me" : ""}"><td>${i + 1}</td><td>${esc(g.name)}</td><td>${esc(g.country || "")}</td>
+        <td class="num">${sg(g.sg)}</td><td class="num sp-form-${fo.label.toLowerCase()}">${sg(fo.form)}</td><td class="num"><b>${sg(fo.now)}</b></td><td class="sp-src">${esc(g.src || "")}</td></tr>`; }).join("")}</tbody>
     </table></div>`;
   }
 
@@ -369,7 +400,7 @@ export async function mountSeason(root, deps) {
         course, holeIdx: h, golfer: { id: career.userGolferId, name: career.userName, sk },
         rng: makeRng(`${career.seed}|${career.year}|${live.id}|me|${r}|${h}`),
         label: `Round ${r + 1}`,
-        extraHeader: `<p class="sp-pos">${meRow ? `<b>${meRow.pos}</b> at ${toPar(meRow.tp)}` : ""} · ${esc(board.label)}</p>`,
+        extraHeader: `<p class="sp-pos">${meRow ? `<b>${meRow.pos}</b> at ${toPar(meRow.tp)}` : ""} · ${esc(board.label)} · ${(() => { const f = formOf(career, career.userGolferId); return `SG now ${sg(f.now)} (${f.label.toLowerCase()})`; })()}</p>`,
         continueLabel: lastHole ? (lastRound ? "Finish the tournament" : `Start round ${r + 2}`) : `On to hole ${h + 2}`,
         sims: [{ label: "Sim rest of round", onClick: () => simUser(live, course, "round") },
                { label: "Sim rest of event", onClick: () => simUser(live, course, "event") }],

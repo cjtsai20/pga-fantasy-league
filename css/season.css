@@ -92,3 +92,17 @@
 
 /* scorecard under the hole during a season event */
 .sp-scorecard { margin: 16px 0; }
+
+/* your golfer's strokes gained right now: baseline + form, and the season's form line */
+.sp-form { background: #fff; border: 1px solid var(--g-rule); border-left: 4px solid var(--g-green); border-radius: 4px; padding: 14px 18px; margin: 0 0 18px; }
+.sp-form-nums { display: flex; flex-wrap: wrap; gap: 10px 36px; }
+.sp-form-nums span { display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--g-muted); }
+.sp-form-nums b { font-size: 22px; font-variant-numeric: tabular-nums; color: var(--g-green-dk); }
+.sp-form-chart { width: 100%; max-width: 560px; height: 90px; margin-top: 10px; display: block; }
+.sp-form-band { fill: var(--g-green-lt, #e3efe6); }
+.sp-form-zero { stroke: var(--g-rule); stroke-dasharray: 3 3; }
+.sp-form-line { fill: none; stroke: var(--g-green); stroke-width: 2; }
+.sp-form-dot { fill: var(--g-gold, #e8b923); stroke: var(--g-green-dk); stroke-width: 1.5; }
+.sp-form-hot, .sp-form-warm { color: #1d7a3a !important; }
+.sp-form-cold, .sp-form-cool { color: #b23a2b !important; }
+.sp-form-lbl { font-size: 10px; fill: var(--g-muted); letter-spacing: .06em; }
