@@ -25,11 +25,38 @@ const FEATS = ["dist", "acc", "ott", "app", "arg", "putt"];
 const BASE = skillsFrom({});
 let STEP = { dist: 20, acc: 0.08, ott: 0.6, app: 0.6, arg: 0.4, putt: 0.5 };  // calibration steps (season_calib.json "step")
 // Form: a running strokes-gained-per-round offset per golfer, carried week to week (hot and cold
-// streaks). Each week keeps RHO of last week's form plus a fresh swing. The typical swing (stationary
-// SD) shrinks with skill: SD_WORST for the field's weakest golfer down to SD_BEST for its best, and form
-// is capped at +/- CLAMP typical swings, so the best have the higher floor and ceiling and the weakest
-// the wider spread (occasionally playing well above their level).
-export const FORM = { RHO: 0.7, SD_BEST: 0.30, SD_WORST: 0.75, CLAMP: 2.2 };
+// streaks). Underneath is a standard-normal AR(1) state u (each week keeps RHO of last week plus a fresh
+// draw, capped at +/- U_CAP); form = sd * T_k(u), where T_k is a standardized log-normal transform (mean
+// 0, SD 1) with skew set by k.
+//   * sd (typical swing) shrinks with skill: SD_WORST for the field's weakest golfer, SD_BEST for its best.
+//   * k grows as skill drops: 0 for the best (a plain bell curve), K_MAX for the weakest. A right-skewed
+//     curve puts most weeks slightly below the baseline (bad weeks are more likely) with a long, thin
+//     tail of big weeks, so a weak golfer's rare peak can top the best players' peak.
+// Mean form is 0 for everyone, so a golfer's baseline is still his season average.
+export const FORM = { RHO: 0.7, SD_BEST: 0.30, SD_WORST: 0.75, K_MAX: 0.7, U_CAP: 2.6 };
+
+/** Standardized log-normal transform: mean 0, SD 1, skewed right by k (k = 0 is the identity). */
+function rawT(u, k) {
+  if (k < 1e-3) return u;
+  const m = Math.exp(k * k / 2), sd = Math.sqrt((Math.exp(k * k) - 1) * Math.exp(k * k));
+  return (Math.exp(k * u) - m) / sd;
+}
+// Capping u at +/- U_CAP trims the long right tail, which would leave the mean a little below 0 for
+// skewed curves; subtract the capped mean (numerically, per k) so form still averages 0.
+const capMean = new Map();
+function cappedMean(k) {
+  const key = Math.round(k * 1000);
+  if (!capMean.has(key)) {
+    let acc = 0;
+    const h = 0.01;
+    for (let u = -8; u <= 8; u += h) acc += rawT(Math.max(-FORM.U_CAP, Math.min(FORM.U_CAP, u)), k) * Math.exp(-u * u / 2) * h;
+    capMean.set(key, acc / Math.sqrt(2 * Math.PI));
+  }
+  return capMean.get(key);
+}
+export function skewT(u, k) {
+  return rawT(u, k) - (k < 1e-3 ? 0 : cappedMean(k));
+}
 const FORM_SPLIT = { ott: 0.25, app: 0.35, arg: 0.15, putt: 0.25 };  // how a form swing spreads over the SG areas
 const NO_CUT = new Set(["signature"]);
 export const OPPOSITE_SPLIT = 75; // opposite-field weeks: the top 75 in the standings play the main event
@@ -282,10 +309,22 @@ export function standings(career) {
 }
 
 // ---------------------------------------------------------------- career flow
-/** Typical form swing (SG per round) for each golfer, from his base-SG percentile in the field. */
-export function formSd(career) {
+/** Each golfer's form curve from his base-SG percentile in the field: {sd, k} (see FORM). */
+export function formShape(career) {
+  if (career._shape) return career._shape;
   const ranked = [...career.field].sort((a, b) => a.sg - b.sg), n = ranked.length;
-  return Object.fromEntries(ranked.map((g, i) => [g.id, FORM.SD_WORST - (FORM.SD_WORST - FORM.SD_BEST) * (n > 1 ? i / (n - 1) : 1)]));
+  return (career._shape = Object.fromEntries(ranked.map((g, i) => {
+    const p = n > 1 ? i / (n - 1) : 1;  // 0 = weakest, 1 = best
+    return [g.id, { sd: FORM.SD_WORST - (FORM.SD_WORST - FORM.SD_BEST) * p, k: FORM.K_MAX * (1 - p) }];
+  })));
+}
+/** Typical form swing (SG per round) for each golfer. */
+export function formSd(career) {
+  return Object.fromEntries(Object.entries(formShape(career)).map(([id, s]) => [id, s.sd]));
+}
+/** A golfer's form floor and ceiling (at the latent cap). */
+export function formRange(shape) {
+  return { lo: shape.sd * skewT(-FORM.U_CAP, shape.k), hi: shape.sd * skewT(FORM.U_CAP, shape.k) };
 }
 
 /**
@@ -296,18 +335,25 @@ export function formSd(career) {
 export function ensureForm(career) {
   const target = Math.min(career.weekIdx, career.schedule.length - 1);
   if (career.formWeek != null && career.formWeek >= target) return false;
-  const sd = formSd(career), { RHO, CLAMP } = FORM, keep = Math.sqrt(1 - RHO * RHO);
+  const shape = formShape(career), { RHO, U_CAP } = FORM, keep = Math.sqrt(1 - RHO * RHO);
   career.form ||= {};
   career.formHist ||= {};
+  career.formU ||= {};
+  // careers saved before the latent state existed (or carried-over form without it): start from form / sd
+  for (const g of career.field) {
+    if (career.formU[g.id] == null && career.form[g.id] != null) career.formU[g.id] = Math.max(-U_CAP, Math.min(U_CAP, career.form[g.id] / shape[g.id].sd));
+  }
   let w = career.formWeek ?? -1;
   while (w < target) {
     w++;
     const rng = makeRng(`${career.seed}|${career.year}|form|${w}`);
     for (const g of career.field) {
-      const z = rng.normal(), cap = CLAMP * sd[g.id], prev = career.form[g.id];
-      let v = w === 0 && prev == null ? z * sd[g.id] : RHO * (prev ?? 0) + keep * sd[g.id] * z;
-      v = Math.max(-cap, Math.min(cap, v));
-      career.form[g.id] = Math.round(v * 1000) / 1000;
+      const z = rng.normal(), prev = career.formU[g.id];
+      let u = w === 0 && prev == null ? z : RHO * (prev ?? 0) + keep * z;
+      u = Math.max(-U_CAP, Math.min(U_CAP, u));
+      career.formU[g.id] = Math.round(u * 10000) / 10000;
+      const { sd, k } = shape[g.id];
+      career.form[g.id] = Math.round(sd * skewT(u, k) * 1000) / 1000;
       (career.formHist[g.id] ||= [])[w] = career.form[g.id];
     }
   }
@@ -319,8 +365,8 @@ export function ensureForm(career) {
 export function formOf(career, id) {
   ensureForm(career);
   const g = career.field.find((x) => x.id === id);
-  const f = career.form?.[id] ?? 0, sd = formSd(career)[id] ?? FORM.SD_WORST;
-  return { base: g?.sg ?? 0, form: f, now: (g?.sg ?? 0) + f, sd, hist: (career.formHist?.[id] || []).slice(),
+  const f = career.form?.[id] ?? 0, shape = formShape(career)[id] || { sd: FORM.SD_WORST, k: FORM.K_MAX }, sd = shape.sd;
+  return { base: g?.sg ?? 0, form: f, now: (g?.sg ?? 0) + f, sd, k: shape.k, range: formRange(shape), hist: (career.formHist?.[id] || []).slice(),
     label: f >= sd ? "Hot" : f >= sd / 3 ? "Warm" : f <= -sd ? "Cold" : f <= -sd / 3 ? "Cool" : "Steady" };
 }
 
@@ -345,8 +391,8 @@ export function newSeason({ golfers, pastedCount, userId, seed, tournaments, cou
     venues: pickVenues(courses, seed, year, prev ? [prev.venues?.playoffs, prev.venues?.cup].filter(Boolean) : []),
     playoffs: null, cup: null, userMatch: null,
     // form carries into the new season for golfers still in the field (ensureForm steps it from here)
-    form: prev?.form ? Object.fromEntries(field.filter((g) => prev.form[g.id] != null).map((g) => [g.id, prev.form[g.id]])) : {},
-    formHist: {}, formWeek: null,
+    formU: prev?.formU ? Object.fromEntries(field.filter((g) => prev.formU[g.id] != null).map((g) => [g.id, prev.formU[g.id]])) : {},
+    form: {}, formHist: {}, formWeek: null,
     cupHolders: prev?.cupHolders || { ryder: "EUR", presidents: "USA" },
     history: prev?.history || [],
   };

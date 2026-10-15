@@ -63,9 +63,10 @@ export async function mountSeason(root, deps) {
   const S = { tab: "standings", busy: false, hp: null, post: null, hubWhileLive: false, lastEvent: null, query: "", pick: null };
 
   const save = () => {  // the skills cache is rebuilt from the field, so it isn't stored
-    const sk = career._sk; delete career._sk;
+    const sk = career._sk, shape = career._shape; delete career._sk; delete career._shape;
     saveCareer(uid, career);
     if (sk) career._sk = sk;
+    if (shape) career._shape = shape;
   };
   const courseOf = (id) => courses.find((c) => c.id === id);
   const week = () => career.schedule[career.weekIdx];
@@ -169,7 +170,7 @@ export async function mountSeason(root, deps) {
 
   /** Your golfer's strokes gained right now: base (season stats) + form, with the season's form line. */
   function formCard() {
-    const f = formOf(career, career.userGolferId), cap = FORM.CLAMP * f.sd;
+    const f = formOf(career, career.userGolferId), cap = Math.max(f.range.hi, -f.range.lo);
     const pts = f.hist.map((v, i) => [i, v]).filter(([, v]) => v != null);
     const W = 560, H = 90, n = Math.max(career.schedule.length - 1, 1);
     const x = (i) => 8 + (i / n) * (W - 16), y = (v) => H / 2 - (v / cap) * (H / 2 - 8);
@@ -190,7 +191,8 @@ export async function mountSeason(root, deps) {
       </div>
       ${chart}
       <p class="gm-note">Form swings week to week and carries over, so streaks last a few events. Your typical swing is
-        &plusmn;${f.sd.toFixed(2)} a round (better golfers swing less), capped at &plusmn;${cap.toFixed(2)}: between ${sg(f.base - cap)} and ${sg(f.base + cap)}.
+        &plusmn;${f.sd.toFixed(2)} a round, and your strokes gained can run from ${sg(f.base + f.range.lo)} to ${sg(f.base + f.range.hi)}.
+        ${f.k < 0.1 ? "Your weeks follow a plain bell curve around your baseline." : "Your curve leans: most weeks land a little under your baseline, with rare big weeks that can reach well above it."}
         The shaded band is one typical swing either side.</p>
     </section>`;
   }
