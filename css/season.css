@@ -89,3 +89,6 @@
 
 /* the career intro sits under a left-aligned title, unlike the centered single-tournament header */
 .sp-start .gm-lede { margin: 0 0 20px; }
+
+/* scorecard under the hole during a season event */
+.sp-scorecard { margin: 16px 0; }

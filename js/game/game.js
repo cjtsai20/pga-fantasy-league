@@ -10,7 +10,7 @@
 
 import { makeRng, skillsFrom, newHole, playShot, autoChoice, autoRound } from "./sim.js";
 import { drawHole, drawShot, placeBall } from "./hole_svg.js";
-import { situationHTML, holedHTML, optionsHTML, showInset, flyShot } from "./holeui.js";
+import { situationHTML, holedHTML, optionsHTML, showInset, flyShot, scorecardHTML } from "./holeui.js";
 import { attachCourseGeo } from "./geo.js";
 import { golferAvatar } from "../avatar.js";
 
@@ -460,27 +460,7 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
 
   // ------------------------------------------------------------ scorecard & leaderboard
   function scorecard() {
-    const holes = game.course.holes;
-    const cell = (s, par) => {
-      if (s == null) return `<td></td>`;
-      const d = s - par;
-      const cls = d <= -2 ? "sc-eagle" : d === -1 ? "sc-birdie" : d === 1 ? "sc-bogey" : d >= 2 ? "sc-double" : "";
-      return `<td><span class="sc ${cls}">${s}</span></td>`;
-    };
-    const nine = (from) => holes.slice(from, from + 9);
-    const tot = (arr, from) => { const part = arr.slice(from, from + 9); return part.length === 9 ? sum(part) : part.length ? sum(part) : ""; };
-    const rows = game.rounds.map((r, i) => (i > game.round ? "" : `
-      <tr class="${i === game.round ? "is-cur" : ""}"><th>R${i + 1}</th>
-        ${nine(0).map((h, j) => cell(r[j], h.par)).join("")}<td class="sc-sum">${tot(r, 0)}</td>
-        ${nine(9).map((h, j) => cell(r[9 + j], h.par)).join("")}<td class="sc-sum">${tot(r, 9)}</td>
-        <td class="sc-sum sc-tot">${r.length ? sum(r) : ""}</td></tr>`)).join("");
-    const parOut = sum(nine(0).map((h) => h.par)), parIn = sum(nine(9).map((h) => h.par));
-    return `<h3 class="gm-h4">Scorecard</h3>
-      <div class="gm-scroll"><table class="gm-scorecard">
-        <tr class="sc-hole"><th>Hole</th>${nine(0).map((h) => `<th class="${!game.done && h.n === game.holeIdx + 1 ? "is-cur" : ""}">${h.n}</th>`).join("")}<th>Out</th>${nine(9).map((h) => `<th class="${!game.done && h.n === game.holeIdx + 1 ? "is-cur" : ""}">${h.n}</th>`).join("")}<th>In</th><th>Tot</th></tr>
-        <tr class="sc-par"><th>Par</th>${nine(0).map((h) => `<td>${h.par}</td>`).join("")}<td class="sc-sum">${parOut}</td>${nine(9).map((h) => `<td>${h.par}</td>`).join("")}<td class="sc-sum">${parIn}</td><td class="sc-sum">${parOut + parIn}</td></tr>
-        ${rows}
-      </table></div>`;
+    return scorecardHTML(game.course.holes, game.rounds, game.round, game.done ? -1 : game.holeIdx);
   }
 
   function leaderboard(board, final = false) {

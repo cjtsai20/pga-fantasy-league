@@ -46,3 +46,32 @@ export async function flyShot(view, st, shot, animate = true) {
   if (shot.from.s === 0 && shot.to.s === 0 && shot.penalty) placeBall(view, 0, 0);
   else await drawShot(view, shot, animate ? (shot.phase === "putt" ? 550 : 900) : 0);
 }
+
+/**
+ * Scorecard table for one golfer: holes = course.holes, rounds = [[strokes per hole], ...] (shown up to
+ * curRound), curHole = index of the hole being played (highlighted), or -1 when nothing is in play.
+ */
+export function scorecardHTML(holes, rounds, curRound, curHole = -1) {
+  const sum = (a) => a.reduce((x, y) => x + y, 0);
+  const cell = (s, par) => {
+    if (s == null) return `<td></td>`;
+    const d = s - par;
+    const cls = d <= -2 ? "sc-eagle" : d === -1 ? "sc-birdie" : d === 1 ? "sc-bogey" : d >= 2 ? "sc-double" : "";
+    return `<td><span class="sc ${cls}">${s}</span></td>`;
+  };
+  const nine = (from) => holes.slice(from, from + 9);
+  const tot = (arr, from) => { const part = arr.slice(from, from + 9); return part.length ? sum(part) : ""; };
+  const head = (h) => `<th class="${h.n === curHole + 1 ? "is-cur" : ""}">${h.n}</th>`;
+  const rows = rounds.map((r, i) => (i > curRound ? "" : `
+    <tr class="${i === curRound ? "is-cur" : ""}"><th>R${i + 1}</th>
+      ${nine(0).map((h, j) => cell(r[j], h.par)).join("")}<td class="sc-sum">${tot(r, 0)}</td>
+      ${nine(9).map((h, j) => cell(r[9 + j], h.par)).join("")}<td class="sc-sum">${tot(r, 9)}</td>
+      <td class="sc-sum sc-tot">${r.length ? sum(r) : ""}</td></tr>`)).join("");
+  const parOut = sum(nine(0).map((h) => h.par)), parIn = sum(nine(9).map((h) => h.par));
+  return `<h3 class="gm-h4">Scorecard</h3>
+    <div class="gm-scroll"><table class="gm-scorecard">
+      <tr class="sc-hole"><th>Hole</th>${nine(0).map(head).join("")}<th>Out</th>${nine(9).map(head).join("")}<th>In</th><th>Tot</th></tr>
+      <tr class="sc-par"><th>Par</th>${nine(0).map((h) => `<td>${h.par}</td>`).join("")}<td class="sc-sum">${parOut}</td>${nine(9).map((h) => `<td>${h.par}</td>`).join("")}<td class="sc-sum">${parIn}</td><td class="sc-sum">${parOut + parIn}</td></tr>
+      ${rows}
+    </table></div>`;
+}

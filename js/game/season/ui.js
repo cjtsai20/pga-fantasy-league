@@ -11,6 +11,7 @@ import {
 } from "./engine.js";
 import { loadCareer, saveCareer, clearCareer } from "./store.js";
 import { playHole, autoStrokes } from "./holeplay.js";
+import { scorecardHTML } from "../holeui.js";
 import { loadPointsTables } from "../../points.js";
 import { loadGeo, esc, toPar, fetchJson } from "../game.js";
 
@@ -356,10 +357,12 @@ export async function mountSeason(root, deps) {
       root.innerHTML = `${head}<section class="sp-week">
         <p class="sp-big">${cut === false ? "You missed the cut." : `You finish at ${toPar(meRow?.tp ?? 0)}.`}</p>
         <p class="gm-note">${cut === false ? "The cut fell after 36 holes (top 65 and ties). The weekend plays on without you." : "Everyone's final round is in."}</p>
-        <button class="gm-btn gm-btn--primary" data-act="finish">See the final results</button></section>${boardHTML(board, full)}`;
+        <button class="gm-btn gm-btn--primary" data-act="finish">See the final results</button></section>
+        <div class="gm-card-wrap sp-scorecard">${scorecardHTML(course.holes, live.user, Math.min(r, 3))}</div>${boardHTML(board, full)}`;
       root.querySelector('[data-act="finish"]').onclick = () => finishLive(live, course);
     } else {
-      root.innerHTML = `${head}<div class="sp-holewrap"></div>${boardHTML(board, full)}`;
+      root.innerHTML = `${head}<div class="sp-holewrap"></div>
+        <div class="gm-card-wrap sp-scorecard">${scorecardHTML(course.holes, live.user, r, h)}</div>${boardHTML(board, full)}`;
       const sk = skillsMap(career)[career.userGolferId];
       const lastHole = h === 17, lastRound = r === 3;
       S.hp = playHole(root.querySelector(".sp-holewrap"), {
