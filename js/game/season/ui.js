@@ -9,7 +9,7 @@ import {
   FIELD_SIZE, PLAYOFF_SIZE, newSeason, standings, weekEntrants, startEvent, userMakesCut, finishEvent,
   simEvent, simWeek, advanceWeek, skillsMap, setCalibration, cutAfter36, hasCut, makeRng, sgTotal, formOf, FORM,
 } from "./engine.js";
-import { loadCareer, saveCareer, clearCareer } from "./store.js";
+import { loadCareer, saveCareer, clearCareer, cloudLoad, cloudClear, cloudSaver, furtherAlong, progressOf } from "./store.js";
 import { playHole, autoStrokes } from "./holeplay.js";
 import { scorecardHTML } from "../holeui.js";
 import { loadPointsTables } from "../../points.js";
@@ -60,13 +60,30 @@ export async function mountSeason(root, deps) {
   const uid = deps.user?.id || null;
   const avatar = (g, cls = "") => (deps.avatar ? deps.avatar(g, cls) : "");
   let career = loadCareer(uid);
-  const S = { tab: "standings", busy: false, hp: null, post: null, hubWhileLive: false, lastEvent: null, query: "", pick: null };
+  const S = { tab: "standings", busy: false, hp: null, post: null, hubWhileLive: false, lastEvent: null, query: "", pick: null, cloud: null };
+
+  // Signed-in members also keep the career on their account; whichever copy is further along wins.
+  const sb = deps.supabase && uid ? deps.supabase : null;
+  const SYNC = { pending: "Saving to your account...", saved: "Saved to your account", error: "Couldn't reach your account; saved on this device" };
+  const syncText = () => (!sb ? "Saved on this device only" : SYNC[S.cloud] || "Saved to your account");
+  const saver = cloudSaver(sb, () => career, (st) => {
+    S.cloud = st;
+    const el = root.querySelector(".sp-sync");
+    if (el) el.textContent = syncText();
+  });
+  if (sb) {
+    const cloud = await cloudLoad(sb);
+    const best = furtherAlong(career, cloud);
+    if (best && best !== career) { career = best; saveCareer(uid, career); }       // the account copy is ahead
+    else if (career && progressOf(career) > progressOf(cloud)) saver.flush();    // this device is ahead
+  }
 
   const save = () => {  // the skills cache is rebuilt from the field, so it isn't stored
     const sk = career._sk, shape = career._shape; delete career._sk; delete career._shape;
     saveCareer(uid, career);
     if (sk) career._sk = sk;
     if (shape) career._shape = shape;
+    saver.schedule();
   };
   const courseOf = (id) => courses.find((c) => c.id === id);
   const week = () => career.schedule[career.weekIdx];
@@ -144,7 +161,8 @@ export async function mountSeason(root, deps) {
           <div><p class="gm-eyebrow">Race to the FedEx Cup · ${career.year} season</p>
             <h2 class="sp-name">${esc(career.userName)}</h2>
             <p class="sp-meta">FedEx Cup rank <b>${mine?.rank ?? "-"}</b> of ${st.length} · ${fmtPts(mine?.points)} pts · ${mine?.wins || 0} win${mine?.wins === 1 ? "" : "s"} · ${mine?.top10 || 0} top 10s</p></div></div>
-        <div class="sp-head-links"><button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="abandon">Abandon career</button></div>
+        <div class="sp-head-links"><button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="abandon">Abandon career</button>
+          <span class="sp-sync">${esc(syncText())}</span></div>
       </header>
       ${formCard()}
       ${last ? resultCard(last) : ""}
@@ -289,7 +307,12 @@ export async function mountSeason(root, deps) {
     const on = (act, fn) => root.querySelector(`[data-act="${act}"]`)?.addEventListener("click", fn);
     root.querySelectorAll("[data-tab]").forEach((b) => (b.onclick = () => { S.tab = b.dataset.tab; renderHub(); }));
     root.querySelectorAll('input[name="sp-ev"]').forEach((r) => (r.onchange = () => { (career.picks ||= {})[career.weekIdx] = r.value; save(); renderHub(); }));
-    on("abandon", () => { if (confirm("Abandon this career? It can't be undone.")) { clearCareer(uid); career = null; S.lastEvent = null; render(); } });
+    on("abandon", async () => {
+      if (!confirm("Abandon this career? It can't be undone.")) return;
+      clearCareer(uid); career = null; S.lastEvent = null;
+      await cloudClear(sb);  // or the account copy, being further along, would come back next visit
+      render();
+    });
     on("dismiss", () => { S.lastEvent = null; renderHub(); });
     on("next", () => {
       career = newSeason({ golfers: pool, pastedCount: deps.pastedCount || 0, userId: career.userGolferId, seed: career.seed,

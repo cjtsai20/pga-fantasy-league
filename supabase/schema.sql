@@ -312,3 +312,30 @@ drop policy if exists golfer_stats_read on golfer_stats;
 create policy golfer_stats_read on golfer_stats for select using (true);
 drop policy if exists golfer_stats_write on golfer_stats;
 create policy golfer_stats_write on golfer_stats for all using (is_admin()) with check (is_admin());
+
+-- ---------------------------------------------------------------- Race to the FedEx Cup careers
+create table if not exists season_careers (
+  user_id    uuid primary key default auth.uid() references auth.users on delete cascade,
+  career     jsonb not null,
+  progress   bigint not null,
+  updated_at timestamptz not null default now()
+);
+alter table season_careers enable row level security;
+drop policy if exists season_careers_own on season_careers;
+create policy season_careers_own on season_careers for all
+  using (user_id = auth.uid()) with check (user_id = auth.uid());
+
+create or replace function season_careers_keep_further() returns trigger
+language plpgsql as
+$$
+begin
+  if new.progress < old.progress then
+    return old;  -- an older copy from another device: keep the further-along career
+  end if;
+  new.updated_at := now();
+  return new;
+end
+$$;
+drop trigger if exists season_careers_keep_further on season_careers;
+create trigger season_careers_keep_further before update on season_careers
+  for each row execute function season_careers_keep_further();
