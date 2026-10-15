@@ -152,7 +152,7 @@ export async function mountGame(root, { supabase = null, user = null, courseId =
   // Mode choice at the top of the setup screen: one tournament, or a whole season (season/ui.js).
   const modeBar = () => `<nav class="gm-modes" aria-label="Game mode">
       <button class="gm-mode ${ui.mode === "single" ? "is-on" : ""}" data-mode="single">Single tournament</button>
-      <button class="gm-mode ${ui.mode === "season" ? "is-on" : ""}" data-mode="season">Race to the FedEx Cup</button>
+      <button class="gm-mode ${ui.mode === "season" ? "is-on" : ""}" data-mode="season">Career mode</button>
     </nav>`;
   const wireModes = () => wrap.querySelectorAll("[data-mode]").forEach((b) => b.onclick = () => {
     if (b.dataset.mode === ui.mode) return;

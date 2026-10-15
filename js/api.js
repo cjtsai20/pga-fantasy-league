@@ -75,6 +75,8 @@ export function createApi(sb) {
       fail(error);
       return data;
     },
+    /** Delete a member's account: profile, picks, monthly wins and saved careers go with it. */
+    async removeMember(uid) { fail((await sb.rpc("admin_remove_member", { p_user_id: uid })).error); },
 
     // ---- reference data
     async tournaments() {

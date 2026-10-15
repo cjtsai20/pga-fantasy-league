@@ -42,6 +42,7 @@ export async function createDemoApi() {
         picks_this_event: scores.filter((s) => s.user_id === p.id && s.tournament_id === tid && s.slot !== "bonus").length,
         picks_season: scores.filter((s) => s.user_id === p.id && s.slot !== "bonus").length }));
     },
+    async removeMember() { throw new Error("Demo mode: nobody is removed."); },
     async tournaments() { return tournaments; },
     async field(tid) { return field.filter((f) => f.tournament_id === tid); },
     async results(tid) { return results.filter((r) => r.tournament_id === tid); },

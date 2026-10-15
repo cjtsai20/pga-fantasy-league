@@ -150,6 +150,8 @@ begin
   end if;
 
   if tg_op = 'DELETE' then
+    -- the member's profile is already gone: the commissioner is removing them (admin_remove_member)
+    if not exists (select 1 from profiles where id = old.user_id) then return old; end if;
     select * into t from tournaments where id = old.tournament_id;
     if now() >= t.lock_at then raise exception 'Picks for % are locked.', t.name; end if;
     return old;
@@ -299,6 +301,24 @@ end
 $$;
 revoke all on function admin_members(text) from public, anon;
 grant execute on function admin_members(text) to authenticated;
+
+-- Admin -> Members -> Remove. Deletes the account, which takes the member's profile, picks, monthly
+-- wins and saved careers with it (the picks of a removed member skip the lock in picks_guard).
+create or replace function admin_remove_member(p_user_id uuid) returns void
+language plpgsql security definer set search_path = public as
+$$
+begin
+  if not is_admin() then raise exception 'Commissioners only.'; end if;
+  if p_user_id = auth.uid() then raise exception 'You can''t remove yourself.'; end if;
+  if exists (select 1 from profiles where id = p_user_id and is_admin) then
+    raise exception 'Commissioners can''t be removed here.';
+  end if;
+  delete from auth.users where id = p_user_id;
+  if not found then raise exception 'That member has already been removed.'; end if;
+end
+$$;
+revoke all on function admin_remove_member(uuid) from public, anon;
+grant execute on function admin_remove_member(uuid) to authenticated;
 
 -- ---------------------------------------------------------------- admin: golfer stats for the game
 create table if not exists golfer_stats (

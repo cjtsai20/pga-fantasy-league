@@ -31,6 +31,7 @@ const STYLE = `
 .ap-picked { font-size: 12.5px; color: var(--green-800, #0b4a32); }
 .ap-mismatch { color: #b00020; font-weight: 600; }
 .ap-est { color: var(--muted, #6b6b63); font-size: 11px; }
+.ap-remove { color: #b00020; font-size: 13px; }
 .ap-field-list { columns: 3 220px; font-size: 13.5px; margin: 10px 0 0; padding: 0; list-style: none; }
 .ap-field-list li { padding: 2px 0; break-inside: avoid; }
 .ap-subnav { display: flex; gap: 6px; margin: -8px 0 24px; border-bottom: 1px solid var(--rule-soft, #ebe6d9); }
@@ -48,9 +49,11 @@ const injectStyle = () => {
   document.head.appendChild(el);
 };
 
-// Who signed up, who finished joining, and who still owes picks for the selected event.
+// Who signed up, who finished joining, and who still owes picks for the selected event. The
+// commissioner can remove anyone but themselves and other admins (admin_remove_member deletes the account).
 async function renderMembers(el, api, t) {
   let rows;
+  const myId = (await api.session())?.user?.id;
   try { rows = await api.adminMembers(t.id); } catch (e) {
     el.innerHTML = `<div class="panel-head"><h2>Roster</h2></div><p class="ap-warn">${/admin_members/.test(e.message)
       ? "Run <code>supabase/admin_members.sql</code> in the Supabase SQL Editor to turn on this list."
@@ -60,22 +63,39 @@ async function renderMembers(el, api, t) {
   const joined = rows.filter((r) => r.display_name), pending = rows.filter((r) => !r.display_name);
   const owe = joined.filter((r) => r.picks_this_event < 2);
   const day = (iso) => (iso ? new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "-");
+  const removeBtn = (r) => (r.user_id === myId || r.is_admin ? ""
+    : `<button class="btn-link ap-remove" data-remove="${esc(r.user_id)}">Remove</button>`);
   el.innerHTML = `
     <div class="panel-head"><h2>Roster</h2>
       <p class="muted">${joined.length} in the league${pending.length ? ` · ${pending.length} signed up without the league code` : ""}
         · ${owe.length ? `${owe.length} still need picks for ${esc(t.name)}` : `everyone has picked for ${esc(t.name)}`}</p></div>
     <div class="ap-scroll" style="max-height:420px"><table class="table ap-table" style="width:100%">
-      <thead><tr><th>Member</th><th>Email</th><th>Joined</th><th>Last sign-in</th><th class="num">${esc(t.name)}</th><th class="num">Golfers used</th></tr></thead>
+      <thead><tr><th>Member</th><th>Email</th><th>Joined</th><th>Last sign-in</th><th class="num">${esc(t.name)}</th><th class="num">Golfers used</th><th></th></tr></thead>
       <tbody>${joined.map((r) => `<tr class="${r.picks_this_event >= 2 ? "is-picked" : ""}">
         <td>${esc(r.display_name)}${r.is_admin ? ` <span class="ap-conf">admin</span>` : ""}</td>
         <td><a href="mailto:${esc(r.email)}">${esc(r.email)}</a></td>
         <td>${day(r.joined)}</td><td>${day(r.last_sign_in)}</td>
         <td class="num">${r.picks_this_event >= 2 ? "Picked" : `<span class="ap-mismatch">${r.picks_this_event}/2</span>`}</td>
-        <td class="num">${r.picks_season}</td></tr>`).join("")}
+        <td class="num">${r.picks_season}</td><td>${removeBtn(r)}</td></tr>`).join("")}
       ${pending.map((r) => `<tr><td class="muted">Not joined yet</td><td><a href="mailto:${esc(r.email)}">${esc(r.email)}</a></td>
-        <td>signed up ${day(r.signed_up)}</td><td>${day(r.last_sign_in)}</td><td class="num">-</td><td class="num">-</td></tr>`).join("")}
+        <td>signed up ${day(r.signed_up)}</td><td>${day(r.last_sign_in)}</td><td class="num">-</td><td class="num">-</td><td>${removeBtn(r)}</td></tr>`).join("")}
       </tbody></table></div>
-    ${owe.length ? `<p class="ap-actions"><a class="btn btn-small" href="mailto:?bcc=${owe.map((r) => encodeURIComponent(r.email)).join(",")}&subject=${encodeURIComponent(`Picks for ${t.name}`)}">Email the ${owe.length} without picks</a></p>` : ""}`;
+    ${owe.length ? `<p class="ap-actions"><a class="btn btn-small" href="mailto:?bcc=${owe.map((r) => encodeURIComponent(r.email)).join(",")}&subject=${encodeURIComponent(`Picks for ${t.name}`)}">Email the ${owe.length} without picks</a></p>` : ""}
+    <p class="muted">Removing someone deletes their account: their picks, points and saved careers are gone for good and
+      the standings no longer count them. To stop them signing up again, change the league code.</p>`;
+  el.querySelectorAll("[data-remove]").forEach((b) => (b.onclick = async () => {
+    const r = rows.find((x) => x.user_id === b.dataset.remove);
+    const who = r.display_name || r.email;
+    if (!confirm(`Remove ${who} from the league?
+
+This deletes their account, all ${r.picks_season || 0} of their golfer picks and their saved careers. It can't be undone.`)) return;
+    b.disabled = true;
+    try { await api.removeMember(r.user_id); toast(`${who} was removed from the league.`); renderMembers(el, api, t); }
+    catch (e) {
+      b.disabled = false;
+      toast(/admin_remove_member/.test(e.message) ? "Run supabase/remove_member.sql in the Supabase SQL Editor first." : e.message, "error");
+    }
+  }));
 }
 
 // Pasted season stats -> golfer_stats, the Play tab's per-golfer baseline.

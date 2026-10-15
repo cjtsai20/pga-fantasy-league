@@ -21,6 +21,11 @@ Static site on GitHub Pages; accounts and picks in Supabase. No build step.
   Save & finalize when it's over. Finalizing the last event of a month records the monthly winner.
 - Score bonus picks (majors) in Admin -> Bonus picks.
 
+## Removing a member
+Admin -> Members -> Remove deletes the member's account with their picks, points and saved careers.
+Run `supabase/remove_member.sql` once to turn it on (fresh installs get it from `schema.sql`). A removed
+member can sign up again with the league code, so change the code if they shouldn't come back.
+
 ## Credits
 Hole layouts (c) OpenStreetMap contributors, ODbL. Course photos from Wikimedia Commons (credited on
 each course page). Not affiliated with the PGA TOUR or any tournament or club.

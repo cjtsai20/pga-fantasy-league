@@ -149,3 +149,28 @@
 .sp-movers li.is-me { font-weight: 700; color: var(--g-green-dk); }
 .sp-pos-d { color: #1d7a3a; }
 .sp-neg-d { color: #b23a2b; }
+
+/* Road to the TOUR: choosing the career type, creating your golfer, training */
+.pg-game .sp-modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; margin: 0 0 22px; }
+.pg-game .sp-modes button, .pg-game .sp-rk-card { display: block; text-align: left; background: #fff; border: 1px solid var(--g-rule);
+  border-radius: 4px; padding: 12px 14px; font: inherit; cursor: pointer; }
+.pg-game .sp-modes button b, .pg-game .sp-rk-card b { display: block; font-size: 15px; color: var(--g-green-dk); }
+.pg-game .sp-modes button span, .pg-game .sp-rk-card span { display: block; font-size: 13px; color: var(--g-muted); margin-top: 3px; }
+.pg-game .sp-modes button.is-on, .pg-game .sp-rk-card.is-on { border-color: var(--g-green); box-shadow: inset 0 0 0 1px var(--g-green); background: var(--g-green-lt); }
+.pg-game .sp-rk-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin: 10px 0 8px; }
+.pg-game .sp-rk-row { display: flex; flex-wrap: wrap; gap: 12px 20px; margin: 10px 0 8px; }
+.pg-game .sp-rk-row label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--g-muted); }
+.pg-game .sp-rk-row input, .pg-game .sp-rk-row select { min-width: 240px; font: inherit; font-size: 15px; letter-spacing: 0; text-transform: none; color: inherit;
+  padding: 8px 10px; border: 1px solid var(--g-rule); border-radius: 4px; background: #fff; }
+.sp-train { border-left: 4px solid var(--g-gold, #e8b923); }
+.sp-train-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.sp-train-bank { margin: 0; font-size: 14px; }
+.sp-train-bank b { font-size: 22px; color: var(--g-green-dk); font-variant-numeric: tabular-nums; }
+.sp-train-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 8px 0 10px; }
+.sp-train-area { display: flex; flex-direction: column; gap: 3px; padding: 10px 12px; border: 1px solid var(--g-rule-soft); border-radius: 4px; background: #fff; }
+.sp-train-lbl { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--g-muted); }
+.sp-train-area b { font-size: 20px; color: var(--g-green-dk); font-variant-numeric: tabular-nums; }
+.sp-train-area small { font-size: 12px; color: var(--g-muted); margin-bottom: 4px; }
+.sp-train-msg { margin: 6px 0 0; font-size: 14px; padding: 6px 10px; border-radius: 4px; background: var(--g-green-lt, #eef6f0); }
+.sp-train-msg.is-breakthrough { background: #fff4cc; font-weight: 600; }
+.sp-train-msg.is-dud { background: #f6ecea; color: #8a2e22; }
