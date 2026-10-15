@@ -381,6 +381,13 @@ export async function mountSeason(root, deps) {
   function renderEvent(live, full = false) {
     cleanup();
     const course = courseOf(live.courseId);
+    // A resumed event (after a reload or Resume from the hub) still needs the course's real layout;
+    // without it the hole falls back to the plain tee/fairway/green drawing.
+    if (course?.geo_file && !course._geoLoaded) {
+      root.innerHTML = `<p class="gm-loading">Loading ${esc(course.name)}...</p>`;
+      loadGeo(course).then(() => renderEvent(live, full));
+      return;
+    }
     const { r, h } = progress(live), cut = cutState(live);
     const board = liveBoard(live, course), meRow = board.rows.find((x) => x.me);
     const head = `<div class="sp-evhead"><div><p class="gm-eyebrow">${esc(TYPE_LABEL[live.type] || "")} · ${career.year}</p>
