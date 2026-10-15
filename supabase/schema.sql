@@ -315,10 +315,12 @@ create policy golfer_stats_write on golfer_stats for all using (is_admin()) with
 
 -- ---------------------------------------------------------------- Race to the FedEx Cup careers
 create table if not exists season_careers (
-  user_id    uuid primary key default auth.uid() references auth.users on delete cascade,
+  user_id    uuid not null default auth.uid() references auth.users on delete cascade,
+  slot       smallint not null default 1 constraint season_careers_slot_check check (slot in (1, 2)),
   career     jsonb not null,
   progress   bigint not null,
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  constraint season_careers_pkey primary key (user_id, slot)
 );
 alter table season_careers enable row level security;
 drop policy if exists season_careers_own on season_careers;

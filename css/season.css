@@ -107,3 +107,13 @@
 .sp-form-cold, .sp-form-cool { color: #b23a2b !important; }
 .sp-form-lbl { font-size: 10px; fill: var(--g-muted); letter-spacing: .06em; }
 .sp-sync { display: block; margin-top: 6px; font-size: 12px; color: var(--g-muted); text-align: right; }
+
+/* career slots */
+.sp-slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 18px 0; }
+.sp-slot { background: #fff; border: 1px solid var(--g-rule); border-top: 3px solid var(--g-green); border-radius: 4px; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+.sp-slot.is-last { border-top-color: var(--g-gold, #e8b923); }
+.sp-slot-me { display: flex; gap: 12px; align-items: center; }
+.sp-slot-name { margin: 0; font-size: 20px; font-weight: 600; color: var(--g-green-dk); }
+.sp-slot-empty { margin: 8px 0; color: var(--g-muted); font-style: italic; }
+.sp-slot .gm-btn { align-self: flex-start; }
+.sp-back { margin: 0 0 8px; }

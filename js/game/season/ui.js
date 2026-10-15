@@ -9,7 +9,7 @@ import {
   FIELD_SIZE, PLAYOFF_SIZE, newSeason, standings, weekEntrants, startEvent, userMakesCut, finishEvent,
   simEvent, simWeek, advanceWeek, skillsMap, setCalibration, cutAfter36, hasCut, makeRng, sgTotal, formOf, FORM,
 } from "./engine.js";
-import { loadCareer, saveCareer, clearCareer, cloudLoad, cloudClear, cloudSaver, furtherAlong, progressOf, otherLocalCareers } from "./store.js";
+import { loadCareer, saveCareer, clearCareer, cloudLoadAll, cloudSave, cloudClear, cloudSaver, furtherAlong, progressOf, otherLocalCareers, SLOTS, activeSlot, setActiveSlot } from "./store.js";
 import { playHole, autoStrokes } from "./holeplay.js";
 import { scorecardHTML } from "../holeui.js";
 import { loadPointsTables } from "../../points.js";
@@ -59,28 +59,28 @@ export async function mountSeason(root, deps) {
   const pool = await golferPool(deps);
   const uid = deps.user?.id || null;
   const avatar = (g, cls = "") => (deps.avatar ? deps.avatar(g, cls) : "");
-  let career = loadCareer(uid);
-  const S = { tab: "standings", busy: false, hp: null, post: null, hubWhileLive: false, lastEvent: null, query: "", pick: null, cloud: null };
+  let career = null;  // the career in the open slot (S.slot); null on the slot picker or an empty slot
+  const S = { tab: "standings", busy: false, hp: null, post: null, hubWhileLive: false, lastEvent: null, query: "", pick: null, cloud: null, slot: null };
 
-  // Signed-in members also keep the career on their account; whichever copy is further along wins.
+  // Signed-in members also keep careers on their account; for each slot the copy further along wins.
   const sb = deps.supabase && uid ? deps.supabase : null;
   const SYNC = { pending: "Saving to your account...", saved: "Saved to your account", error: "Couldn't reach your account; saved on this device" };
   const syncText = () => (!sb ? "Saved on this device only" : SYNC[S.cloud] || "Saved to your account");
-  const saver = cloudSaver(sb, () => career, (st) => {
+  const saver = cloudSaver(sb, () => career, () => S.slot, (st) => {
     S.cloud = st;
     const el = root.querySelector(".sp-sync");
     if (el) el.textContent = syncText();
   });
-  if (sb) {
-    const cloud = await cloudLoad(sb);
-    const best = furtherAlong(career, cloud);
-    if (best && best !== career) { career = best; saveCareer(uid, career); }       // the account copy is ahead
-    else if (career && progressOf(career) > progressOf(cloud)) saver.flush();    // this device is ahead
+  const account = sb ? await cloudLoadAll(sb) : {};
+  for (const sl of SLOTS) {
+    const local = loadCareer(uid, sl), acct = account[sl] || null, best = furtherAlong(local, acct);
+    if (best && best !== local) saveCareer(uid, best, sl);                                   // the account copy is ahead
+    else if (sb && local && progressOf(local) > progressOf(acct)) cloudSave(sb, local, sl);  // this device is ahead
   }
 
   const save = () => {  // the skills cache is rebuilt from the field, so it isn't stored
     const sk = career._sk, shape = career._shape; delete career._sk; delete career._shape;
-    saveCareer(uid, career);
+    saveCareer(uid, career, S.slot);
     if (sk) career._sk = sk;
     if (shape) career._shape = shape;
     saver.schedule();
@@ -101,6 +101,7 @@ export async function mountSeason(root, deps) {
 
   function render() {
     cleanup();
+    if (!S.slot) return renderSlots();
     if (!career) return renderStart();
     if (career.phase === "regular") {
       const live = liveEvent();
@@ -109,6 +110,47 @@ export async function mountSeason(root, deps) {
     }
     if (career.phase === "playoffs" || career.phase === "cup") return renderPost();
     return renderHub();
+  }
+
+  // ------------------------------------------------------------ career slots
+  function openSlot(sl) {
+    S.slot = sl; career = loadCareer(uid, sl); setActiveSlot(uid, sl);
+    Object.assign(S, { tab: "standings", hubWhileLive: false, lastEvent: null, query: "", pick: null });
+    render();
+  }
+  async function closeSlot() {
+    await saver.flush();  // a pending account save belongs to this slot
+    S.slot = null; career = null;
+    render();
+  }
+  function slotSummary(c) {
+    if (!c) return `<p class="sp-slot-empty">Empty</p>`;
+    const st = standings(c), mine = st.find((r) => r.id === c.userGolferId);
+    const stage = c.phase === "regular" ? `Week ${Math.min(c.weekIdx + 1, c.schedule.length)} of ${c.schedule.length}`
+      : c.phase === "playoffs" ? "FedEx Cup Playoffs" : c.phase === "cup" ? (c.year % 2 ? "Ryder Cup" : "Presidents Cup") : "Season complete";
+    const country = c.field.find((g) => g.id === c.userGolferId)?.country;
+    return `<div class="sp-slot-me">${avatar({ id: c.userGolferId, name: c.userName, country })}
+        <div><p class="sp-slot-name">${esc(c.userName)}</p><p class="sp-meta">${c.year} season · ${esc(stage)}</p>
+        <p class="sp-meta">FedEx Cup rank <b>${mine?.rank ?? "-"}</b> · ${fmtPts(mine?.points)} pts · ${mine?.wins || 0} win${mine?.wins === 1 ? "" : "s"}${c.history?.length ? ` · ${c.history.length} season${c.history.length === 1 ? "" : "s"} done` : ""}</p></div></div>`;
+  }
+  function renderSlots() {
+    const last = activeSlot(uid);
+    root.innerHTML = `
+      <section class="sp-start">
+        <p class="gm-eyebrow">Race to the FedEx Cup</p>
+        <h2 class="gm-title">Your careers</h2>
+        <p class="gm-lede">You can run ${SLOTS.length} careers at once. Pick one to continue, or start a new one in an empty slot.
+          ${sb ? "Both are saved to your account." : "Careers are saved on this device."}</p>
+      </section>
+      <div class="sp-slots">${SLOTS.map((sl) => {
+        const c = loadCareer(uid, sl);
+        return `<section class="sp-slot ${sl === last ? "is-last" : ""}">
+          <p class="gm-eyebrow">Career ${sl}${sl === last && c ? " · last played" : ""}</p>
+          ${slotSummary(c)}
+          <button class="gm-btn ${c ? "gm-btn--primary" : "gm-btn--ghost"}" data-slot="${sl}">${c ? "Continue" : "Start a career"}</button>
+        </section>`;
+      }).join("")}</div>`;
+    root.querySelectorAll("[data-slot]").forEach((b) => (b.onclick = () => openSlot(+b.dataset.slot)));
   }
 
   // ------------------------------------------------------------ start screen
@@ -121,8 +163,9 @@ export async function mountSeason(root, deps) {
     const picked = pool[S.pick];
     root.innerHTML = `
       ${otherCareersCard()}
+      <p class="sp-back"><button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="switch">&larr; Your careers</button></p>
       <section class="sp-start">
-        <p class="gm-eyebrow">Career mode</p>
+        <p class="gm-eyebrow">Career mode · career ${S.slot}</p>
         <h2 class="gm-title">Race to the FedEx Cup</h2>
         <p class="gm-lede">Play a full season as one golfer against the top ${FIELD_SIZE} on tour by strokes gained: the
           ${tournaments.length ? "league's" : ""} schedule with real FedEx Cup points and cuts, then the top ${PLAYOFF_SIZE} meet in
@@ -142,6 +185,7 @@ export async function mountSeason(root, deps) {
         <button class="gm-btn gm-btn--primary" data-act="begin" ${picked ? "" : "disabled"}>Start career</button>
       </div>`;
     root.querySelectorAll("[data-g]").forEach((b) => (b.onclick = () => { S.pick = b.dataset.g; renderStart(); }));
+    root.querySelector('[data-act="switch"]').onclick = () => closeSlot();
     wireOthers();
     const s = root.querySelector(".sp-search");
     s.oninput = () => { S.query = s.value; const pos = s.selectionStart; renderStart(); const s2 = root.querySelector(".sp-search"); s2.focus(); s2.setSelectionRange(pos, pos); };
@@ -163,7 +207,8 @@ export async function mountSeason(root, deps) {
           <div><p class="gm-eyebrow">Race to the FedEx Cup · ${career.year} season</p>
             <h2 class="sp-name">${esc(career.userName)}</h2>
             <p class="sp-meta">FedEx Cup rank <b>${mine?.rank ?? "-"}</b> of ${st.length} · ${fmtPts(mine?.points)} pts · ${mine?.wins || 0} win${mine?.wins === 1 ? "" : "s"} · ${mine?.top10 || 0} top 10s</p></div></div>
-        <div class="sp-head-links"><button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="abandon">Abandon career</button>
+        <div class="sp-head-links"><button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="switch">Switch career</button>
+          <button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="abandon">Abandon career</button>
           <span class="sp-sync">${esc(syncText())}</span></div>
       </header>
       ${otherCareersCard()}
@@ -335,10 +380,11 @@ export async function mountSeason(root, deps) {
     root.querySelectorAll('input[name="sp-ev"]').forEach((r) => (r.onchange = () => { (career.picks ||= {})[career.weekIdx] = r.value; save(); renderHub(); }));
     on("abandon", async () => {
       if (!confirm("Abandon this career? It can't be undone.")) return;
-      clearCareer(uid); career = null; S.lastEvent = null;
-      await cloudClear(sb);  // or the account copy, being further along, would come back next visit
-      render();
+      clearCareer(uid, S.slot); career = null; S.lastEvent = null;
+      await cloudClear(sb, S.slot);  // or the account copy, being further along, would come back next visit
+      S.slot = null; render();
     });
+    on("switch", () => closeSlot());
     on("dismiss", () => { S.lastEvent = null; renderHub(); });
     wireOthers();
     on("next", () => {
@@ -499,8 +545,10 @@ export async function mountSeason(root, deps) {
     const st = standings(career), mine = st.find((r) => r.id === career.userGolferId);
     root.innerHTML = `<header class="sp-head sp-head--slim"><div><p class="gm-eyebrow">Race to the FedEx Cup · ${career.year} season</p>
         <p class="sp-meta">${esc(career.userName)} · regular season rank <b>${mine?.rank ?? "-"}</b> · ${fmtPts(mine?.points)} pts</p></div>
-        <div class="sp-head-links"><button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="standings">Final standings</button></div></header>
+        <div class="sp-head-links"><button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="standings">Final standings</button>
+          <button class="gm-btn gm-btn--ghost gm-btn--sm" data-act="switch">Switch career</button></div></header>
       <div class="sp-post"><p class="gm-loading">Loading...</p></div>`;
+    root.querySelector('[data-act="switch"]').onclick = () => closeSlot();
     root.querySelector('[data-act="standings"]').onclick = () => {
       const box = root.querySelector(".sp-post");
       box.innerHTML = `${standingsTab(st)}<button class="gm-btn gm-btn--primary" data-act="back">Back</button>`;

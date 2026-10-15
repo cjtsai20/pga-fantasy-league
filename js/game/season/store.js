@@ -1,27 +1,47 @@
-// Race to the FedEx Cup careers: saved in this browser's localStorage (one per signed-in member, or
-// "guest") after every round, match and session, and, for signed-in members, also to their account
-// (Supabase season_careers) so the career follows them to any device. When the two copies differ, the
-// one further along wins (progressOf), not the most recently saved.
+// Race to the FedEx Cup careers: each member (or "guest") has SLOTS career slots, saved in this
+// browser's localStorage after every round, match and session and, for signed-in members, also to
+// their account (Supabase season_careers, one row per slot) so careers follow them to any device. When
+// the two copies of a slot differ, the one further along wins (progressOf), not the most recent save.
 
 const VERSION = 1;
-const key = (userId) => `pg-season:${userId || "guest"}`;
+export const SLOTS = [1, 2];
+const legacyKey = (userId) => `pg-season:${userId || "guest"}`;  // before slots: becomes slot 1
+const key = (userId, slot) => `${legacyKey(userId)}:${slot}`;
+const activeKey = (userId) => `pg-season-active:${userId || "guest"}`;
 const PHASE = { regular: 0, playoffs: 1, cup: 2, done: 3 };
 
-export function loadCareer(userId) {
-  try {
-    const c = JSON.parse(localStorage.getItem(key(userId)) || "null");
-    return c && c.v === VERSION ? c : null;
-  } catch { return null; }
+const read = (k) => { try { const c = JSON.parse(localStorage.getItem(k) || "null"); return c && c.v === VERSION ? c : null; } catch { return null; } };
+
+export function loadCareer(userId, slot = 1) {
+  const c = read(key(userId, slot));
+  if (c || slot !== 1) return c;
+  const old = read(legacyKey(userId));  // a career saved before slots existed moves into slot 1
+  if (old) {
+    try { localStorage.setItem(key(userId, 1), JSON.stringify(old)); localStorage.removeItem(legacyKey(userId)); } catch { /* keep reading it */ }
+  }
+  return old;
 }
 
-export function saveCareer(userId, career) {
+export function saveCareer(userId, career, slot = 1) {
   career.v = VERSION;
   career.savedAt = new Date().toISOString();
-  try { localStorage.setItem(key(userId), JSON.stringify(career)); return true; }
+  try { localStorage.setItem(key(userId, slot), JSON.stringify(career)); return true; }
   catch { return false; }  // storage full or blocked: the career keeps going for this visit
 }
 
-export function clearCareer(userId) { localStorage.removeItem(key(userId)); }
+export function clearCareer(userId, slot = 1) {
+  localStorage.removeItem(key(userId, slot));
+  if (slot === 1) localStorage.removeItem(legacyKey(userId));
+}
+
+/** The slot last played on this browser (null if none). */
+export function activeSlot(userId) {
+  const v = Number(localStorage.getItem(activeKey(userId)));
+  return SLOTS.includes(v) ? v : null;
+}
+export function setActiveSlot(userId, slot) {
+  try { slot ? localStorage.setItem(activeKey(userId), String(slot)) : localStorage.removeItem(activeKey(userId)); } catch { /* ignore */ }
+}
 
 /**
  * Other careers saved in this browser under a different slot (played as a guest, in the preview, or
@@ -32,7 +52,7 @@ export function otherLocalCareers(userId) {
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (!k?.startsWith("pg-season:") || k === key(userId)) continue;
+      if (!k?.startsWith("pg-season:") || k === legacyKey(userId) || SLOTS.some((s) => k === key(userId, s))) continue;
       const c = JSON.parse(localStorage.getItem(k) || "null");
       if (c && c.v === VERSION) out.push({ slot: k, career: c });
     }
@@ -71,30 +91,30 @@ export function furtherAlong(a, b) {
 // ---------------------------------------------------------------- account copy (Supabase)
 const strip = (c) => { const { _sk, _skWeek, _shape, ...rest } = c; return rest; };
 
-/** The career saved to this member's account, or null (also null if the table isn't set up yet). */
-export async function cloudLoad(supabase) {
-  if (!supabase) return null;
+/** Every career saved to this member's account: {slot: career} (empty if the table isn't set up). */
+export async function cloudLoadAll(supabase) {
+  if (!supabase) return {};
   try {
-    const { data, error } = await supabase.from("season_careers").select("career").maybeSingle();
-    if (error) return null;
-    return data?.career && data.career.v === VERSION ? data.career : null;
-  } catch { return null; }
+    const { data, error } = await supabase.from("season_careers").select("slot, career");
+    if (error) return {};
+    return Object.fromEntries((data || []).filter((r) => r.career?.v === VERSION).map((r) => [r.slot ?? 1, r.career]));
+  } catch { return {}; }
 }
 
-export async function cloudSave(supabase, career) {
+export async function cloudSave(supabase, career, slot = 1) {
   if (!supabase || !career) return false;
   try {
     const { error } = await supabase.from("season_careers")
-      .upsert({ career: strip(career), progress: progressOf(career) }, { onConflict: "user_id" });
+      .upsert({ slot, career: strip(career), progress: progressOf(career) }, { onConflict: "user_id,slot" });
     return !error;
   } catch { return false; }
 }
 
-export async function cloudClear(supabase) {
+export async function cloudClear(supabase, slot = 1) {
   if (!supabase) return;
   try {
     const { data } = await supabase.auth.getUser();
-    if (data?.user) await supabase.from("season_careers").delete().eq("user_id", data.user.id);
+    if (data?.user) await supabase.from("season_careers").delete().eq("user_id", data.user.id).eq("slot", slot);
   } catch { /* offline: the row is replaced by the next career's first save only if further along */ }
 }
 
@@ -102,14 +122,14 @@ export async function cloudClear(supabase) {
  * Saves to the account a moment after the last change (careers save after every hole), and right
  * away when the tab is hidden or closed.
  */
-export function cloudSaver(supabase, getCareer, onStatus = () => {}) {
+export function cloudSaver(supabase, getCareer, getSlot, onStatus = () => {}) {
   if (!supabase) return { schedule() {}, flush: async () => false };
   let timer = null;
   const flush = async () => {
     clearTimeout(timer); timer = null;
-    const c = getCareer();
-    if (!c) return false;
-    const ok = await cloudSave(supabase, c);
+    const c = getCareer(), slot = getSlot();
+    if (!c || !slot) return false;
+    const ok = await cloudSave(supabase, c, slot);
     onStatus(ok ? "saved" : "error");
     return ok;
   };

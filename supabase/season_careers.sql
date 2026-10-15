@@ -1,13 +1,15 @@
 -- Race to the FedEx Cup careers saved to each member's account, so they follow you to any device.
--- One row per member; only that member can read or change it. `progress` ranks how far along a
+-- One row per member and career slot (1 or 2); only that member can read or change it. `progress` ranks how far along a
 -- career is (season, phase, week, holes/matches played); an update that would move a career
 -- backwards is ignored, so the further-along copy always wins even if two devices save at once.
 -- Abandoning a career deletes the row. Also folded into schema.sql. Safe to re-run.
 create table if not exists season_careers (
-  user_id    uuid primary key default auth.uid() references auth.users on delete cascade,
+  user_id    uuid not null default auth.uid() references auth.users on delete cascade,
+  slot       smallint not null default 1 constraint season_careers_slot_check check (slot in (1, 2)),
   career     jsonb not null,
   progress   bigint not null,
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  constraint season_careers_pkey primary key (user_id, slot)
 );
 alter table season_careers enable row level security;
 drop policy if exists season_careers_own on season_careers;
