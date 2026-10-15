@@ -103,3 +103,10 @@
   .pp-teams { grid-template-columns: 1fr; }
   .pp-sessions { grid-template-columns: 1fr; }
 }
+
+/* match scorecard: hole winners shaded, running status row */
+.pp-matchcard { margin: 16px 0; }
+.pp-mc th:first-child { white-space: nowrap; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
+.pp-mc td.pc-w { background: var(--g-green-lt, #e3efe6); font-weight: 700; color: var(--g-green-dk, #0b4a32); }
+.pp-mc td.pc-h { color: var(--g-muted, #6b6b63); }
+.pp-mc .pp-mc-status td { font-size: 11.5px; font-weight: 600; color: var(--g-green-dk, #0b4a32); white-space: nowrap; }

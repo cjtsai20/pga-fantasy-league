@@ -78,6 +78,33 @@ async function playMatch(el, ctx, course, pending, onFinish) {
     </div>
     <div class="pp-strip">${st.holes.map((h) => `<span class="pp-dot is-${h.res === "h" ? "h" : h.res === us ? "w" : "l"}" title="Hole ${h.n}: ${h[us]} v ${h[them]}">${h.n}</span>`).join("")}</div>`;
 
+  // Match scorecard: par, both sides' strokes, and the running match status after each hole (extra
+  // holes, numbered 19+, are added as they're played). Hole winners are shaded.
+  const matchCard = (curIdx = -1) => {
+    const n = Math.max(18, st.holes.length);
+    const holeN = Array.from({ length: n }, (_, i) => i + 1);
+    const played = Object.fromEntries(st.holes.map((h) => [h.n, h]));
+    let run = 0;
+    const status = {};
+    for (const h of st.holes) { run += h.res === "h" ? 0 : h.res === us ? 1 : -1; status[h.n] = run === 0 ? "AS" : `${Math.abs(run)} ${run > 0 ? "UP" : "DN"}`; }
+    const par = (k) => course.holes[(k - 1) % 18].par;
+    const cell = (k, side) => {
+      const h = played[k];
+      if (!h) return "<td></td>";
+      const won = h.res === side, cls = h.res === "h" ? "pc-h" : won ? "pc-w" : "";
+      return `<td class="${cls}">${h[side]}</td>`;
+    };
+    const th = (k) => `<th class="${k === curIdx + 1 ? "is-cur" : ""}">${k}</th>`;
+    return `<div class="gm-card-wrap pp-matchcard"><h3 class="gm-h4">Match scorecard</h3>
+      <div class="gm-scroll"><table class="gm-scorecard pp-mc">
+        <tr class="sc-hole"><th>Hole</th>${holeN.map(th).join("")}</tr>
+        <tr class="sc-par"><th>Par</th>${holeN.map((k) => `<td>${par(k)}</td>`).join("")}</tr>
+        <tr class="pp-mc-us"><th>${esc(names(st[us]))}</th>${holeN.map((k) => cell(k, us)).join("")}</tr>
+        <tr class="pp-mc-them"><th>${esc(names(st[them]))}</th>${holeN.map((k) => cell(k, them)).join("")}</tr>
+        <tr class="pp-mc-status"><th>Match</th>${holeN.map((k) => `<td>${status[k] || ""}</td>`).join("")}</tr>
+      </table></div></div>`;
+  };
+
   // strokes for both sides on this hole, given the user's own ball (or the foursomes team ball)
   function sideScores(i, userStrokes, rng) {
     let mine = userStrokes;
@@ -100,7 +127,7 @@ async function playMatch(el, ctx, course, pending, onFinish) {
     el.innerHTML = `<section class="pp-card">${statusLine()}
       <div class="pp-reveal"><p class="pp-reveal-h">Hole ${st.holes[st.holes.length - 1].n}</p>
         <p><b>${esc(names(st[us]))}</b> ${mine} · <b>${esc(names(st[them]))}</b> ${theirs}</p><p class="pp-reveal-msg">${esc(msg)}</p></div>
-      <div class="pp-actions"><button class="gm-btn gm-btn--primary" data-pp="next">${st.over ? "Match result" : "Next hole"}</button></div></section>`;
+      <div class="pp-actions"><button class="gm-btn gm-btn--primary" data-pp="next">${st.over ? "Match result" : "Next hole"}</button></div></section>${matchCard()}`;
     el.querySelector('[data-pp="next"]').onclick = () => (st.over ? done() : nextHole());
   }
 
@@ -116,7 +143,7 @@ async function playMatch(el, ctx, course, pending, onFinish) {
   function done() {
     hole?.destroy?.();
     el.innerHTML = `<section class="pp-card pp-final">${statusLine()}
-      <div class="pp-actions"><button class="gm-btn gm-btn--primary" data-pp="fin">Continue</button></div></section>`;
+      <div class="pp-actions"><button class="gm-btn gm-btn--primary" data-pp="fin">Continue</button></div></section>${matchCard()}`;
     el.querySelector('[data-pp="fin"]').onclick = () => { career.userMatch = null; ctx.save(); onFinish(st); };
   }
 
@@ -145,8 +172,10 @@ async function playMatch(el, ctx, course, pending, onFinish) {
       opts.partner = partner;
       opts.shooter = (shot) => ((shot % 2 === 1) === userFirst ? "user" : "partner");
     }
-    if (hp?.playHole) hole = hp.playHole(el, opts);
-    else hole = stubHole(el, opts, deps);  // holeplay.js missing: one-click holes from the quick model
+    el.innerHTML = `<div class="pp-holebox"></div>${matchCard(i)}`;
+    const box = el.querySelector(".pp-holebox");
+    if (hp?.playHole) hole = hp.playHole(box, opts);
+    else hole = stubHole(box, opts, deps);  // holeplay.js missing: one-click holes from the quick model
   }
 
   nextHole();
